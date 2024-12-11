@@ -1,0 +1,59 @@
+            {/* <RadioGroup
+              className="space-y-2 mt-5"
+              label="Soal 2"
+              labelPlacement="outside"
+            > 
+              <p className="mb-3 text-justify">
+                Mengapa sanksi seperti tilang sering kali tidak efektif dalam mengurangi parkir liar?
+              </p>
+              <Radio value="a">Memudahkan akses ke jalan raya.</Radio>
+              <Radio value="b">Mengurangi jumlah kendaraan di jalan.</Radio>
+              <Radio value="c">Membahayakan karena berjalan di jalan raya.</Radio>
+              <Radio value="d">Membuat pejalan kaki lebih disiplin.</Radio>
+              <Radio value="e">Menambah ruang publik bagi pejalan kaki.</Radio>
+            </RadioGroup>
+
+            <RadioGroup
+              className="space-y-2 mt-5"
+              label="Soal 3"
+              labelPlacement="outside"
+            > 
+              <p className="mb-3 text-justify">
+                Mengapa sanksi seperti tilang sering kali tidak efektif dalam mengurangi parkir liar?
+              </p>
+              <Radio value="a">Memudahkan akses ke jalan raya.</Radio>
+              <Radio value="b">Mengurangi jumlah kendaraan di jalan.</Radio>
+              <Radio value="c">Membahayakan karena berjalan di jalan raya.</Radio>
+              <Radio value="d">Membuat pejalan kaki lebih disiplin.</Radio>
+              <Radio value="e">Menambah ruang publik bagi pejalan kaki.</Radio>
+            </RadioGroup>
+
+            <RadioGroup
+              className="space-y-2 mt-5"
+              label="Soal 4"
+              labelPlacement="outside"
+            > 
+              <p className="mb-3 text-justify">
+                Mengapa sanksi seperti tilang sering kali tidak efektif dalam mengurangi parkir liar?
+              </p>
+              <Radio value="a">Memudahkan akses ke jalan raya.</Radio>
+              <Radio value="b">Mengurangi jumlah kendaraan di jalan.</Radio>
+              <Radio value="c">Membahayakan karena berjalan di jalan raya.</Radio>
+              <Radio value="d">Membuat pejalan kaki lebih disiplin.</Radio>
+              <Radio value="e">Menambah ruang publik bagi pejalan kaki.</Radio>
+            </RadioGroup>
+
+            <RadioGroup
+              className="space-y-2 mt-5"
+              label="Soal 5"
+              labelPlacement="outside"
+            > 
+              <p className="mb-3 text-justify">
+                Mengapa sanksi seperti tilang sering kali tidak efektif dalam mengurangi parkir liar?
+              </p>
+              <Radio value="a">Memudahkan akses ke jalan raya.</Radio>
+              <Radio value="b">Mengurangi jumlah kendaraan di jalan.</Radio>
+              <Radio value="c">Membahayakan karena berjalan di jalan raya.</Radio>
+              <Radio value="d">Membuat pejalan kaki lebih disiplin.</Radio>
+              <Radio value="e">Menambah ruang publik bagi pejalan kaki.</Radio>
+            </RadioGroup> */}
