@@ -7,54 +7,43 @@ import { Card, CardBody } from "@nextui-org/card";
 import { RadioGroup, Radio } from "@nextui-org/radio";
 import { IoMdTime } from "react-icons/io";
 import { FaTasks } from "react-icons/fa";
-import { articleData } from "../../../article"; // Adjusted import path to load data
+import { articleData } from "../../../article";
 import AuthWrapper from "../../../../authWrapper";
+import axios from "axios";
 
 export default function TestMM() {
   const router = useRouter();
-  const [timeLeft, setTimeLeft] = useState(5); // 5 minutes countdown
-  const [article, setArticle] = useState(null); // Initialize state for article
-  const [selectedAnswers, setSelectedAnswers] = useState({
-    1: null,
-    2: null,
-    3: null,
-    4: null,
-    5: null,
-  });
-  const [showModal, setShowModal] = useState(false); // Modal visibility state
+  const [timeLeft, setTimeLeft] = useState(5 * 60); // 5 minutes countdown in seconds
+  const [article, setArticle] = useState(null);
+  const [selectedAnswers, setSelectedAnswers] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  // Get the article ID from the URL and load the article
   useEffect(() => {
     const pathArray = String(window.location.pathname).split("/");
-    const id = Number(pathArray[pathArray.length - 2]); // Get article ID
-
+    const id = Number(pathArray[pathArray.length - 2]);
     const activeArticle = articleData.find((article) => article.id === id);
 
     if (activeArticle) {
       setArticle(activeArticle);
     } else {
-      setArticle(null); // Handle case where article is not found
+      setArticle(null);
     }
   }, []);
 
   // Timer countdown logic
   useEffect(() => {
     if (timeLeft === 0) {
-      // Find the current article's index
       const currentArticleIndex = articleData.findIndex(
         (art) => art.id === article?.id
       );
-
-      // Check if there's a next article
       if (
         currentArticleIndex !== -1 &&
         currentArticleIndex + 1 < articleData.length
       ) {
-        // Move to the next article's questions
         const nextArticle = articleData[currentArticleIndex + 1];
         router.push(`/test-mm/article/${nextArticle.id}`);
       } else {
-        // If no more articles, return to next session page
         router.push("/test-ma/instruction");
       }
       return;
@@ -62,12 +51,11 @@ export default function TestMM() {
 
     const interval = setInterval(() => {
       setTimeLeft((prevTime) => prevTime - 1);
-    }, 1000); // Update every second
+    }, 1000);
 
-    return () => clearInterval(interval); // Cleanup the interval on component unmount
+    return () => clearInterval(interval);
   }, [timeLeft, router, article]);
 
-  // Format time to mm:ss
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -76,7 +64,6 @@ export default function TestMM() {
     ).padStart(2, "0")}`;
   };
 
-  // Handle radio selection for questions
   const handleAnswerSelect = (questionNumber, value) => {
     setSelectedAnswers((prev) => ({
       ...prev,
@@ -84,38 +71,91 @@ export default function TestMM() {
     }));
   };
 
+  const submitAnswers = async (isFinalSubmission = false) => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
+    try {
+      const token = localStorage.getItem("access_token");
+
+      // Prepare data to match the backend schema
+      const answers = Object.keys(selectedAnswers).map((questionNumber) => ({
+        articleId: article.id,
+        questionNumber: parseInt(questionNumber),
+        selectedAnswer: selectedAnswers[questionNumber],
+      }));
+
+      const response = await axios.post(
+        "http://192.168.1.168:8000/submit/testMM",
+        { answers },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        if (article.id < articleData.length - 1 && !isFinalSubmission) {
+          router.push(`/test-mm/article/${article.id + 1}`);
+        } else if (isFinalSubmission) {
+          setShowModal(true);
+        } else {
+          setShowModal(true);
+        }
+      } else {
+        alert("There was an issue submitting your answers. Please try again.");
+      }
+    } catch (error) {
+      console.log("Error submitting answers:", error);
+      alert("An error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleFinalAnswerSubmit = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
+    try {
+      const response = await axios.post(
+        "http://192.168.1.168:8000/answers/savetoDB", // Update to the correct endpoint
+        {
+          answers: selectedAnswers, // Send the selected answers
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        router.push("/test-ma/instruction");
+      } else {
+        alert("Failed to finalize answers. Please try again.");
+      }
+    } catch (error) {
+      console.log("Error finalizing answers:", error);
+      alert("An error occurred while finalizing answers. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    handleFinalAnswerSubmit();
+  };
+
   if (!article) {
     return <div>Loading...</div>;
   }
 
-  const handleNextArticle = () => {
-    const currentArticleIndex = articleData.findIndex(
-      (art) => art.id === article.id
-    );
-
-    // Check if there's a next article
-    if (
-      currentArticleIndex !== -1 &&
-      currentArticleIndex + 1 < articleData.length
-    ) {
-      const nextArticle = articleData[currentArticleIndex + 1];
-      router.push(`/test-mm/article/${nextArticle.id}`);
-    } else {
-      // If there's no next article, show the modal
-      setShowModal(true);
-    }
-  };
-
-  // Close modal and redirect to home or finish page
-  const closeModal = () => {
-    setShowModal(false);
-    router.push("/test-ma/instruction"); // Redirect to home or finish page
-  };
-
   return (
     <AuthWrapper>
       <div className="pt-20 flex flex-col justify-start items-center min-h-screen bg-gray-100 p-4">
-        {/* Questions */}
         <div className="space-y-5">
           {article.questions.map((question) => (
             <Card key={question.number} className="w-[50rem] h-fit px-12 py-6">
@@ -138,19 +178,18 @@ export default function TestMM() {
             </Card>
           ))}
         </div>
-        {/* Finish Test Button */}
+
         <div className="flex justify-center items-center mt-10 mb-20">
           <Button
             color="primary"
             size="lg"
             className="mt-4"
-            onClick={handleNextArticle} // Add the click handler here
+            onClick={() => submitAnswers(false)} // Handle submission without final submission flag
           >
             Selesaikan dan Lanjutkan
           </Button>
         </div>
 
-        {/* Modal for finishing the test */}
         {showModal && (
           <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white p-6 rounded-md shadow-lg w-96">
@@ -175,7 +214,6 @@ export default function TestMM() {
           </div>
         )}
 
-        {/* Sidebar */}
         <div className="space-y-7">
           <div className="absolute top-20 left-20 w-[270px] ml-20">
             <Card>
@@ -212,33 +250,6 @@ export default function TestMM() {
               </CardBody>
             </Card>
           </div>
-        </div>
-
-        {/* Question List */}
-        <div className="absolute top-[300px] left-20 w-50 ml-20">
-          <Card>
-            <CardBody>
-              <h2 className="text-center text-xl font-semibold mb-2">
-                Daftar Soal
-              </h2>
-              <div className="grid grid-cols-4 gap-4 w-full max-w-4xl justify-center items-center p-4 rounded-md">
-                {Object.keys(selectedAnswers).map((questionNum) => (
-                  <Card
-                    key={questionNum}
-                    hoverable
-                    clickable
-                    className={`px-4 py-2 transition-all ${
-                      selectedAnswers[questionNum]
-                        ? "bg-cyan-500 text-white"
-                        : "hover:bg-cyan-500 hover:text-white"
-                    }`}
-                  >
-                    <h4 className="text-center">{questionNum}</h4>
-                  </Card>
-                ))}
-              </div>
-            </CardBody>
-          </Card>
         </div>
       </div>
     </AuthWrapper>
