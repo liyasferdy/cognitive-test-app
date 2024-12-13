@@ -9,41 +9,62 @@ const AuthWrapper = ({ children }) => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      // Get the token from local storage
       const token = localStorage.getItem("access_token");
 
-      // If no token, immediately stop loading and prevent access
       if (!token) {
         setIsLoading(false);
-        router.push("/");
+        router.replace("/");
         return;
       }
 
       try {
-        // Verify token with /users/me endpoint
-        const response = await axios.get("http://localhost:8000/users/me", {
+        const response = await axios.get("http://192.168.1.168:8000/users/me", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        // If token is valid, set authenticated state
         if (response.data.username) {
           setIsAuthenticated(true);
           setIsLoading(false);
+
+          // Replace the current history state to prevent back navigation
+          window.history.replaceState(null, "", window.location.href);
+
+          // Disable browser back button functionality
+          window.onpopstate = (event) => {
+            event.preventDefault();
+            localStorage.removeItem("access_token"); // Clear token on back navigation
+            router.replace("/"); // Redirect to homepage
+          };
         }
       } catch (error) {
-        // Token invalid or expired, remove token and redirect
         localStorage.removeItem("access_token");
         setIsLoading(false);
-        router.push("/");
+        router.replace("/");
       }
     };
 
     checkAuth();
+
+    // Block back navigation by pushing a new state
+    window.history.pushState(null, document.title, window.location.href);
+
+    // Prevent browser back button and redirect
+    const blockBackNavigation = (event) => {
+      event.preventDefault();
+      localStorage.removeItem("access_token"); // Clear token on back navigation
+      router.replace("/"); // Redirect to homepage
+    };
+
+    window.addEventListener("popstate", blockBackNavigation);
+
+    return () => {
+      window.removeEventListener("popstate", blockBackNavigation);
+    };
   }, [router]);
 
-  // Show loading state
+  // Loading state
   if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -52,12 +73,11 @@ const AuthWrapper = ({ children }) => {
     );
   }
 
-  // If not authenticated, return null to prevent rendering
+  // Render children only if authenticated
   if (!isAuthenticated) {
     return null;
   }
 
-  // Render children only if authenticated
   return children;
 };
 

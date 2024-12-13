@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation"; // Menggunakan useRouter
 // Fungsi untuk menangani login
 const handleLogin = async (username, password, setLoginStatus, onClose) => {
   try {
-    const response = await fetch("http://localhost:8000/login", {
+    const response = await fetch("http://192.168.1.168:8000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -62,7 +62,7 @@ export default function LoginHome() {
     if (loginStatus === "success") {
       // Redirect ke halaman /home setelah modal ditutup
       const timer = setTimeout(() => {
-        router.push("/home");
+        router.push("/users");
       }, 1000); // Menunggu 2 detik sebelum pengalihan
 
       // Membersihkan timeout jika status login berubah

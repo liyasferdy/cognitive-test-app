@@ -17,8 +17,9 @@ export default function RootLayout({ children }) {
 
 // import "./globals.css";
 // import { Inter } from "next/font/google";
-// import { TimerProvider } from "../context/TimerContext"; // Use TimerProvider instead of TimerContext.Provider
+// // import { TimerProvider } from "../context/TimerContext"; // Use TimerProvider instead of TimerContext.Provider
 // import { NextUIProvider } from "@nextui-org/system";
+// import AuthWrapper from "./authWrapper";
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -32,11 +33,7 @@ export default function RootLayout({ children }) {
 //     <html lang="en">
 //       <body className={`antialiased`}>
 //         <NextUIProvider>
-//           <TimerProvider>
-//             {" "}
-//             {/* Use TimerProvider here */}
-//             {children}
-//           </TimerProvider>
+//           <AuthWrapper>{children}</AuthWrapper>
 //         </NextUIProvider>
 //       </body>
 //     </html>

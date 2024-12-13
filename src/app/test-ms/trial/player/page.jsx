@@ -194,8 +194,7 @@ export default function trialTestMS() {
                 {/* Ikon dengan ukuran yang sedikit lebih besar */}
                 <h1 className="text-md">
                   Audio hanya diputar sekali dan tidak dapat diulang
-                </h1>{" "}
-                {/* Teks */}
+                </h1>
               </div>
             </CardBody>
           </Card>

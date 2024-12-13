@@ -14,6 +14,7 @@ import {
 import { Card, CardBody } from "@nextui-org/card";
 import { FaTasks } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
+import AuthWrapper from "../../authWrapper";
 
 const rows = [
   { key: "1", animal: "Gajah", character: "Lucu", bodyPart: "Telinga" },
@@ -78,76 +79,82 @@ export default function TestMA() {
   };
 
   return (
-    <div className="pt-40 flex justify-center mt-20 items-center p-5 absoulte -space-x-20">
-      <Card className="max-w-[60rem] px-30 py-15 relative bottom-40 min-h-[800px] w-full">
-        <h2 className="text-center mt-10 text-xl">Perhatikan tabel berikut</h2>
-        <CardBody>
-          <Table
-            color={selectedColor}
-            selectionMode="single"
-            aria-label="Example static collection table"
-            className="text-sm  mx-auto overflow-x-auto top-5"
-          >
-            <TableHeader columns={columns}>
-              {(column) => (
-                <TableColumn
-                  key={column.key}
-                  className="px-2 py-1 text-center text-lg"
-                >
-                  {column.label}
-                </TableColumn>
-              )}
-            </TableHeader>
-            <TableBody items={rows}>
-              {(item) => (
-                <TableRow key={item.key}>
-                  {(columnKey) => (
-                    <TableCell className="px-2 py-3 text-center text-lg">
-                      {getKeyValue(item, columnKey)}
-                    </TableCell>
-                  )}
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </CardBody>
-      </Card>
+    <AuthWrapper>
+      <div className="pt-40 flex justify-center mt-20 items-center p-5 absoulte -space-x-20">
+        <Card className="max-w-[60rem] px-30 py-15 relative bottom-40 min-h-[800px] w-full">
+          <h2 className="text-center mt-10 text-xl">
+            Perhatikan tabel berikut
+          </h2>
+          <CardBody>
+            <Table
+              color={selectedColor}
+              selectionMode="single"
+              aria-label="Example static collection table"
+              className="text-sm  mx-auto overflow-x-auto top-5"
+            >
+              <TableHeader columns={columns}>
+                {(column) => (
+                  <TableColumn
+                    key={column.key}
+                    className="px-2 py-1 text-center text-lg"
+                  >
+                    {column.label}
+                  </TableColumn>
+                )}
+              </TableHeader>
+              <TableBody items={rows}>
+                {(item) => (
+                  <TableRow key={item.key}>
+                    {(columnKey) => (
+                      <TableCell className="px-2 py-3 text-center text-lg">
+                        {getKeyValue(item, columnKey)}
+                      </TableCell>
+                    )}
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </CardBody>
+        </Card>
 
-      <div className="space-y-7">
-        <div className="absolute top-20 left-20 w-[270px] ml-20">
-          <Card>
-            <FaTasks className="text-5xl absolute top-4 left-2" />
-            <CardBody>
-              <div className="flex text-left items-start justify-center ">
-                <h2 className=" text-xl font-semibold text-left mr-20">Test</h2>
-              </div>
-              <div className="flex items-center justify-start">
-                <p className="text-lg text-left mt-1 ml-16">
-                  Meaningful Memory
-                </p>
-              </div>
-            </CardBody>
-          </Card>
-        </div>
+        <div className="space-y-7">
+          <div className="absolute top-20 left-20 w-[270px] ml-20">
+            <Card>
+              <FaTasks className="text-5xl absolute top-4 left-2" />
+              <CardBody>
+                <div className="flex text-left items-start justify-center ">
+                  <h2 className=" text-xl font-semibold text-left mr-20">
+                    Test
+                  </h2>
+                </div>
+                <div className="flex items-center justify-start">
+                  <p className="text-lg text-left mt-1 ml-16">
+                    Meaningful Memory
+                  </p>
+                </div>
+              </CardBody>
+            </Card>
+          </div>
 
-        <div className="absolute top-40 left-20 w-[270px] ml-20">
-          <Card>
-            <IoMdTime className="text-6xl absolute top-3 left-2" />
-            <CardBody>
-              <div className="flex text-left items-start justify-center ">
-                <h2 className=" text-xl font-semibold text-left ml-4">
-                  Waktu Tersisa
-                </h2>
-              </div>
-              <div className="flex items-center justify-start">
-                <p className="text-xl text-left mt-1 ml-16">
-                  {formatTime(timeLeft)}
-                </p>
-              </div>
-            </CardBody>
-          </Card>
+          <div className="absolute top-40 left-20 w-[270px] ml-20">
+            <Card>
+              <IoMdTime className="text-6xl absolute top-3 left-2" />
+              <CardBody>
+                <div className="flex text-left items-start justify-center ">
+                  <h2 className=" text-xl font-semibold text-left ml-4">
+                    Waktu Tersisa
+                  </h2>
+                </div>
+                <div className="flex items-center justify-start">
+                  <p className="text-xl text-left mt-1 ml-16">
+                    {formatTime(timeLeft)}
+                  </p>
+                </div>
+              </CardBody>
+            </Card>
+          </div>
         </div>
       </div>
-    </div>
+    </AuthWrapper>
   );
 }

@@ -8,31 +8,35 @@ import { IoMdTime } from "react-icons/io";
 import { Image } from "@nextui-org/image";
 import { Radio, RadioGroup } from "@nextui-org/radio";
 import { Button } from "@nextui-org/button";
-import { imageData } from "../../../image"; // Adjusted import path
-import axios from "axios"; // Import axios for HTTP requests
+import { imageData } from "../../../image"; // Pastikan path sesuai
+import axios from "axios"; // Import axios
 
 export default function QuestionMV() {
   const router = useRouter();
   const params = useParams();
   const imageNumber = parseInt(params.number, 10) - 1; // Convert to 0-based index
-  const [timeLeft, setTimeLeft] = useState(500);
+  const [timeLeft, setTimeLeft] = useState(5);
   const [selectedAnswer, setSelectedAnswer] = useState("");
-  const [answers, setAnswers] = useState([]);
-  const [showModal, setShowModal] = useState(false); // State to control modal visibility
+  const [showModal, setShowModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Validate image number
+  // Validasi nomor image
   if (imageNumber < 0 || imageNumber >= imageData.length) {
     return <div>Invalid image number</div>;
   }
 
   const currentImageData = imageData[imageNumber];
 
-  // Timer countdown logic
+  // Timer
   useEffect(() => {
     if (timeLeft === 0) {
-      // End of test or redirect
-      router.push(`/test-mv/image/${imageNumber + 2}`);
+      // Waktu habis, lanjut ke pertanyaan berikutnya atau akhiri
+      if (imageNumber < imageData.length - 1) {
+        router.push(`/test-mv/image/${imageNumber + 2}`);
+      } else {
+        // Jika ini pertanyaan terakhir, buka modal atau langsung akhiri
+        setShowModal(true);
+      }
       return;
     }
 
@@ -43,7 +47,7 @@ export default function QuestionMV() {
     return () => clearInterval(interval);
   }, [timeLeft, router, imageNumber]);
 
-  // Format time to mm:ss
+  // Format waktu
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -52,68 +56,83 @@ export default function QuestionMV() {
     ).padStart(2, "0")}`;
   };
 
-  // Handle answer selection
   const handleAnswerChange = (value) => {
     setSelectedAnswer(value);
   };
 
-  // Handle showing the modal when "Submit" is clicked
-  const handleSubmit = async () => {
-    if (imageNumber < imageData.length - 1) {
-      // If not the last question, move to the next one
-      const newAnswers = [
-        ...answers,
-        {
-          questionNumber: imageNumber, // Use 0-based index for question number
-          selectedAnswer,
-        },
-      ];
-      setAnswers(newAnswers);
-      router.push(`/test-mv/image/${imageNumber + 2}`);
-    } else {
-      // If it's the last question, add the final answer and show the modal
-      const finalAnswers = [
-        ...answers,
-        {
-          questionNumber: imageNumber,
-          selectedAnswer,
-        },
-      ];
-      setAnswers(finalAnswers);
-      setShowModal(true);
-    }
-  };
-
-  // Handle modal close (Cancel)
-  const closeModal = () => {
-    setShowModal(false); // Hide the modal
-  };
-
-  // Handle modal confirm (Finish the test)
-  const confirmSubmit = async () => {
-    if (isSubmitting) return; // Prevent multiple submissions
-
+  // Fungsi untuk mengirim jawaban saat ini ke backend
+  const submitAnswers = async (isFinalSubmission = false) => {
+    if (isSubmitting) return;
     setIsSubmitting(true);
 
     try {
-      // Send answers to the backend
-      const response = await axios.post("http://localhost:8000/submit", {
-        answers: answers.map((answer) => ({
-          questionNumber: answer.questionNumber,
-          selectedAnswer: answer.selectedAnswer,
-        })),
-      });
+      const token = localStorage.getItem("access_token"); // Ambil token dari localStorage
 
-      // Handle response from the backend
+      const response = await axios.post(
+        "http://192.168.1.168:8000/submit/testMV",
+        {
+          answers: [
+            {
+              questionNumber: imageNumber,
+              selectedAnswer,
+            },
+          ],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Sertakan token dalam header
+          },
+        }
+      );
+
       if (response.status === 200) {
-        router.push("/test-ms/instruction");
+        if (imageNumber < imageData.length - 1 && !isFinalSubmission) {
+          // Pertanyaan berikutnya
+          router.push(`/test-mv/image/${imageNumber + 2}`);
+        } else if (isFinalSubmission) {
+          // Jika final, tampilkan modal konfirmasi submit final
+          setShowModal(true);
+        } else {
+          // Jika ini pertanyaan terakhir dan user menekan Submit
+          // Langsung tampilkan modal konfirmasi akhir test
+          setShowModal(true);
+        }
       } else {
-        console.error("Failed to submit answers");
         alert("There was an issue submitting your answers. Please try again.");
       }
     } catch (error) {
-      console.error("Error submitting answers:", error);
+      console.log("Error submitting answers:", error);
       alert("An error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Fungsi untuk mengakhiri test (menyimpan semua jawaban di memory ke DB)
+  const handleFinalAnswerSubmit = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
+    try {
+      // Panggil endpoint untuk memindahkan jawaban dari memory ke database
+      const response = await axios.post(
+        "http://192.168.1.168:8000/answers/savetoDB",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        router.push("/test-ms/instruction");
+      } else {
+        alert("Failed to finalize answers. Please try again.");
+      }
+    } catch (error) {
+      console.log("Error finalizing answers:", error);
+      alert("An error occurred while finalizing answers. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -197,8 +216,13 @@ export default function QuestionMV() {
               color="primary"
               variant="ghost"
               size="lg"
-              onClick={handleSubmit}
-              disabled={!selectedAnswer}
+              onClick={
+                () =>
+                  imageNumber < imageData.length - 1
+                    ? submitAnswers(false) // Kalo belum pertanyaan terakhir, next aja
+                    : submitAnswers(true) // Kalo terakhir, buka modal submit
+              }
+              disabled={!selectedAnswer || isSubmitting}
             >
               {imageNumber < imageData.length - 1 ? "Next" : "Submit"}
             </Button>
@@ -206,7 +230,7 @@ export default function QuestionMV() {
         </div>
       </div>
 
-      {/* Modal for finishing the test */}
+      {/* Modal untuk mengakhiri test */}
       {showModal && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-md shadow-lg w-96">
@@ -220,7 +244,7 @@ export default function QuestionMV() {
             <div className="flex justify-center">
               <Button
                 color="primary"
-                onClick={confirmSubmit}
+                onClick={() => handleFinalAnswerSubmit()}
                 size="lg"
                 className="w-full text-white"
                 disabled={isSubmitting}
@@ -231,7 +255,7 @@ export default function QuestionMV() {
             <div className="flex justify-center mt-4">
               <Button
                 color="danger"
-                onClick={closeModal}
+                onClick={() => setShowModal(false)}
                 size="lg"
                 variant="bordered"
                 className="w-full text-red-600"
