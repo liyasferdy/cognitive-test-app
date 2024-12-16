@@ -86,7 +86,7 @@ export default function TestMM() {
       }));
 
       const response = await axios.post(
-        "http://192.168.1.168:8000/submit/testMM",
+        "http://https://cognitive-dev-734522323885.asia-southeast2.run.app/submit/testMM",
         { answers },
         {
           headers: {
@@ -118,30 +118,11 @@ export default function TestMM() {
     if (isSubmitting) return;
     setIsSubmitting(true);
 
-    try {
-      const response = await axios.post(
-        "http://192.168.1.168:8000/answers/savetoDB", // Update to the correct endpoint
-        {
-          answers: selectedAnswers, // Send the selected answers
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        }
-      );
+    // Directly navigate without sending the data to the backend
+    router.push("/test-ma/instruction");
 
-      if (response.status === 200) {
-        router.push("/test-ma/instruction");
-      } else {
-        alert("Failed to finalize answers. Please try again.");
-      }
-    } catch (error) {
-      console.log("Error finalizing answers:", error);
-      alert("An error occurred while finalizing answers. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Optionally, reset isSubmitting in the finally block
+    setIsSubmitting(false);
   };
 
   const closeModal = () => {

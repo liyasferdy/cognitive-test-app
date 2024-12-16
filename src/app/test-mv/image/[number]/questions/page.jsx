@@ -15,7 +15,7 @@ export default function QuestionMV() {
   const router = useRouter();
   const params = useParams();
   const imageNumber = parseInt(params.number, 10) - 1; // Convert to 0-based index
-  const [timeLeft, setTimeLeft] = useState(5);
+  const [timeLeft, setTimeLeft] = useState(10);
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -69,7 +69,7 @@ export default function QuestionMV() {
       const token = localStorage.getItem("access_token"); // Ambil token dari localStorage
 
       const response = await axios.post(
-        "http://192.168.1.168:8000/submit/testMV",
+        "https://cognitive-dev-734522323885.asia-southeast2.run.app/submit/testMV",
         {
           answers: [
             {
@@ -116,7 +116,7 @@ export default function QuestionMV() {
     try {
       // Panggil endpoint untuk memindahkan jawaban dari memory ke database
       const response = await axios.post(
-        "http://192.168.1.168:8000/answers/savetoDB",
+        "https://cognitive-dev-734522323885.asia-southeast2.run.app/answers/savetoDB",
         {},
         {
           headers: {

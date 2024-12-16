@@ -18,11 +18,14 @@ const AuthWrapper = ({ children }) => {
       }
 
       try {
-        const response = await axios.get("http://192.168.1.168:8000/users/me", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          "https://cognitive-dev-734522323885.asia-southeast2.run.app/users/me",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (response.data.username) {
           setIsAuthenticated(true);

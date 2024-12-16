@@ -63,14 +63,17 @@ export default function UsersScreening() {
     };
 
     try {
-      const response = await fetch("http://192.168.1.168:8000/users/data", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Kirim data dalam format JSON
-          Authorization: `Bearer ${token}`, // Kirim JWT token di header
-        },
-        body: JSON.stringify(dataToSubmit),
-      });
+      const response = await fetch(
+        "https://cognitive-dev-734522323885.asia-southeast2.run.app/users/data",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json", // Kirim data dalam format JSON
+            Authorization: `Bearer ${token}`, // Kirim JWT token di header
+          },
+          body: JSON.stringify(dataToSubmit),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to submit data");

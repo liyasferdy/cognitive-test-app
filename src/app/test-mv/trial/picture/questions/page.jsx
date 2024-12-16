@@ -23,7 +23,7 @@ import AuthWrapper from "../../../../authWrapper";
 
 export default function questionTrialMV() {
   const router = useRouter();
-  const [timeLeft, setTimeLeft] = useState(500); // times left to answer
+  const [timeLeft, setTimeLeft] = useState(10); // times left to answer
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modals
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
   const [isCorrectModalOpen, setIsCorrectModalOpen] = useState(false); // Correct answer modal

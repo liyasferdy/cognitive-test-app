@@ -22,7 +22,7 @@ export default function trialQuestionsMM() {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modals
-  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
+  const [timeLeft, setTimeLeft] = useState(100); // 5 minutes
   const [selectedAnswers, setSelectedAnswers] = useState({
     1: null,
     2: null,

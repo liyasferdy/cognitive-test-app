@@ -23,7 +23,7 @@ import { audioData } from "../../../audio"; // Import your audio data
 export default function questionsMW() {
   const router = useRouter();
   const { id } = useParams(); // Extract audio ID from URL parameters
-  const [timeLeft, setTimeLeft] = useState(15); // 5 minutes
+  const [timeLeft, setTimeLeft] = useState(10); // 5 minutes
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modals
   const [currentAudio, setCurrentAudio] = useState(null); // State to hold current audio data

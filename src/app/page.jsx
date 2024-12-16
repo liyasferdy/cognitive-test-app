@@ -20,16 +20,19 @@ import { useRouter } from "next/navigation"; // Menggunakan useRouter
 // Fungsi untuk menangani login
 const handleLogin = async (username, password, setLoginStatus, onClose) => {
   try {
-    const response = await fetch("http://192.168.1.168:8000/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({
-        username: username,
-        password: password,
-      }),
-    });
+    const response = await fetch(
+      "https://cognitive-dev-734522323885.asia-southeast2.run.app/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          username: username,
+          password: password,
+        }),
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Login failed");

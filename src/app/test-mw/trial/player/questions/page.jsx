@@ -21,7 +21,7 @@ import { CiWarning } from "react-icons/ci";
 
 export default function questionTrialMW() {
   const router = useRouter();
-  const [timeLeft, setTimeLeft] = useState(15); // 5 minutes
+  const [timeLeft, setTimeLeft] = useState(10); // 5 minutes
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modals
   // const [selectedAnswers, setSelectedAnswers] = useState({

@@ -13,7 +13,7 @@ export default function TestMV() {
   const router = useRouter();
   const params = useParams();
   const imageNumber = parseInt(params.number, 10) - 1; // Convert to 0-based index
-  const [timeLeft, setTimeLeft] = useState(3); // Adjust time as needed
+  const [timeLeft, setTimeLeft] = useState(10); // Adjust time as needed
 
   // Validate image number
   if (imageNumber < 0 || imageNumber >= imageData.length) {

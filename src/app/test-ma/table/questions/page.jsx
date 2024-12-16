@@ -9,34 +9,30 @@ import { IoMdTime } from "react-icons/io";
 import { FaTasks } from "react-icons/fa";
 import { questionsData } from "../../questions"; // Adjusted import
 import AuthWrapper from "../../../authWrapper";
+import axios from "axios";
 
 export default function TestMA() {
   const router = useRouter();
-  const [timeLeft, setTimeLeft] = useState(5 * 60); // 5 minutes countdown
-  const [article, setArticle] = useState(null);
+  const [timeLeft, setTimeLeft] = useState(10); // 5 minutes countdown
+  const [questions, setQuestions] = useState([]); // Initialize questions
   const [selectedAnswers, setSelectedAnswers] = useState(
     Array.from({ length: 30 }, (_, index) => ({
       [index + 1]: null,
     })).reduce((acc, curr) => ({ ...acc, ...curr }), {})
   );
   const [showModal, setShowModal] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Update the useEffect to use questionsData
+  // Load the questions
   useEffect(() => {
-    // Since questionsData is a static array, we'll use the first item
-    const activeQuestions = questionsData[0];
-
-    if (activeQuestions) {
-      setArticle(activeQuestions);
-    } else {
-      setArticle(null);
-    }
+    const activeQuestions = questionsData[0]?.questions || [];
+    setQuestions(activeQuestions);
   }, []);
 
   // Timer countdown logic
   useEffect(() => {
     if (timeLeft === 0) {
-      router.push("/test-ma/instruction");
+      handleFinalAnswerSubmit();
       return;
     }
 
@@ -45,7 +41,7 @@ export default function TestMA() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [timeLeft, router]);
+  }, [timeLeft]);
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -62,22 +58,62 @@ export default function TestMA() {
     }));
   };
 
-  if (!article) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        Loading...
-      </div>
-    );
-  }
+  const submitAnswers = async (isFinalSubmission = false) => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
 
-  const handleNextArticle = () => {
-    // For this version, we'll just show the modal
-    setShowModal(true);
+    try {
+      const token = localStorage.getItem("access_token");
+
+      // Prepare data to match the backend schema
+      const answers = Object.keys(selectedAnswers)
+        .filter((key) => selectedAnswers[key] !== null) // Filter out unanswered questions
+        .map((questionNumber) => ({
+          questionNumber: parseInt(questionNumber) - 1, // Adjust to start at 0 for backend
+          selectedAnswer: selectedAnswers[questionNumber],
+        }));
+
+      const transformedAnswers = answers.map((answer) => ({
+        ...answer,
+        questionNumber: answer.questionNumber + 1, // Add 1 to each questionNumber
+      }));
+
+      const response = await axios.post(
+        "https://cognitive-dev-734522323885.asia-southeast2.run.app/submit/testMA",
+        { answers: transformedAnswers },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        router.push("/test-mv/instruction");
+      } else {
+        alert("Failed to finalize answers. Please try again.");
+      }
+    } catch (error) {
+      console.log("Error submitting answers:", error);
+      alert("An error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleFinalAnswerSubmit = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
+    // Directly navigate without sending the data to the backend
+    router.push("/test-mv/instruction");
+
+    // Optionally, reset isSubmitting in the finally block
+    setIsSubmitting(false);
   };
 
   const closeModal = () => {
     setShowModal(false);
-    router.push("/test-mv/instruction");
+    handleFinalAnswerSubmit();
   };
 
   return (
@@ -85,7 +121,7 @@ export default function TestMA() {
       <div className="pt-20 flex flex-col justify-start items-center min-h-screen bg-gray-100 p-4">
         {/* Questions */}
         <div className="space-y-5">
-          {article.questions.map((question) => (
+          {questions.map((question) => (
             <Card key={question.number} className="w-[50rem] h-fit px-12 py-6">
               <CardBody>
                 <RadioGroup
@@ -113,7 +149,7 @@ export default function TestMA() {
             color="primary"
             size="lg"
             className="mt-4"
-            onClick={handleNextArticle}
+            onClick={() => submitAnswers(true)}
           >
             Selesaikan dan Lanjutkan
           </Button>
@@ -143,7 +179,7 @@ export default function TestMA() {
               <div className="flex justify-center mt-4">
                 <Button
                   color="danger"
-                  onClick={closeModal}
+                  onClick={() => setShowModal(false)}
                   size="lg"
                   variant="bordered"
                   className="w-full text-red-600"
@@ -167,9 +203,7 @@ export default function TestMA() {
                   </h2>
                 </div>
                 <div className="flex items-center justify-start">
-                  <p className="text-lg text-left mt-1 ml-16">
-                    Meaningful Memory
-                  </p>
+                  <p className="text-lg text-left mt-1 ml-16">Mental Ability</p>
                 </div>
               </CardBody>
             </Card>
@@ -192,33 +226,6 @@ export default function TestMA() {
               </CardBody>
             </Card>
           </div>
-        </div>
-
-        {/* Question List */}
-        <div className="absolute top-[300px] left-20 w-50 ml-20">
-          <Card>
-            <CardBody>
-              <h2 className="text-center text-xl font-semibold mb-2">
-                Daftar Soal
-              </h2>
-              <div className="grid grid-cols-4 gap-4 w-full max-w-4xl justify-center items-center p-4 rounded-md">
-                {Object.keys(selectedAnswers).map((questionNum) => (
-                  <Card
-                    key={questionNum}
-                    hoverable
-                    clickable
-                    className={`px-4 py-2 transition-all ${
-                      selectedAnswers[questionNum]
-                        ? "bg-cyan-500 text-white"
-                        : "hover:bg-cyan-500 hover:text-white"
-                    }`}
-                  >
-                    <h4 className="text-center">{questionNum}</h4>
-                  </Card>
-                ))}
-              </div>
-            </CardBody>
-          </Card>
         </div>
       </div>
     </AuthWrapper>

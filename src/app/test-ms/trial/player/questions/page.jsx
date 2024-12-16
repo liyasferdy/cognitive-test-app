@@ -19,7 +19,7 @@ import { CiWarning } from "react-icons/ci";
 
 export default function QuestionTrialMS() {
   const router = useRouter();
-  const [timeLeft, setTimeLeft] = useState(15); // 15 seconds countdown
+  const [timeLeft, setTimeLeft] = useState(10); // 15 seconds countdown
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End test modal
   const [isResultModalOpen, setIsResultModalOpen] = useState(false); // Result modal

@@ -73,7 +73,7 @@ export default function trialTestMA() {
   const [selectedColor, setSelectedColor] = React.useState("default");
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modal
-  const [timeLeft, setTimeLeft] = useState(3); // atur waktu dalam second
+  const [timeLeft, setTimeLeft] = useState(10); // atur waktu dalam second
   const [timerActive, setTimerActive] = useState(false);
 
   // Timer countdown logic
