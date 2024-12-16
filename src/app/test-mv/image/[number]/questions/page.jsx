@@ -247,7 +247,7 @@ export default function QuestionMV() {
         </div>
       )}
 
-      {/* Modal untuk mengakhiri test */}
+      {/* Modals to end the test*/}
       {showModal && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-md shadow-lg w-96">
