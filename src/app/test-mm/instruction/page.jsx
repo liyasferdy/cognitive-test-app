@@ -5,7 +5,7 @@ import { Card, CardBody } from "@nextui-org/card";
 import Link from "next/link";
 import AuthWrapper from "../../authWrapper";
 
-export default function instructionMM() {
+export default function InstructionMM() {
   return (
     <AuthWrapper>
       <div className="pt-40 flex justify-center mt-40 items-center p-5 relative">

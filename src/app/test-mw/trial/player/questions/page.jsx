@@ -19,7 +19,7 @@ import {
 import AuthWrapper from "../../../../authWrapper";
 import { CiWarning } from "react-icons/ci";
 
-export default function questionTrialMW() {
+export default function QuestionTrialMW() {
   const router = useRouter();
   const [timeLeft, setTimeLeft] = useState(10); // 5 minutes
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal

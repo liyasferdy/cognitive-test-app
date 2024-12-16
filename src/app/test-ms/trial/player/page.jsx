@@ -19,7 +19,7 @@ import { CiWarning } from "react-icons/ci";
 import { Button } from "@nextui-org/button";
 import AuthWrapper from "../../../authWrapper";
 
-export default function trialTestMS() {
+export default function TrialTestMS() {
   const router = useRouter();
   const [timeLeft, setTimeLeft] = useState(10); // set time left
   const audioRef = useRef(null);

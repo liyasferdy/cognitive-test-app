@@ -20,7 +20,7 @@ import AuthWrapper from "../../../../authWrapper";
 import { CiWarning } from "react-icons/ci";
 import { audioData } from "../../../audio"; // Import your audio data
 
-export default function questionsMS() {
+export default function QuestionsMS() {
   const router = useRouter();
   const { id } = useParams(); // Extract audio ID from URL parameters
   const [timeLeft, setTimeLeft] = useState(10); // 5 minutes

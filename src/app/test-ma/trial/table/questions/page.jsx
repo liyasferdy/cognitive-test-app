@@ -18,7 +18,7 @@ import {
 } from "@nextui-org/modal";
 import AuthWrapper from "../../../../authWrapper";
 
-export default function trialQuestionsMM() {
+export default function TrialQuestionsMA() {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modals

@@ -17,7 +17,7 @@ import {
 import { CiWarning } from "react-icons/ci";
 import AuthWrapper from "../../../authWrapper";
 
-export default function trialMV() {
+export default function TrialMV() {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modal

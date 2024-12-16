@@ -21,7 +21,7 @@ import { RxCross2 } from "react-icons/rx";
 import { AiOutlineReload } from "react-icons/ai";
 import AuthWrapper from "../../../../authWrapper";
 
-export default function trialQuestionsMM() {
+export default function TrialQuestionsMM() {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modals

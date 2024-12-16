@@ -20,78 +20,45 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  useDisclosure,
 } from "@nextui-org/modal";
 import { CiWarning } from "react-icons/ci";
 import { Button } from "@nextui-org/button";
 import AuthWrapper from "../../../authWrapper";
 
 const rows = [
-  {
-    key: "1",
-    animal: "Bebek",
-    character: "CEO",
-    bodyPart: "Active",
-  },
-  {
-    key: "2",
-    animal: "Bebek",
-    character: "CEO",
-    bodyPart: "Active",
-  },
-  {
-    key: "3",
-    animal: "Bebek",
-    character: "CEO",
-    bodyPart: "Active",
-  },
-  {
-    key: "4",
-    animal: "Bebek",
-    character: "CEO",
-    bodyPart: "Active",
-  },
+  { key: "1", animal: "Bebek", character: "CEO", bodyPart: "Active" },
+  { key: "2", animal: "Bebek", character: "CEO", bodyPart: "Active" },
+  { key: "3", animal: "Bebek", character: "CEO", bodyPart: "Active" },
+  { key: "4", animal: "Bebek", character: "CEO", bodyPart: "Active" },
 ];
 
 const columns = [
-  {
-    key: "animal",
-    label: "Hewan",
-  },
-  {
-    key: "character",
-    label: "Karakteristik",
-  },
-  {
-    key: "bodyPart",
-    label: "Anggota Tubuh",
-  },
+  { key: "animal", label: "Hewan" },
+  { key: "character", label: "Karakteristik" },
+  { key: "bodyPart", label: "Anggota Tubuh" },
 ];
 
-export default function trialTestMA() {
-  const router = useRouter(); // Initialize the router
-  const [selectedColor, setSelectedColor] = React.useState("default");
+export default function TrialTestMA() {
+  const router = useRouter();
+  const [selectedColor] = useState("default");
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modal
-  const [timeLeft, setTimeLeft] = useState(10); // atur waktu dalam second
-  const [timerActive, setTimerActive] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(10); // Waktu dalam detik
 
-  // Timer countdown logic
   useEffect(() => {
     if (timeLeft === 0) {
-      // Redirect to the questions page when time runs out
+      // Jika waktu habis, arahkan ke page berikutnya
       router.push("/test-ma/trial/table/questions");
       return;
     }
 
     const interval = setInterval(() => {
       setTimeLeft((prevTime) => prevTime - 1);
-    }, 1000); // Update every second
+    }, 1000);
 
-    return () => clearInterval(interval); // Cleanup the interval on component unmount
+    return () => clearInterval(interval);
   }, [timeLeft, router]);
 
-  // Format time to mm:ss
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -100,31 +67,27 @@ export default function trialTestMA() {
     ).padStart(2, "0")}`;
   };
 
-  // Close initial modal and start timer
   const handleModalAction = () => {
     setIsModalOpen(false);
-    setTimerActive(true);
   };
 
-  // Handle the 'Selesai dan lanjutkan' button click
   const handleButtonClick = () => {
     if (timeLeft > 0) {
-      setIsEndModalOpen(true); // Show the end modal if time is not expired
+      setIsEndModalOpen(true);
     } else {
-      router.push("/test-ma/trial/table/questions"); // If time is up, navigate directly
+      router.push("/test-ma/trial/table/questions");
     }
   };
 
-  // Handle 'Continue' action on the end modal
   const handleContinue = () => {
     setIsEndModalOpen(false);
-    router.push("/test-ma/trial/table/questions"); // Proceed to next page
+    router.push("/test-ma/trial/table/questions");
   };
 
   return (
     <AuthWrapper>
       <div className="pt-40 flex justify-center mt-20 items-center p-5 absolute -space-x-20 w-full h-full">
-        {/* First Modal */}
+        {/* Modal Pertama */}
         {isModalOpen && (
           <Modal
             isOpen={true}
@@ -163,7 +126,7 @@ export default function trialTestMA() {
           </Modal>
         )}
 
-        {/* End Modal */}
+        {/* Modal Konfirmasi Selesai */}
         {isEndModalOpen && (
           <Modal
             isOpen={true}
@@ -237,7 +200,7 @@ export default function trialTestMA() {
             <Card>
               <FaTasks className="text-5xl absolute top-4 left-2" />
               <CardBody>
-                <div className="flex text-left items-start justify-center ">
+                <div className="flex text-left items-start justify-center">
                   <h2 className=" text-xl font-semibold text-left mr-20">
                     Test
                   </h2>
@@ -269,14 +232,16 @@ export default function trialTestMA() {
             </Card>
           </div>
 
-          {/* Button positioned at the absolute bottom
+          {/* Tombol 'Selesai dan lanjutkan' dapat dikembalikan jika diperlukan */}
+          {/* 
           <div className="absolute bottom-[100px] left-0 w-full flex justify-center">
             <Button color="primary" size="lg" onPress={handleButtonClick}>
               <h2 className="items-center text-center">
                 Selesai dan lanjutkan
               </h2>
             </Button>
-          </div> */}
+          </div> 
+          */}
         </div>
       </div>
     </AuthWrapper>

@@ -2,7 +2,7 @@ import { Button } from "@nextui-org/button";
 import { Card, CardBody } from "@nextui-org/card";
 import Link from "next/link";
 
-export default function instructionMM() {
+export default function InstructionMM() {
   return (
     <div className="pt-40 flex justify-center mt-40 items-center p-5 relative">
       <Card className="max-w-[60rem] px-20 py-10 relative bottom-40 min-h-[400px]">
