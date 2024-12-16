@@ -7,7 +7,7 @@ import { Card, CardBody } from "@nextui-org/card";
 import { RadioGroup, Radio } from "@nextui-org/radio";
 import { IoMdTime } from "react-icons/io";
 import { FaTasks } from "react-icons/fa";
-import { questionsData } from "../../questions";
+import { questionsData } from "../../questions"; // Pastikan path ini benar
 import AuthWrapper from "../../../authWrapper";
 import axios from "axios";
 
@@ -23,16 +23,20 @@ export default function TestMA() {
   const [showModal, setShowModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Ambil pertanyaan saat komponen mount
   useEffect(() => {
     const activeQuestions = questionsData[0]?.questions || [];
     setQuestions(activeQuestions);
   }, []);
 
   const handleFinalAnswerSubmit = useCallback(() => {
-    // Tanpa isSubmitting untuk membuat fungsi stabil
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     router.push("/test-mv/instruction");
-  }, [router]);
+    setIsSubmitting(false);
+  }, [isSubmitting, router]);
 
+  // Timer countdown logic
   useEffect(() => {
     if (timeLeft === 0) {
       handleFinalAnswerSubmit();
@@ -113,6 +117,7 @@ export default function TestMA() {
   return (
     <AuthWrapper>
       <div className="pt-20 flex flex-col justify-start items-center min-h-screen bg-gray-100 p-4">
+        {/* Questions */}
         <div className="space-y-5">
           {questions.map((question) => (
             <Card key={question.number} className="w-[50rem] h-fit px-12 py-6">
@@ -136,6 +141,7 @@ export default function TestMA() {
           ))}
         </div>
 
+        {/* Finish Test Button */}
         <div className="flex justify-center items-center mt-10 mb-20">
           <Button
             color="primary"
@@ -147,6 +153,7 @@ export default function TestMA() {
           </Button>
         </div>
 
+        {/* Modal for finishing the test */}
         {showModal && (
           <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white p-6 rounded-md shadow-lg w-96">
@@ -182,6 +189,7 @@ export default function TestMA() {
           </div>
         )}
 
+        {/* Sidebar */}
         <div className="space-y-7">
           <div className="absolute top-20 left-20 w-[270px] ml-20">
             <Card>
