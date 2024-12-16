@@ -1,20 +1,20 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/button";
 import { Card, CardBody } from "@nextui-org/card";
 import { RadioGroup, Radio } from "@nextui-org/radio";
 import { IoMdTime } from "react-icons/io";
 import { FaTasks } from "react-icons/fa";
-import { questionsData } from "../../questions"; // Adjusted import
+import { questionsData } from "../../questions"; // Pastikan path ini benar
 import AuthWrapper from "../../../authWrapper";
 import axios from "axios";
 
 export default function TestMA() {
   const router = useRouter();
-  const [timeLeft, setTimeLeft] = useState(10); // 5 minutes countdown
-  const [questions, setQuestions] = useState([]); // Initialize questions
+  const [timeLeft, setTimeLeft] = useState(10);
+  const [questions, setQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState(
     Array.from({ length: 30 }, (_, index) => ({
       [index + 1]: null,
@@ -23,11 +23,18 @@ export default function TestMA() {
   const [showModal, setShowModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Load the questions
+  // Ambil pertanyaan saat komponen mount
   useEffect(() => {
     const activeQuestions = questionsData[0]?.questions || [];
     setQuestions(activeQuestions);
   }, []);
+
+  const handleFinalAnswerSubmit = useCallback(() => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    router.push("/test-mv/instruction");
+    setIsSubmitting(false);
+  }, [isSubmitting, router]);
 
   // Timer countdown logic
   useEffect(() => {
@@ -41,7 +48,7 @@ export default function TestMA() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [timeLeft]);
+  }, [timeLeft, handleFinalAnswerSubmit]);
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
@@ -63,19 +70,21 @@ export default function TestMA() {
     setIsSubmitting(true);
 
     try {
-      const token = localStorage.getItem("access_token");
+      const token =
+        typeof window !== "undefined"
+          ? localStorage.getItem("access_token")
+          : "";
 
-      // Prepare data to match the backend schema
       const answers = Object.keys(selectedAnswers)
-        .filter((key) => selectedAnswers[key] !== null) // Filter out unanswered questions
+        .filter((key) => selectedAnswers[key] !== null)
         .map((questionNumber) => ({
-          questionNumber: parseInt(questionNumber) - 1, // Adjust to start at 0 for backend
+          questionNumber: parseInt(questionNumber) - 1,
           selectedAnswer: selectedAnswers[questionNumber],
         }));
 
       const transformedAnswers = answers.map((answer) => ({
         ...answer,
-        questionNumber: answer.questionNumber + 1, // Add 1 to each questionNumber
+        questionNumber: answer.questionNumber + 1,
       }));
 
       const response = await axios.post(
@@ -98,17 +107,6 @@ export default function TestMA() {
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const handleFinalAnswerSubmit = async () => {
-    if (isSubmitting) return;
-    setIsSubmitting(true);
-
-    // Directly navigate without sending the data to the backend
-    router.push("/test-mv/instruction");
-
-    // Optionally, reset isSubmitting in the finally block
-    setIsSubmitting(false);
   };
 
   const closeModal = () => {
