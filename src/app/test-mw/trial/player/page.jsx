@@ -19,7 +19,7 @@ import { CiWarning } from "react-icons/ci";
 import { Button } from "@nextui-org/button";
 import AuthWrapper from "../../../authWrapper";
 
-export default function TrialTestMW() {
+export default function TrialTestMS() {
   const router = useRouter();
   const [timeLeft, setTimeLeft] = useState(10); // set time left
   const audioRef = useRef(null);
@@ -194,8 +194,7 @@ export default function TrialTestMW() {
                 {/* Ikon dengan ukuran yang sedikit lebih besar */}
                 <h1 className="text-md">
                   Audio hanya diputar sekali dan tidak dapat diulang
-                </h1>{" "}
-                {/* Teks */}
+                </h1>
               </div>
             </CardBody>
           </Card>

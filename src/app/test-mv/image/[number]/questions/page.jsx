@@ -261,7 +261,9 @@ export default function QuestionMV() {
             <div className="flex justify-center">
               <Button
                 color="primary"
-                // onClick={() => handleFinalAnswerSubmit()}
+                onClick={async () => {
+                  router.push("/test-ms/instruction"); // Arahkan ke /home setelah submit selesai
+                }}
                 size="lg"
                 className="w-full text-white"
                 disabled={isSubmitting}
