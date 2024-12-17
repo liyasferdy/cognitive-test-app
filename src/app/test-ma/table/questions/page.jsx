@@ -13,7 +13,7 @@ import axios from "axios";
 
 export default function TestMA() {
   const router = useRouter();
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [timeLeft, setTimeLeft] = useState();
   const [questions, setQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState(
     Array.from({ length: 30 }, (_, index) => ({
@@ -149,7 +149,7 @@ export default function TestMA() {
             className="mt-4"
             onClick={() => submitAnswers(true)}
           >
-            Selesaikan dan Lanjutkan
+            Submit
           </Button>
         </div>
 
@@ -171,7 +171,7 @@ export default function TestMA() {
                   size="lg"
                   className="w-full text-white"
                 >
-                  Akhiri dan Selesaikan
+                  Submit
                 </Button>
               </div>
               <div className="flex justify-center mt-4">

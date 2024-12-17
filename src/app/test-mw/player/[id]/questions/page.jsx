@@ -259,7 +259,7 @@ export default function QuestionsMW() {
                   className="w-full text-white"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? "Mengirim..." : "Akhiri dan Selesaikan"}
+                  {isSubmitting ? "Submitting..." : "Submit"}
                 </Button>
               </div>
               <div className="flex justify-center mt-4">
@@ -359,7 +359,7 @@ export default function QuestionsMW() {
               {isSubmitting
                 ? "Mengirim..."
                 : isLastQuestion
-                ? "Selesai"
+                ? "Lanjutkan"
                 : "Next"}
             </Button>
           </div>

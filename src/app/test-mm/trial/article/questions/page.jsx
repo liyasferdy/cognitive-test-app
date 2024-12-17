@@ -398,7 +398,7 @@ export default function TrialQuestionsMM() {
             size="lg"
             className="mt-4"
           >
-            Selesaikan Ujian
+            Submit
           </Button>
         </div>
 

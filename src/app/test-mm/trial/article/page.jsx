@@ -206,7 +206,7 @@ export default function TrialArticleMM() {
         {/* Tombol selesai */}
         <div className="w-full flex justify-center mt-10">
           <Button color="primary" size="lg" onPress={handleButtonClick}>
-            <h2 className="items-center text-center">Selesai dan lanjutkan</h2>
+            <h2 className="items-center text-center">Lanjutkan</h2>
           </Button>
         </div>
       </div>

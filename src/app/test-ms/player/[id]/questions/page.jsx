@@ -234,7 +234,7 @@ export default function QuestionsMS() {
                   className="mt-4"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? "Mengirim..." : "Akhiri dan Selesaikan"}
+                  {isSubmitting ? "Submitting..." : "Submit"}
                 </Button>
               </div>
               <div className="flex justify-center mt-4">
@@ -332,9 +332,9 @@ export default function QuestionsMS() {
               disabled={isSubmitting}
             >
               {isSubmitting
-                ? "Mengirim..."
+                ? "Submitting..."
                 : isLastQuestion
-                ? "Selesai"
+                ? "Lanjutkan"
                 : "Next"}
             </Button>
           </div>

@@ -82,8 +82,8 @@ export default function UsersScreening() {
       const result = await response.json();
       console.log("Success:", result); // Handle success
 
-      // Redirect ke halaman /home setelah berhasil submit
-      router.push("/home"); // Mengarahkan ke halaman home
+      // Redirect ke halaman awal test test MM setelah berhasil submit
+      router.push("/test-mm/instruction"); // Mengarahkan ke halaman home
     } catch (error) {
       console.log("Error submitting form:", error); // Handle error
     }

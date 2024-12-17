@@ -17,7 +17,7 @@ export default function QuestionMV() {
   const router = useRouter();
   const params = useParams();
   const imageNumber = parseInt(params.number, 10) - 1; // Convert to 0-based index
-  const [timeLeft, setTimeLeft] = useState(10);
+  const [timeLeft, setTimeLeft] = useState(30);
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -231,7 +231,6 @@ export default function QuestionMV() {
             <div className="flex justify-start absolute items-center bottom-60">
               <Button
                 color="primary"
-                variant="ghost"
                 size="lg"
                 onClick={() =>
                   imageNumber < imageData.length - 1
@@ -240,7 +239,7 @@ export default function QuestionMV() {
                 }
                 disabled={!selectedAnswer || isSubmitting}
               >
-                {imageNumber < imageData.length - 1 ? "Next" : "Submit"}
+                {imageNumber < imageData.length - 1 ? "Next" : "Lanjutkan"}
               </Button>
             </div>
           </div>
@@ -268,7 +267,7 @@ export default function QuestionMV() {
                 className="w-full text-white"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Mengirim..." : "Akhiri dan Selesaikan"}
+                {isSubmitting ? "Submitting..." : "Submit"}
               </Button>
             </div>
             <div className="flex justify-center mt-4">

@@ -34,8 +34,8 @@ export default function TrialMV() {
       return () => clearInterval(interval);
     } else if (timeLeft === 0) {
       // Redirect to the questions page when time runs out
-      router.push("/test-mm/trial/article/questions");
-      setTimerActive(false);
+      router.push("/test-mv/trial/picture/questions");
+      setTimerActive(true);
     }
   }, [timeLeft, timerActive]);
 
@@ -210,7 +210,7 @@ export default function TrialMV() {
             size="lg"
             onPress={handleButtonClick}
           >
-            <h2 className="items-center text-center">Selesai dan lanjutkan</h2>
+            <h2 className="items-center text-center">Lanjutkan</h2>
           </Button>
         </div>
       </div>

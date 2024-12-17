@@ -159,7 +159,7 @@ export default function QuestionTrialMV() {
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Link href="/test-mm/instruction">
+                <Link href="/test-mv/trial/picture">
                   <Button
                     color="warning"
                     className="text-amber-50"
@@ -298,7 +298,7 @@ export default function QuestionTrialMV() {
                       size="md"
                       onPress={handleFinishTest}
                     >
-                      Akhiri Test
+                      Lanjutkan ke Test
                     </Button>
                   </ModalFooter>
                 </>
@@ -397,7 +397,7 @@ export default function QuestionTrialMV() {
                 size="lg"
                 onPress={handleButtonClick}
               >
-                Akhiri Test
+                Lanjutkan ke Test
               </Button>
             </div>
           </div>
