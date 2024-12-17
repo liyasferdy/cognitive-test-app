@@ -86,7 +86,7 @@ export default function TestMM() {
       }));
 
       const response = await axios.post(
-        "http://https://cognitive-dev-734522323885.asia-southeast2.run.app/submit/testMM",
+        "https://cognitive-dev-734522323885.asia-southeast2.run.app/submit/testMM",
         { answers },
         {
           headers: {
