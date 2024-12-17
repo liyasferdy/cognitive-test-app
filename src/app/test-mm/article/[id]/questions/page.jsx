@@ -19,9 +19,10 @@ export default function TestMM() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
+  // Fetch article based on path parameter
   useEffect(() => {
     const pathArray = String(window.location.pathname).split("/");
-    const id = Number(pathArray[pathArray.length - 2]);
+    const id = Number(pathArray[pathArray.length - 2]); // Extract article id
     const activeArticle = articleData.find((article) => article.id === id);
 
     if (activeArticle) {
@@ -96,12 +97,17 @@ export default function TestMM() {
       );
 
       if (response.status === 200) {
-        if (article.id < articleData.length - 1 && !isFinalSubmission) {
-          router.push(`/test-mm/article/${article.id + 1}`);
-        } else if (isFinalSubmission) {
-          setShowModal(true);
+        const currentArticleIndex = articleData.findIndex(
+          (art) => art.id === article?.id
+        );
+        if (
+          currentArticleIndex !== -1 &&
+          currentArticleIndex + 1 < articleData.length
+        ) {
+          const nextArticle = articleData[currentArticleIndex + 1];
+          router.push(`/test-mm/article/${nextArticle.id}`);
         } else {
-          setShowModal(true);
+          setShowModal(true); // Show modal if no more articles
         }
       } else {
         alert("There was an issue submitting your answers. Please try again.");
@@ -167,7 +173,7 @@ export default function TestMM() {
             className="mt-4"
             onClick={() => submitAnswers(false)} // Handle submission without final submission flag
           >
-            Selesaikan dan Lanjutkan
+            Lanjutkan
           </Button>
         </div>
 
@@ -188,7 +194,7 @@ export default function TestMM() {
                   size="lg"
                   className="w-full text-white"
                 >
-                  Akhiri dan Selesaikan
+                  Akhiri
                 </Button>
               </div>
             </div>

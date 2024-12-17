@@ -90,7 +90,7 @@ const ArticlePage = () => {
             className="mt-4"
             onClick={handleNextQuestions} // Add the click handler here
           >
-            Selesaikan dan Lanjutkan
+            Lanjutkan
           </Button>
         </div>
 

@@ -12,13 +12,14 @@ export default function InstructionMM() {
         <Card className="w-full sm:max-w-[60rem] px-5 sm:px-20 py-10 relative sm:bottom-40 min-h-[400px]">
           <CardBody>
             <h1 className="text-slate-900 text-lg sm:text-xl text-center font-semibold">
-              Instruksi - Test MM
+              Instruksi - Test MV
             </h1>
             <p className="text-justify mt-5 indent-8 leading-loose">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Voluptatibus numquam, odio modi quidem nisi eius repudiandae
-              aperiam voluptate quod expedita fugiat dolore deserunt incidunt
-              velit repellat? Veniam doloremque asperiores reiciendis?
+              Anda akan disuguhkan dengan sebuah grid yang di dalamnya terdapat
+              beberapa bentuk yang berbeda-beda. Anda akan diberikan waktu
+              terbatas pada setiap gambar sebelum membalik lembar berikutnya.
+              Tugas Anda adalah mengingat posisi setiap gambar dan memilih
+              gambar yang memiliki posisi sama.
             </p>
           </CardBody>
 

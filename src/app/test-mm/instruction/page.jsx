@@ -15,15 +15,10 @@ export default function InstructionMM() {
               Instruksi - Test MM
             </h1>
             <p className="text-justify mt-5 indent-8 leading-loose">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Recusandae perspiciatis ipsa vitae sequi magni, illo quam. Quae
-              praesentium corporis odit cupiditate. Tempore, perferendis eaque
-              quo eius ea quod quaerat beatae. Kota-kota besar sering menghadapi
-              masalah parkir liar yang semakin meresahkan. Parkir liar terjadi
-              ketika pengendara memarkir kendaraan di lokasi yang tidak sesuai
-              aturan, seperti trotoar atau bahu jalan. Masalah ini tidak hanya
-              menghambat arus lalu lintas, tetapi juga membahayakan pejalan kaki
-              yang terpaksa menggunakan jalan raya.
+              Terdapat beberapa bacaan yang akan disuguhkan. Tugas Anda adalah
+              menjawab pertanyaan berdasarkan informasi dari bacaan tersebut.
+              Anda diberikan waktu terbatas pada setiap bacaan sebelum menjawab
+              pertanyaan.
             </p>
           </CardBody>
 
