@@ -21,7 +21,7 @@ export default function TrialArticleMM() {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modal
-  const [timeLeft, setTimeLeft] = useState(3);
+  const [timeLeft, setTimeLeft] = useState(300);
   const [timerActive, setTimerActive] = useState(false);
 
   // Timer countdown logic
@@ -74,11 +74,7 @@ export default function TrialArticleMM() {
       <div className="pt-20 flex flex-col justify-start items-center min-h-screen">
         {/* First Modal */}
         {isModalOpen && (
-          <Modal
-            isOpen={true}
-            onClose={handleModalAction}
-            placement="top-center"
-          >
+          <Modal isOpen={true} onClose={handleModalAction} placement="center">
             <ModalContent>
               {() => (
                 <>
@@ -144,7 +140,7 @@ export default function TrialArticleMM() {
           </Modal>
         )}
 
-        <Card className="max-w-[50rem] h-fit px-20 py-10">
+        <Card className="max-w-[50rem] w-full h-fit px-4 py-10">
           <CardBody>
             <h1 className="text-slate-400 text-lg text-center">Wacana</h1>
             <p className="text-justify mt-5 indent-8 leading-loose">
@@ -166,13 +162,15 @@ export default function TrialArticleMM() {
           </CardBody>
         </Card>
 
-        <div className="space-y-7">
-          <div className="absolute top-20 left-20 w-[270px] ml-20">
-            <Card>
+        {/* Information Card  */}
+        <div className="space-y-7 w-full flex flex-col items-center ">
+          {/* Card dengan ikon Tasks */}
+          <div className="relative w-full sm:w-[270px] sm:absolute sm:top-20 sm:left-20 sm:ml-0 sm:mr-0">
+            <Card className="left-5">
               <FaTasks className="text-5xl absolute top-4 left-2" />
               <CardBody>
-                <div className="flex text-left items-start justify-center ">
-                  <h2 className=" text-xl font-semibold text-left mr-20">
+                <div className="flex text-left items-start justify-center">
+                  <h2 className="text-xl font-semibold text-left mr-20">
                     Test
                   </h2>
                 </div>
@@ -185,12 +183,13 @@ export default function TrialArticleMM() {
             </Card>
           </div>
 
-          <div className="absolute top-40 left-20 w-[270px] ml-20">
-            <Card>
+          {/* Card dengan ikon Waktu */}
+          <div className="relative w-full sm:w-[270px] sm:absolute sm:top-40 sm:left-20 sm:ml-0 sm:mr-0 mt-8">
+            <Card className="left-5">
               <IoMdTime className="text-6xl absolute top-3 left-2" />
               <CardBody>
-                <div className="flex text-left items-start justify-center ">
-                  <h2 className=" text-xl font-semibold text-left ml-4">
+                <div className="flex text-left items-start justify-center">
+                  <h2 className="text-xl font-semibold text-left ml-4">
                     Waktu Tersisa
                   </h2>
                 </div>
@@ -202,15 +201,13 @@ export default function TrialArticleMM() {
               </CardBody>
             </Card>
           </div>
-          <div>
-            <div className="flex justify-center items-center">
-              <Button color="primary" size="lg" onPress={handleButtonClick}>
-                <h2 className="items-center text-center">
-                  Selesai dan lanjutkan
-                </h2>
-              </Button>
-            </div>
-          </div>
+        </div>
+
+        {/* Tombol selesai */}
+        <div className="w-full flex justify-center mt-10">
+          <Button color="primary" size="lg" onPress={handleButtonClick}>
+            <h2 className="items-center text-center">Selesai dan lanjutkan</h2>
+          </Button>
         </div>
       </div>
     </AuthWrapper>

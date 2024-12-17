@@ -91,13 +91,14 @@ export default function UsersScreening() {
 
   return (
     <AuthWrapper>
-      <div className="flex justify-center items-center flex-col space-y-5 ml-20 mr-20 min-h-screen">
+      <div className="flex justify-center items-center flex-col space-y-5 md:ml-20 md:mr-20 min-h-screen px-4">
         <h1 className="font-semibold text-2xl">Form Data Diri</h1>
+
         {/* Jika pengguna sudah login, tampilkan form data diri */}
         {isLoggedIn ? (
           <>
             {/* Peringatan untuk mengisi data diri */}
-            <Card className="border-solid border-2 border-emerald-400 bg-emerald-100 text-emerald-600 text-center items-center text-md flex flex-col w-[500px]">
+            <Card className="border-solid border-2 border-emerald-400 bg-emerald-100 text-emerald-600 text-center items-center text-md flex flex-col w-full md:w-[500px]">
               <CardBody>
                 <div className="flex items-center justify-center space-x-2">
                   <CiWarning className="text-xl" />
@@ -109,7 +110,7 @@ export default function UsersScreening() {
             </Card>
 
             {/* Form Data Diri */}
-            <Card className="w-[500px]">
+            <Card className="w-full md:w-[500px] items-center justify-center">
               <CardBody>
                 <form onSubmit={handleSubmit} className="m-5 space-y-8">
                   <Input
@@ -160,12 +161,15 @@ export default function UsersScreening() {
                     value={formData.suku}
                     onChange={handleInputChange}
                   />
-                  <Button
-                    type="submit"
-                    className="w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
-                  >
-                    Submit
-                  </Button>
+                  <div className="flex justify-center">
+                    <Button
+                      type="submit"
+                      color="primary"
+                      className="w-full sm:w-auto"
+                    >
+                      Submit
+                    </Button>
+                  </div>
                 </form>
               </CardBody>
             </Card>

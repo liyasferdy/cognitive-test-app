@@ -74,36 +74,43 @@ export default function LoginHome() {
   }, [loginStatus, router]); // Ketika loginStatus berubah, jalankan useEffect ini
 
   return (
-    <div className="flex justify-center items-center h-screen relative space-x-[50rem] bg-gray-100">
-      <div className="absolute top-100 left-10 flex">
-        <h1 className="text-6xl mb-5 font-semibold text-slate-400">
-          Selamat datang di&nbsp;
-        </h1>
-        <h1 className="font-semibold text-6xl mb-5 bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent hover:bg-gradient-to-r hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500">
-          Test Psikotest
-        </h1>
-      </div>
-      <div className="flex ml-5 mt-5 absolute">
-        <Card className="px-[5rem] py-[10rem] -mr-60 ">
-          <div className="flex justify-center font-semibold text-4xl -mt-10 mb-5 bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent hover:bg-gradient-to-r hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500">
-            <h1>Sign in Now! </h1>
-          </div>
-          <CardBody className="flex flex-col space-y-1">
-            <div className="grid grid-cols-2 gap-5 grid-flow-col w-80 justify-center items-center">
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
+      <div className="mt-40 items-center justify-center ">
+        {/* Bagian Teks */}
+        <div className="items-center flex flex-col">
+          <h1 className="text-4xl sm:text-6xl mb-3 font-semibold text-slate-400 lg:items-start lg:justify-center">
+            Welcome to&nbsp;
+          </h1>
+          <h1 className="font-semibold text-4xl sm:text-6xl mb-5 bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent hover:bg-gradient-to-r hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500">
+            Cognitive Test
+          </h1>
+        </div>
+
+        {/* <div className="flex flex-col justify-center items-center text-center lg:absolute lg:top-1/2 lg:left-10 lg:transform lg:-translate-y-1/2"></div> */}
+
+        {/* Bagian Card yang ada di tengah */}
+        <div className="flex flex-col justify-center items-center mt-10">
+          <Card className="lg:px-[3rem] lg:py-[5rem] sm:p-0">
+            <div className="flex justify-center font-semibold lg:text-4xl text-2xl pt-4 mb-4 bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent hover:bg-gradient-to-r hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500">
+              <h1>Sign in Now! </h1>
+            </div>
+            <CardBody className="flex flex-col space-y-1 sm:space-y-0">
               <div className="col-span-2 space-y-5 ">
-                <Button
-                  onPress={onOpen}
-                  className="bg-cyan-500 text-slate-100 w-[20rem] hover:bg-cyan-600 hover:text-slate-100"
-                  size="lg"
-                >
-                  <h2 className="items-center text-center text-md">
-                    Masuk dengan akun anda
-                  </h2>
-                </Button>
+                <div className="w-full flex justify-center">
+                  <Button
+                    onPress={onOpen}
+                    className="bg-cyan-500 text-slate-100 w-[18rem] hover:bg-cyan-600 hover:text-slate-100"
+                    size="lg"
+                  >
+                    <h2 className="text-center text-md">
+                      Masuk dengan akun anda
+                    </h2>
+                  </Button>
+                </div>
                 <Modal
                   isOpen={isOpen}
                   onOpenChange={onOpenChange}
-                  placement="top-center"
+                  placement="center"
                   backdrop="blur"
                 >
                   <ModalContent>
@@ -173,7 +180,7 @@ export default function LoginHome() {
                 <Button
                   variant="bordered"
                   color=""
-                  className="border-cyan-500 text-cyan-600 w-[20rem] hover:bg-cyan-500 hover:text-slate-100"
+                  className="border-cyan-500 text-cyan-600 w-[18rem] hover:bg-cyan-500 hover:text-slate-100"
                   size="lg"
                 >
                   <Link href="/">
@@ -183,15 +190,17 @@ export default function LoginHome() {
                   </Link>
                 </Button>
               </div>
-            </div>
-          </CardBody>
-        </Card>
+            </CardBody>
+          </Card>
+        </div>
       </div>
 
       {/* Modal untuk menampilkan status login */}
       <Modal
         isOpen={loginStatus !== ""}
         onOpenChange={() => setLoginStatus("")}
+        placement="center"
+        backdrop="blur"
       >
         <ModalContent>
           <ModalHeader>
@@ -206,12 +215,19 @@ export default function LoginHome() {
             <Button
               color={loginStatus === "success" ? "success" : "danger"}
               onPress={() => setLoginStatus("")}
+              className="text-white"
             >
               Loading..
             </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
+
+      {/* Footer*/}
+      {/* Footer di bagian bawah */}
+      <div className="flex justify-center p-4 mt-auto text-sm text-gray-500">
+        <h2>version 1.0.0-dev</h2>
+      </div>
     </div>
   );
 }
