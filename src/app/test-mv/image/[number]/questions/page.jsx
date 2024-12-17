@@ -116,38 +116,38 @@ export default function QuestionMV() {
     }
   };
 
-  // Fungsi untuk mengakhiri test (menyimpan semua jawaban di memory ke DB)
-  const handleFinalAnswerSubmit = async () => {
-    if (isSubmitting) return;
-    setIsSubmitting(true);
+  // // Fungsi untuk mengakhiri test (menyimpan semua jawaban di memory ke DB)
+  // const handleFinalAnswerSubmit = async () => {
+  //   if (isSubmitting) return;
+  //   setIsSubmitting(true);
 
-    try {
-      const response = await axios.post(
-        "https://cognitive-dev-734522323885.asia-southeast2.run.app/answers/savetoDB",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${
-              typeof window !== "undefined"
-                ? localStorage.getItem("access_token")
-                : ""
-            }`,
-          },
-        }
-      );
+  //   try {
+  //     const response = await axios.post(
+  //       "https://cognitive-dev-734522323885.asia-southeast2.run.app/answers/savetoDB",
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${
+  //             typeof window !== "undefined"
+  //               ? localStorage.getItem("access_token")
+  //               : ""
+  //           }`,
+  //         },
+  //       }
+  //     );
 
-      if (response.status === 200) {
-        router.push("/test-ms/instruction");
-      } else {
-        alert("Failed to finalize answers. Please try again.");
-      }
-    } catch (error) {
-      console.log("Error finalizing answers:", error);
-      alert("An error occurred while finalizing answers. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  //     if (response.status === 200) {
+  //       router.push("/test-ms/instruction");
+  //     } else {
+  //       alert("Failed to finalize answers. Please try again.");
+  //     }
+  //   } catch (error) {
+  //     console.log("Error finalizing answers:", error);
+  //     alert("An error occurred while finalizing answers. Please try again.");
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
 
   return (
     <div className="flex justify-center items-center min-h-screen px-4">
@@ -261,7 +261,7 @@ export default function QuestionMV() {
             <div className="flex justify-center">
               <Button
                 color="primary"
-                onClick={() => handleFinalAnswerSubmit()}
+                // onClick={() => handleFinalAnswerSubmit()}
                 size="lg"
                 className="w-full text-white"
                 disabled={isSubmitting}

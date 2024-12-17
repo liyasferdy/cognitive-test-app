@@ -14,21 +14,27 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  useDisclosure,
 } from "@nextui-org/modal";
 import AuthWrapper from "../../../../authWrapper";
 import { CiWarning } from "react-icons/ci";
 import { audioData } from "../../../audio"; // Import your audio data
+import axios from "axios"; // Import axios
 
 export default function QuestionsMS() {
   const router = useRouter();
-  const { id } = useParams(); // Extract audio ID from URL parameters
-  const [timeLeft, setTimeLeft] = useState(10); // 5 minutes
+  const { id } = useParams();
+  const [timeLeft, setTimeLeft] = useState(10); // Contoh: 10 detik untuk pengujian
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modals
-  const [currentAudio, setCurrentAudio] = useState(null); // State to hold current audio data
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentAudio, setCurrentAudio] = useState(null);
+  const [selectedAnswer, setSelectedAnswer] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  // New state to track submitted answers
+  const [submittedAnswers, setSubmittedAnswers] = useState([]);
+
   const nextId = parseInt(id, 10) + 1; // Increment the ID by 1
-  // const [loading, setLoading] = useState(true); // Loading state for audio data
+  const isLastQuestion = parseInt(id, 10) === audioData.length; // Cek apakah ini soal terakhir
 
   // Find the current audio data based on the ID
   useEffect(() => {
@@ -36,29 +42,33 @@ export default function QuestionsMS() {
       (audioItem) => audioItem.id === parseInt(id, 10)
     );
     if (audio) {
-      setCurrentAudio(audio); // Set the audio data if found
-      // setLoading(false); // Once the audio is found, set loading to false
+      setCurrentAudio(audio);
     } else {
-      setCurrentAudio(null); // Set currentAudio to null if not found
-      // setLoading(true); // Set loading to true while it's loading
-      router.push("/test-mw/instruction"); // Redirect to /home if audio is not found
+      // Jika audio dengan id ini tidak ditemukan, langsung balik ke /home
+      router.push("/home");
     }
-  }, [id, router]); // Run when the 'id' changes
+  }, [id, router]);
 
   // Timer countdown logic
   useEffect(() => {
-    if (timeLeft === 0) {
-      // Redirect to the next question using the next ID (current ID + 1)
-      router.push(`/test-ms/player/${nextId}`); // Use the next ID to redirect
+    if (timeLeft <= 0) {
+      // Jika waktunya habis
+      if (isLastQuestion) {
+        // Jika soal terakhir, langsung ke halaman home
+        router.push("/test-mw/instruction");
+      } else {
+        // Jika bukan soal terakhir, langsung ke soal berikutnya
+        router.push(`/test-ms/player/${nextId}`);
+      }
       return;
     }
 
     const interval = setInterval(() => {
       setTimeLeft((prevTime) => prevTime - 1);
-    }, 1000); // Update every second
+    }, 1000);
 
-    return () => clearInterval(interval); // Cleanup the interval on component unmount
-  }, [timeLeft, router, id]); // Include 'id' in the dependency
+    return () => clearInterval(interval);
+  }, [timeLeft, router, nextId, isLastQuestion]);
 
   // Format time to mm:ss
   const formatTime = (seconds) => {
@@ -69,19 +79,85 @@ export default function QuestionsMS() {
     ).padStart(2, "0")}`;
   };
 
-  // Handle the 'Selesai dan lanjutkan' button click
-  const handleButtonClick = () => {
-    if (timeLeft > 0) {
-      setIsEndModalOpen(true); // Show the end modal if time is not expired
-    } else {
-      router.push(`/test-ms/player/${nextId}`); // Use the next ID to redirect
+  // Modified function to submit individual question answers
+  const submitAnswer = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
+    try {
+      const token =
+        typeof window !== "undefined"
+          ? localStorage.getItem("access_token")
+          : "";
+
+      const processedAnswer = selectedAnswer.trim().toUpperCase();
+
+      const response = await axios.post(
+        "https://cognitive-dev-734522323885.asia-southeast2.run.app/submit/testMS",
+        {
+          answers: [
+            {
+              questionNumber: currentAudio?.id,
+              selectedAnswer: processedAnswer,
+            },
+          ],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        // Track submitted answer
+        setSubmittedAnswers((prev) => [
+          ...prev,
+          {
+            questionNumber: currentAudio?.id,
+            selectedAnswer: processedAnswer,
+          },
+        ]);
+
+        // For non-last questions, move to next question
+        if (!isLastQuestion) {
+          router.push(`/test-ms/player/${nextId}`);
+          setSelectedAnswer("");
+        }
+      } else {
+        throw new Error("Gagal mengirim jawaban");
+      }
+    } catch (error) {
+      console.error(
+        "Error submitting answers:",
+        error.response?.data || error.message
+      );
+      alert(
+        error.response?.data?.message ||
+          "Terjadi kesalahan saat mengirim jawaban. Silakan coba lagi."
+      );
+      throw error; // Rethrow to be caught by the caller
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  // Handle 'Continue' action on the end modal
-  const handleContinue = () => {
-    setIsEndModalOpen(false);
-    router.push(`/test-ms/player/${nextId}`); // Use the next ID to redirect
+  // Button click handler
+  const handleButtonClick = async () => {
+    if (!selectedAnswer) {
+      alert("Harap masukkan jawaban terlebih dahulu.");
+      return;
+    }
+
+    // Submit the last question's answer first
+    await submitAnswer();
+
+    // If it's the last question, proceed to next test case
+    if (isLastQuestion) {
+      router.push("/test-mw/instruction");
+      return;
+    }
   };
 
   return (
@@ -114,7 +190,10 @@ export default function QuestionsMS() {
                       color=""
                       className="border-solid border-2 border-red-500 bg-red-100 text-red-600"
                       size="lg"
-                      onPress={handleContinue}
+                      onPress={() => {
+                        setIsEndModalOpen(false);
+                        router.push(`/test-ms/player/${nextId}`);
+                      }}
                     >
                       Lanjutkan
                     </Button>
@@ -125,19 +204,65 @@ export default function QuestionsMS() {
           </Modal>
         )}
 
+        {/* Modal for final submission */}
+        {showModal && (
+          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white p-6 rounded-md shadow-lg w-96">
+              <h2 className="text-center text-xl mb-4 font-semibold">
+                Submit Jawaban
+              </h2>
+              <p className="text-center mb-6">
+                Kamu telah menyelesaikan sub-test ini, apakah kamu yakin untuk
+                mengakhiri?
+              </p>
+              <div className="flex justify-center">
+                <Button
+                  color="primary"
+                  size="lg"
+                  onPress={() => {
+                    if (isLastQuestion) {
+                      router.push("/test-mw/instruction");
+                      return;
+                    }
+
+                    if (timeLeft > 0) {
+                      setIsEndModalOpen(true); // Show the end modal if time is not expired
+                    } else {
+                      router.push(`/test-ms/player/${nextId}`);
+                    }
+                  }}
+                  className="mt-4"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Mengirim..." : "Akhiri dan Selesaikan"}
+                </Button>
+              </div>
+              <div className="flex justify-center mt-4">
+                <Button
+                  color="danger"
+                  onClick={() => setShowModal(false)}
+                  size="lg"
+                  variant="bordered"
+                  className="w-full text-red-600"
+                  disabled={isSubmitting}
+                >
+                  Batal
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Warning Message */}
         <div className="mb-5 items-center text-center">
           <Card className="border-solid border-2 border-red-400 bg-red-100 text-red-600 text-center items-center text-md flex flex-col w-[600px]">
             <CardBody>
               <div className="flex items-center justify-center space-x-2">
-                {" "}
-                {/* Flexbox dengan jarak antar elemen */}
-                <CiWarning className="text-xl" />{" "}
-                {/* Ikon dengan ukuran yang sedikit lebih besar */}
+                <CiWarning className="text-xl" />
                 <h1 className="text-md">
                   Perhatikan format jawaban dan ditulis dalam huruf besar
                 </h1>
                 <h1 className="text-md font-semibold">(Contoh: XXXX)</h1>
-                {/* Teks */}
               </div>
             </CardBody>
           </Card>
@@ -150,26 +275,16 @@ export default function QuestionsMS() {
               <h2 className="text-center text-neutral-600 mb-4 text-md">
                 Jawab dikolom berikut
               </h2>
-              {/* Input field for answer */}
               <div className="flex w-full flex-wrap md:flex-nowrap gap-4 bg-white p-6 rounded-lg ">
                 <Input
                   type="text"
                   placeholder="Input jawaban disini"
                   className="w-full"
+                  value={selectedAnswer}
+                  onChange={(e) => setSelectedAnswer(e.target.value)}
                 />
               </div>
             </CardBody>
-            {/* <div className="flex justify-center items-center">
-              <Link href="/test-ms/trial/player/questions">
-                <Button
-                  color="primary"
-                  // className="border-solid border-2 border-red-500 bg-red-100 text-red-600"
-                  size="lg"
-                >
-                  Selanjutnya
-                </Button>
-              </Link>
-            </div> */}
           </Card>
         </div>
 
@@ -211,11 +326,16 @@ export default function QuestionsMS() {
           <div className="flex justify-center items-center">
             <Button
               color="primary"
-              // className="border-solid border-2 border-red-500 bg-red-100 text-red-600"
               size="lg"
               onPress={handleButtonClick}
+              className="mt-4"
+              disabled={isSubmitting}
             >
-              Next
+              {isSubmitting
+                ? "Mengirim..."
+                : isLastQuestion
+                ? "Selesai"
+                : "Next"}
             </Button>
           </div>
         </div>
