@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/button";
 import { Card, CardBody } from "@nextui-org/card";
 import { RadioGroup, Radio } from "@nextui-org/radio";
-import Link from "next/link";
 import { IoMdTime } from "react-icons/io";
 import { FaTasks } from "react-icons/fa";
 import {
@@ -22,7 +21,6 @@ import { AiOutlineReload } from "react-icons/ai";
 import AuthWrapper from "../../../../authWrapper";
 
 export default function TrialQuestionsMM() {
-  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modals
   const [isCorrectModalOpen, setIsCorrectModalOpen] = useState(false); // Correct answer modal
@@ -31,6 +29,7 @@ export default function TrialQuestionsMM() {
     useState(false); // Missing answer modal
   const [isTimeUpModalOpen, setIsTimeUpModalOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState(30); // set time left
+  const router = useRouter(); // Inisialisasi useRouter
   const [selectedAnswers, setSelectedAnswers] = useState({
     1: null,
     2: null,
@@ -61,6 +60,14 @@ export default function TrialQuestionsMM() {
     return `${String(minutes).padStart(2, "0")}:${String(
       remainingSeconds
     ).padStart(2, "0")}`;
+  };
+
+  const handleNavigation = () => {
+    router.push("/test-mm/article/1");
+  };
+
+  const handleReset = () => {
+    router.push("/test-mm/instruction");
   };
 
   // Close initial modal and start timer
@@ -217,25 +224,22 @@ export default function TrialQuestionsMM() {
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Link href="/test-mm/instruction">
-                  <Button
-                    color="warning"
-                    className="text-amber-50"
-                    // onPress={() => setIsCorrectModalOpen(false)}
-                  >
-                    <AiOutlineReload className="text-xl" />
-                    Ulangi latihan
-                  </Button>
-                </Link>
-                <Link href="/test-mm/article/1">
-                  <Button
-                    color="success"
-                    className="text-emerald-50"
-                    // onPress={() => setIsCorrectModalOpen(false)}
-                  >
-                    Mulai Test
-                  </Button>
-                </Link>
+                <Button
+                  color="warning"
+                  className="text-amber-50"
+                  onClick={handleReset}
+                  // onPress={() => setIsCorrectModalOpen(false)}
+                >
+                  <AiOutlineReload className="text-xl" />
+                  Ulangi latihan
+                </Button>
+                <Button
+                  color="success"
+                  className="text-emerald-50"
+                  onClick={handleNavigation}
+                >
+                  Mulai Test
+                </Button>
               </ModalFooter>
             </ModalContent>
           </Modal>
@@ -316,12 +320,14 @@ export default function TrialQuestionsMM() {
                 <p>Mohon perhatikan waktu tersisa saat mengerjakan soal</p>
               </ModalBody>
               <ModalFooter>
-                <Link href="/test-mm/trial/article/questions">
-                  <Button color="warning" className="text-amber-50">
-                    <AiOutlineReload className="text-xl" />
-                    Ulangi
-                  </Button>
-                </Link>{" "}
+                <Button
+                  color="warning"
+                  className="text-amber-50"
+                  onClick={handleReset}
+                >
+                  <AiOutlineReload className="text-xl" />
+                  Ulangi
+                </Button>
               </ModalFooter>
             </ModalContent>
           </Modal>

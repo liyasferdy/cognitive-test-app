@@ -4,8 +4,15 @@ import { Button } from "@nextui-org/button";
 import { Card, CardBody } from "@nextui-org/card";
 import Link from "next/link";
 import AuthWrapper from "../../authWrapper";
+import { useRouter } from "next/navigation";
 
 export default function InstructionMW() {
+  const router = useRouter();
+
+  const handleNavigation = () => {
+    router.push("/test-mw/trial/player/");
+  };
+
   return (
     <AuthWrapper>
       <div className="pt-20 pb-20 sm:pt-40 flex justify-center mt-10 sm:mt-40 items-center p-5 relative">
@@ -31,11 +38,14 @@ export default function InstructionMW() {
 
           {/* Kontainer untuk tombol */}
           <div className="flex justify-center items-center bottom-5 left-0 right-0 mt-5 mb-2 px-5 sm:px-20 z-50">
-            <Link href="/test-mw/trial/player/">
-              <Button color="primary" size="lg" className="w-full sm:w-auto">
-                Mulai Test
-              </Button>
-            </Link>
+            <Button
+              color="primary"
+              size="lg"
+              className="w-full sm:w-auto"
+              onClick={handleNavigation}
+            >
+              Mulai Test
+            </Button>
           </div>
         </Card>
       </div>

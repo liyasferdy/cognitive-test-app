@@ -2,7 +2,6 @@
 
 import { Button } from "@nextui-org/button";
 import { Card, CardBody } from "@nextui-org/card";
-import Link from "next/link";
 import AuthWrapper from "../../authWrapper";
 import { useRouter } from "next/navigation";
 
@@ -12,6 +11,7 @@ export default function InstructionMM() {
   const handleNavigation = () => {
     router.push("/test-mm/trial/article/");
   };
+
   return (
     <AuthWrapper>
       <div className="pt-20 pb-20 sm:pt-40 flex justify-center mt-10 sm:mt-40 items-center p-5 relative">
