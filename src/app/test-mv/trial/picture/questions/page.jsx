@@ -171,7 +171,7 @@ export default function QuestionTrialMV() {
                 </Link>
                 <Link href="/test-mv/image/1">
                   <Button
-                    color="success"
+                    color="primary"
                     className="text-emerald-50"
                     // onPress={() => setIsCorrectModalOpen(false)}
                   >

@@ -26,12 +26,7 @@ export default function InstructionMA() {
           {/* Kontainer untuk tombol */}
           <div className="flex justify-center items-center bottom-5 left-0 right-0 mt-5 mb-2 px-5 sm:px-20">
             <Link href="/test-ma/table">
-              <Button
-                color="primary"
-                variant="ghost"
-                size="lg"
-                className="w-full sm:w-auto"
-              >
+              <Button color="primary" size="lg" className="w-full sm:w-auto">
                 Mulai Test
               </Button>
             </Link>
