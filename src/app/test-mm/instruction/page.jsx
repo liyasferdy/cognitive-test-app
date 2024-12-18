@@ -31,7 +31,6 @@ export default function InstructionMM() {
 
           {/* Kontainer untuk tombol */}
           <div className="flex justify-center items-center bottom-5 left-0 right-0 mt-5 mb-2 px-5 sm:px-20 z-50">
-            return (
             <Button
               color="primary"
               size="lg"
