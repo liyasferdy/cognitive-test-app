@@ -37,8 +37,17 @@ const AuthWrapper = ({ children }) => {
           // Disable browser back button functionality
           window.onpopstate = (event) => {
             event.preventDefault();
-            localStorage.removeItem("access_token"); // Clear token on back navigation
-            router.replace("/"); // Redirect to homepage
+            const confirmLeave = window.confirm(
+              "Apakah Anda yakin ingin kembali? Anda akan keluar dari sesi ini dan harus mengulang dari awal."
+            );
+
+            if (confirmLeave) {
+              localStorage.removeItem("access_token"); // Clear token on back navigation
+              router.replace("/"); // Redirect to homepage
+            } else {
+              // Push the current state back to maintain the same URL
+              window.history.pushState(null, "", window.location.href);
+            }
           };
         }
       } catch (error) {
@@ -50,20 +59,43 @@ const AuthWrapper = ({ children }) => {
 
     checkAuth();
 
+    // Detect page refresh and show alert
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      const confirmRefresh = window.confirm(
+        "Halaman ini akan dimuat ulang. Apakah Anda ingin melanjutkan ke halaman instruksi?"
+      );
+
+      if (confirmRefresh) {
+        event.returnValue = ""; // Required for `beforeunload` to work in some browsers
+        router.push("/home/instruction"); // Navigate to the instruction page
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
     // Block back navigation by pushing a new state
     window.history.pushState(null, document.title, window.location.href);
 
-    // Prevent browser back button and redirect
     const blockBackNavigation = (event) => {
       event.preventDefault();
-      localStorage.removeItem("access_token"); // Clear token on back navigation
-      router.replace("/"); // Redirect to homepage
+      const confirmLeave = window.confirm(
+        "Konfirmasi sekali lagi, apakah Anda yakin?"
+      );
+
+      if (confirmLeave) {
+        localStorage.removeItem("access_token");
+        router.replace("/");
+      } else {
+        window.history.pushState(null, "", window.location.href);
+      }
     };
 
     window.addEventListener("popstate", blockBackNavigation);
 
     return () => {
       window.removeEventListener("popstate", blockBackNavigation);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [router]);
 

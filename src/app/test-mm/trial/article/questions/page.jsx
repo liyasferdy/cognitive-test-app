@@ -28,7 +28,8 @@ export default function TrialQuestionsMM() {
   const [isMissingAnswerModalOpen, setIsMissingAnswerModalOpen] =
     useState(false); // Missing answer modal
   const [isTimeUpModalOpen, setIsTimeUpModalOpen] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(30); // set time left
+  const [timeLeft, setTimeLeft] = useState(300); // set time left
+  const [timerId, setTimerId] = useState(null); // Track interval ID
   const router = useRouter(); // Inisialisasi useRouter
   const [selectedAnswers, setSelectedAnswers] = useState({
     1: null,
@@ -41,8 +42,11 @@ export default function TrialQuestionsMM() {
   // Timer countdown logic
   useEffect(() => {
     if (timeLeft === 0) {
-      // router.push("/test-mm/trial/article/questions");
       setIsTimeUpModalOpen(true); // Show time-up modal
+      if (timerId) {
+        clearInterval(timerId); // Clear timer if time reaches 0
+        setTimerId(null);
+      }
       return;
     }
 
@@ -50,8 +54,10 @@ export default function TrialQuestionsMM() {
       setTimeLeft((prevTime) => prevTime - 1);
     }, 1000); // Update every second
 
-    return () => clearInterval(interval); // Cleanup the interval on component unmount
-  }, [timeLeft, router]);
+    setTimerId(interval); // Store interval ID
+
+    return () => clearInterval(interval); // Cleanup on component unmount
+  }, [timeLeft]);
 
   // Format time to mm:ss
   const formatTime = (seconds) => {
@@ -60,6 +66,21 @@ export default function TrialQuestionsMM() {
     return `${String(minutes).padStart(2, "0")}:${String(
       remainingSeconds
     ).padStart(2, "0")}`;
+  };
+
+  // Handle the 'Submit' button click
+  const handleButtonClick = () => {
+    // Stop the timer
+    if (timerId) {
+      clearInterval(timerId); // Clear the interval to stop the timer
+      setTimerId(null); // Reset the timerId state
+    }
+
+    if (timeLeft > 0) {
+      setIsEndModalOpen(true); // Show the end modal if time is not expired
+    } else {
+      router.push("/test-mm/trial/article/"); // If time is up, navigate directly
+    }
   };
 
   const handleNavigation = () => {
@@ -74,15 +95,6 @@ export default function TrialQuestionsMM() {
   const handleModalAction = () => {
     setIsModalOpen(false);
     setTimerActive(true);
-  };
-
-  // Handle the 'Selesai dan lanjutkan' button click
-  const handleButtonClick = () => {
-    if (timeLeft > 0) {
-      setIsEndModalOpen(true); // Show the end modal if time is not expired
-    } else {
-      router.push("/"); // If time is up, navigate directly
-    }
   };
 
   // Handle 'Continue' action on the end modal
@@ -130,6 +142,25 @@ export default function TrialQuestionsMM() {
         setIsIncorrectModalOpen(true); // Show "Incorrect" modal
       }
       setIsEndModalOpen(false);
+    }
+  };
+
+  // Handle the 'Batal' button click
+  const handleCancel = () => {
+    setIsEndModalOpen(false); // Close modal
+    if (!timerId) {
+      const interval = setInterval(() => {
+        setTimeLeft((prevTime) => {
+          if (prevTime <= 1) {
+            clearInterval(interval);
+            setTimerId(null);
+            return 0;
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
+
+      setTimerId(interval); // Restart timer
     }
   };
 
@@ -211,7 +242,7 @@ export default function TrialQuestionsMM() {
           <Modal
             isOpen={true}
             onClose={() => setIsCorrectModalOpen(false)}
-            placement="top-center"
+            placement="center"
           >
             <ModalContent>
               <ModalHeader className="flex flex-col gap-1 justify-center items-center">
@@ -250,7 +281,7 @@ export default function TrialQuestionsMM() {
           <Modal
             isOpen={true}
             onClose={() => setIsIncorrectModalOpen(false)}
-            placement="top-center"
+            placement="center"
           >
             <ModalContent>
               <ModalHeader className="flex flex-col gap-1 justify-center items-center">
@@ -266,7 +297,10 @@ export default function TrialQuestionsMM() {
               </ModalBody>
               <ModalFooter>
                 <Button
-                  onPress={() => setIsIncorrectModalOpen(false)}
+                  onPress={() => {
+                    setIsIncorrectModalOpen(false);
+                    handleReset();
+                  }}
                   color="warning"
                   className="text-amber-50"
                 >
@@ -283,7 +317,7 @@ export default function TrialQuestionsMM() {
           <Modal
             isOpen={true}
             onClose={() => setIsMissingAnswerModalOpen(false)}
-            placement="top-center"
+            placement="center"
           >
             <ModalContent>
               <ModalHeader className="flex flex-col gap-1 justify-center items-center">
@@ -309,8 +343,11 @@ export default function TrialQuestionsMM() {
         {isTimeUpModalOpen && (
           <Modal
             isOpen={true}
-            onClose={() => setIsTimeUpModalOpen(false)}
-            placement="top-center"
+            onClose={() => {
+              setIsTimeUpModalOpen(false);
+              handleReset(); // Pastikan handleReset dipanggil
+            }}
+            placement="center"
           >
             <ModalContent>
               <ModalHeader className="flex flex-col gap-1 justify-center items-center">
@@ -323,7 +360,10 @@ export default function TrialQuestionsMM() {
                 <Button
                   color="warning"
                   className="text-amber-50"
-                  onClick={handleReset}
+                  onClick={() => {
+                    handleReset(); // Jalankan handleReset langsung
+                    setIsTimeUpModalOpen(false);
+                  }}
                 >
                   <AiOutlineReload className="text-xl" />
                   Ulangi
@@ -338,7 +378,7 @@ export default function TrialQuestionsMM() {
           <Modal
             isOpen={true}
             onClose={() => setIsEndModalOpen(false)}
-            placement="top-center"
+            placement="center"
           >
             <ModalContent>
               {() => (
@@ -350,10 +390,7 @@ export default function TrialQuestionsMM() {
                     <p>Apakah Anda yakin ingin mengakhiri test ini?</p>
                   </ModalBody>
                   <ModalFooter>
-                    <Button
-                      color="error"
-                      onPress={() => setIsEndModalOpen(false)}
-                    >
+                    <Button color="error" onPress={handleCancel}>
                       Batal
                     </Button>
                     <Button

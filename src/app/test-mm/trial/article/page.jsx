@@ -74,7 +74,12 @@ export default function TrialArticleMM() {
       <div className="pt-20 flex flex-col justify-start items-center min-h-screen">
         {/* First Modal */}
         {isModalOpen && (
-          <Modal isOpen={true} onClose={handleModalAction} placement="center">
+          <Modal
+            isOpen={true}
+            onClose={handleModalAction}
+            placement="center"
+            backdrop="blur"
+          >
             <ModalContent>
               {() => (
                 <>
@@ -112,7 +117,7 @@ export default function TrialArticleMM() {
           <Modal
             isOpen={true}
             onClose={() => setIsEndModalOpen(false)}
-            placement="top-center"
+            placement="center"
           >
             <ModalContent>
               {() => (
