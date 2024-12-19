@@ -29,6 +29,19 @@ export default function QuestionMV() {
     currentImageData = imageData[imageNumber];
   }
 
+  // Load timeLeft from localStorage on component mount
+  useEffect(() => {
+    const savedTime = localStorage.getItem("timeLeft");
+    if (savedTime) {
+      setTimeLeft(parseInt(savedTime, 10));
+    }
+  }, []);
+
+  // Save timeLeft to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("timeLeft", timeLeft);
+  }, [timeLeft]);
+
   // Timer
   useEffect(() => {
     // Jika tidak valid, jangan jalankan logika timer

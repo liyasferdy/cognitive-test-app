@@ -13,7 +13,7 @@ import axios from "axios";
 
 export default function TestMA() {
   const router = useRouter();
-  const [timeLeft, setTimeLeft] = useState();
+  const [timeLeft, setTimeLeft] = useState(300);
   const [questions, setQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState(
     Array.from({ length: 30 }, (_, index) => ({
@@ -35,6 +35,19 @@ export default function TestMA() {
     router.push("/test-mv/instruction");
     setIsSubmitting(false);
   }, [isSubmitting, router]);
+
+  // Load timeLeft from localStorage on component mount
+  useEffect(() => {
+    const savedTime = localStorage.getItem("timeLeft");
+    if (savedTime) {
+      setTimeLeft(parseInt(savedTime, 10));
+    }
+  }, []);
+
+  // Save timeLeft to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("timeLeft", timeLeft);
+  }, [timeLeft]);
 
   // Timer countdown logic
   useEffect(() => {

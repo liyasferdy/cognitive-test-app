@@ -39,6 +39,20 @@ export default function TrialQuestionsMM() {
     5: null,
   });
 
+  //SAVE TIME
+  // Load timeLeft from localStorage on component mount
+  useEffect(() => {
+    const savedTime = localStorage.getItem("timeLeft");
+    if (savedTime) {
+      setTimeLeft(parseInt(savedTime, 10));
+    }
+  }, []);
+
+  // Save timeLeft to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("timeLeft", timeLeft);
+  }, [timeLeft]);
+
   // Timer countdown logic
   useEffect(() => {
     if (timeLeft === 0) {
