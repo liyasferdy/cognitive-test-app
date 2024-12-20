@@ -14,7 +14,7 @@ import AuthWrapper from "../../../authWrapper";
 
 const ArticlePage = () => {
   const router = useRouter();
-  const [timeLeft, setTimeLeft] = useState(5);
+  const [timeLeftArticle, setTimeLeftArticle] = useState(300);
   const [article, setArticleData] = useState({
     content: ["Loading..."],
   });
@@ -37,31 +37,31 @@ const ArticlePage = () => {
 
   // Load timeLeft from localStorage on component mount
   useEffect(() => {
-    const savedTime = localStorage.getItem("timeLeft");
-    if (savedTime) {
-      setTimeLeft(parseInt(savedTime, 10));
+    const savedTimeArticle = localStorage.getItem("timeLeftArticle");
+    if (savedTimeArticle) {
+      setTimeLeftArticle(parseInt(savedTimeArticle, 10));
     }
   }, []);
 
   // Save timeLeft to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem("timeLeft", timeLeft);
-  }, [timeLeft]);
+    localStorage.setItem("timeLeftArticle", timeLeftArticle);
+  }, [timeLeftArticle]);
 
   // Timer countdown logic
   useEffect(() => {
-    if (timeLeft === 0 && article.id !== undefined) {
+    if (timeLeftArticle === 0 && article.id !== undefined) {
       // Only redirect if article.id is defined
       router.push(`/test-mm/article/${article.id}/questions`);
       return;
     }
 
     const interval = setInterval(() => {
-      setTimeLeft((prevTime) => prevTime - 1);
+      setTimeLeftArticle((prevTime) => prevTime - 1);
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [timeLeft, router, article.id]);
+  }, [timeLeftArticle, router, article.id]);
 
   // Rest of the code remains the same
   const formatTime = (seconds) => {
@@ -137,7 +137,7 @@ const ArticlePage = () => {
                 </div>
                 <div className="flex items-center justify-start">
                   <p className="text-xl text-left mt-1 ml-16">
-                    {formatTime(timeLeft)}
+                    {formatTime(timeLeftArticle)}
                   </p>
                 </div>
               </CardBody>
