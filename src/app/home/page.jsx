@@ -99,49 +99,49 @@ export default function App() {
               <h4 className="text-center">Test VZ</h4>
             </Card>
           </Link>
-          <Link href="/home">
+          <Link href="/test-rq/instruction">
             <Card
               hoverable
               clickable
-              className="px-10 py-5 hover:-translate-y-3 transition-all hover:bg-cyan-500 hover:text-white border-solid border-2 hover:border-0"
+              className="px-10 py-5 hover:-translate-y-3 transition-all text-white bg-yellow-500 hover:bg-cyan-500 hover:text-white border-solid border-2 hover:border-0"
             >
               <h4 className="text-center">Test RQ</h4>
             </Card>
           </Link>
-          <Link href="/home">
+          <Link href="/test-vl-S/instruction">
             <Card
               hoverable
               clickable
-              className="px-10 py-5 hover:-translate-y-3 transition-all hover:bg-cyan-500 hover:text-white border-solid border-2 hover:border-0"
+              className="px-10 py-5 hover:-translate-y-3 transition-all bg-yellow-500 text-white hover:bg-cyan-500 hover:text-white border-solid border-2 hover:border-0"
             >
               <h4 className="text-center">Test VL - Sentence</h4>
             </Card>
           </Link>
 
           {/* Row 3 */}
-          <Link href="/test-ms/instruction">
+          <Link href="/test-vl-SA/instruction">
             <Card
               hoverable
               clickable
-              className="px-10 py-5 hover:-translate-y-3 transition-all hover:bg-cyan-500 hover:text-white border-solid border-2 hover:border-0"
+              className="px-10 py-5 hover:-translate-y-3 transition-all bg-yellow-500 text-white hover:bg-cyan-500 hover:text-white border-solid border-2 hover:border-0"
             >
               <h4 className="text-center">Test VL - Sinonim Antonim</h4>
             </Card>
           </Link>
-          <Link href="/test-mw/instruction">
+          <Link href="/test-rg/instruction">
             <Card
               hoverable
               clickable
-              className="px-10 py-5 hover:-translate-y-3 transition-all hover:bg-cyan-500 hover:text-white border-solid border-2 hover:border-0"
+              className="px-10 py-5 hover:-translate-y-3 transition-all bg-yellow-500 text-white hover:bg-cyan-500 hover:text-white border-solid border-2 hover:border-0"
             >
               <h4 className="text-center">Test RG</h4>
             </Card>
           </Link>
-          <Link href="/home">
+          <Link href="/test-a3/instruction">
             <Card
               hoverable
               clickable
-              className="px-10 py-5 hover:-translate-y-3 transition-all hover:bg-cyan-500 hover:text-white border-solid border-2 hover:border-0"
+              className="px-10 py-5 hover:-translate-y-3 transition-all bg-yellow-500 text-white hover:bg-cyan-500 hover:text-white border-solid border-2 hover:border-0"
             >
               <h4 className="text-center">Test A3</h4>
             </Card>
