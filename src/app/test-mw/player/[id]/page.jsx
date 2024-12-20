@@ -46,19 +46,6 @@ export default function TestMW() {
     }
   }, [id, router]); // Run when the 'id' changes
 
-  // Load timeLeft from localStorage on component mount
-  useEffect(() => {
-    const savedTime = localStorage.getItem("timeLeft");
-    if (savedTime) {
-      setTimeLeft(parseInt(savedTime, 10));
-    }
-  }, []);
-
-  // Save timeLeft to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem("timeLeft", timeLeft);
-  }, [timeLeft]);
-
   // Timer countdown logic (useEffect always runs in the same order)
   useEffect(() => {
     if (timeLeft === 0) {

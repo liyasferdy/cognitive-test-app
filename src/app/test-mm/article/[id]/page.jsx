@@ -35,19 +35,6 @@ const ArticlePage = () => {
     }
   }, []);
 
-  // Load timeLeft from localStorage on component mount
-  useEffect(() => {
-    const savedTimeArticle = localStorage.getItem("timeLeftArticle");
-    if (savedTimeArticle) {
-      setTimeLeftArticle(parseInt(savedTimeArticle, 10));
-    }
-  }, []);
-
-  // Save timeLeft to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem("timeLeftArticle", timeLeftArticle);
-  }, [timeLeftArticle]);
-
   // Timer countdown logic
   useEffect(() => {
     if (timeLeftArticle === 0 && article.id !== undefined) {

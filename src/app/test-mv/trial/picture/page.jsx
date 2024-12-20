@@ -24,19 +24,6 @@ export default function TrialMV() {
   const [timeLeft, setTimeLeft] = useState(10);
   const [timerActive, setTimerActive] = useState(false);
 
-  // Load timeLeft from localStorage on component mount
-  useEffect(() => {
-    const savedTime = localStorage.getItem("timeLeft");
-    if (savedTime) {
-      setTimeLeft(parseInt(savedTime, 10));
-    }
-  }, []);
-
-  // Save timeLeft to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem("timeLeft", timeLeft);
-  }, [timeLeft]);
-
   // Timer countdown logic
   useEffect(() => {
     if (timerActive && timeLeft > 0) {

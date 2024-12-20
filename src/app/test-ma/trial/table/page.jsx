@@ -45,19 +45,6 @@ export default function TrialTestMA() {
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modal
   const [timeLeft, setTimeLeft] = useState(10); // Waktu dalam detik
 
-  // Load timeLeft from localStorage on component mount
-  useEffect(() => {
-    const savedTime = localStorage.getItem("timeLeft");
-    if (savedTime) {
-      setTimeLeft(parseInt(savedTime, 10));
-    }
-  }, []);
-
-  // Save timeLeft to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem("timeLeft", timeLeft);
-  }, [timeLeft]);
-
   useEffect(() => {
     if (timeLeft === 0) {
       // Jika waktu habis, arahkan ke page berikutnya

@@ -54,19 +54,6 @@ export default function TestMA() {
   const [selectedColor, setSelectedColor] = React.useState("default");
   const [timeLeft, setTimeLeft] = useState(10); // atur waktu dalam second
 
-  // Load timeLeft from localStorage on component mount
-  useEffect(() => {
-    const savedTime = localStorage.getItem("timeLeft");
-    if (savedTime) {
-      setTimeLeft(parseInt(savedTime, 10));
-    }
-  }, []);
-
-  // Save timeLeft to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem("timeLeft", timeLeft);
-  }, [timeLeft]);
-
   // Timer countdown logic
   useEffect(() => {
     if (timeLeft === 0) {
