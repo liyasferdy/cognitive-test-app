@@ -51,7 +51,7 @@ export default function QuestionMV() {
     if (timeLeft === 0) {
       // Waktu habis, lanjut ke pertanyaan berikutnya atau akhiri
       if (imageNumber < imageData.length - 1) {
-        router.push(`/test-mv/image/${imageNumber + 2}`);
+        router.push(`/test-mv/image/${imageNumber + 1}`);
       } else {
         // Jika ini pertanyaan terakhir, buka modal atau langsung akhiri
         setShowModal(true);
@@ -113,7 +113,7 @@ export default function QuestionMV() {
       if (response.status === 200) {
         if (imageNumber < imageData.length - 1 && !isFinalSubmission) {
           // Pertanyaan berikutnya
-          router.push(`/test-mv/image/${imageNumber + 2}`);
+          router.push(`/test-mv/image/${imageNumber + 1}`);
         } else if (isFinalSubmission) {
           // Jika final, tampilkan modal konfirmasi submit final
           setShowModal(true);
@@ -297,7 +297,7 @@ export default function QuestionMV() {
                 onClick={() => {
                   if (imageNumber < imageData.length - 1) {
                     submitAnswers(false); // Kirim jawaban saat ini
-                    // router.push(`/test-mv/image/${imageNumber + 2}`); // Navigasi ke pertanyaan berikutnya
+                    // router.push(`/test-mv/image/${imageNumber + 1}`); // Navigasi ke pertanyaan berikutnya
                   } else {
                     submitAnswers(true); // Final submit
                   }

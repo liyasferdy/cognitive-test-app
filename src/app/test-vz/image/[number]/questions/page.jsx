@@ -37,7 +37,7 @@ export default function QuestionVZ() {
     if (timeLeft === 0) {
       // Waktu habis, lanjut ke pertanyaan berikutnya atau akhiri
       if (imageNumber < imageData.length - 1) {
-        router.push(`/test-vz/image/${imageNumber + 2}`);
+        router.push(`/test-vz/image/${imageNumber + 1}`);
       } else {
         // Jika ini pertanyaan terakhir, buka modal atau langsung akhiri
         setShowModal(true);
@@ -96,7 +96,7 @@ export default function QuestionVZ() {
       if (response.status === 200) {
         if (imageNumber < imageData.length - 1 && !isFinalSubmission) {
           // Pertanyaan berikutnya
-          router.push(`/test-vz/image/${imageNumber + 2}`);
+          router.push(`/test-vz/image/${imageNumber + 1}`);
         } else if (isFinalSubmission) {
           // Jika final, tampilkan modal konfirmasi submit final
           setShowModal(true);
