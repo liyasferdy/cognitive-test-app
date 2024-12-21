@@ -42,7 +42,7 @@ export default function TestMV() {
 
     if (timeLeft === 0) {
       // Jika waktu habis, pindah ke halaman pertanyaan untuk image selanjutnya
-      router.push(`/test-mv/image/${imageNumber + 1}/questions`);
+      router.push(`/test-mv/image/${imageNumber}/questions`);
       return;
     }
 

@@ -28,7 +28,7 @@ export default function TestGFI() {
 
     if (timeLeft === 0) {
       // Jika waktu habis, pindah ke halaman pertanyaan untuk image selanjutnya
-      router.push(`/test-gfi/image/${imageNumber + 1}/questions`);
+      router.push(`/test-gfi/image/${imageNumber}/questions`);
       return;
     }
 

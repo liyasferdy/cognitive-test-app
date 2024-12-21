@@ -28,7 +28,7 @@ export default function TestVZ() {
 
     if (timeLeft === 0) {
       // Jika waktu habis, pindah ke halaman pertanyaan untuk image selanjutnya
-      router.push(`/test-vz/image/${imageNumber + 1}/questions`);
+      router.push(`/test-vz/image/${imageNumber}/questions`);
       return;
     }
 
