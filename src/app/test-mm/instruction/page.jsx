@@ -9,7 +9,7 @@ export default function InstructionMM() {
   const router = useRouter();
 
   const handleNavigation = () => {
-    router.push("/test-mm/trial/article/");
+    router.push("/test-mm/article/1");
   };
 
   return (

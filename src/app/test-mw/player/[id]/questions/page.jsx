@@ -17,13 +17,13 @@ import {
 } from "@nextui-org/modal";
 import AuthWrapper from "../../../../authWrapper";
 import { CiWarning } from "react-icons/ci";
-import { audioData } from "../../../audio"; // Import your audio data
+import { audioData } from "../../../audio-MW"; // Import your audio data
 import axios from "axios"; // Import axios
 
 export default function QuestionsMW() {
   const router = useRouter();
   const { id } = useParams();
-  const [timeLeft, setTimeLeft] = useState(10); // Contoh: 10 detik untuk pengujian
+  const [timeLeft, setTimeLeft] = useState(15); // Contoh: 10 detik untuk pengujian
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modals
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,9 +43,6 @@ export default function QuestionsMW() {
     );
     if (audio) {
       setCurrentAudio(audio);
-    } else {
-      // Jika audio dengan id ini tidak ditemukan, langsung balik ke /home
-      router.push("/home");
     }
   }, [id, router]);
 
@@ -55,7 +52,7 @@ export default function QuestionsMW() {
       // Jika waktunya habis
       if (isLastQuestion) {
         // Jika soal terakhir, langsung ke halaman home
-        router.push("/home");
+        router.push("/test-ma/instruction");
       } else {
         // Jika bukan soal terakhir, langsung ke soal berikutnya
         router.push(`/test-mw/player/${nextId}`);
@@ -184,7 +181,7 @@ export default function QuestionsMW() {
       );
 
       if (response.status === 200) {
-        router.push("/home");
+        router.push("/test-ma/instruction");
       } else {
         alert("Gagal menyimpan jawaban. Silakan coba lagi.");
       }

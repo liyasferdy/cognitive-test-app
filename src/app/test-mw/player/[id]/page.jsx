@@ -17,13 +17,13 @@ import {
 import { CiWarning } from "react-icons/ci";
 import { Button } from "@nextui-org/button";
 import AuthWrapper from "../../../authWrapper";
-import { audioData } from "../../audio"; // Import audio data
+import { audioData } from "../../audio-MW"; // Import audio data
 
 export default function TestMW() {
   const router = useRouter();
   const { id } = useParams(); // Extract the audio ID from URL params
   const audioRef = useRef(null);
-  const [timeLeft, setTimeLeft] = useState(10); // Set time left
+  const [timeLeft, setTimeLeft] = useState(15); // Set time left
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modal
   const [timerActive, setTimerActive] = useState(false);
@@ -42,7 +42,6 @@ export default function TestMW() {
       setCurrentAudio(audio); // Set the audio data if found
     } else {
       setCurrentAudio(null); // Set currentAudio to null if not found
-      router.push("/home"); // Redirect to /instruction if audio is not found
     }
   }, [id, router]); // Run when the 'id' changes
 

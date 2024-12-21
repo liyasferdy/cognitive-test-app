@@ -32,7 +32,7 @@ export default function TestVLSentence() {
   const handleFinalAnswerSubmit = useCallback(() => {
     if (isSubmitting) return;
     setIsSubmitting(true);
-    router.push("/test-rg/instruction");
+    router.push("/test-vl-SA/instruction");
     setIsSubmitting(false);
   }, [isSubmitting, router]);
 
@@ -88,7 +88,7 @@ export default function TestVLSentence() {
       }));
 
       const response = await axios.post(
-        "http://localhost:8000/submit/testRQ", //WAJIB GANTI, HANYA UNTUK CEK DB SEMENTARA
+        "https://cognitive-dev-734522323885.asia-southeast2.run.app/submit/testVLS", //WAJIB GANTI, HANYA UNTUK CEK DB SEMENTARA
         { answers: transformedAnswers },
         {
           headers: {

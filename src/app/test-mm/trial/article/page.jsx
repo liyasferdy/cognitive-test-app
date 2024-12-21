@@ -96,9 +96,8 @@ export default function TrialArticleMM() {
                       </CardBody>
                     </Card>
                     <p className="text-justify">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Nullam pulvinar risus non risus hendrerit venenatis.
-                      Pellentesque sit amet hendrerit risus, sed porttitor quam.
+                      Harap perhatikan cara menjawab soal untuk menjawab soal
+                      sesungguhnya.
                     </p>
                   </ModalBody>
                   <ModalFooter>
@@ -168,7 +167,7 @@ export default function TrialArticleMM() {
         </Card>
 
         {/* Information Card  */}
-        <div className="space-y-7 w-full flex flex-col items-center ">
+        <div className="space-y-7 w-full flex flex-col items-center :mt-10">
           {/* Card dengan ikon Tasks */}
           <div className="relative w-full sm:w-[270px] sm:absolute sm:top-20 sm:left-20 sm:ml-0 sm:mr-0">
             <Card className="left-5">

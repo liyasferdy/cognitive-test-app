@@ -23,7 +23,7 @@ export default function TestMS() {
   const router = useRouter();
   const { id } = useParams(); // Extract the audio ID from URL params
   const audioRef = useRef(null);
-  const [timeLeft, setTimeLeft] = useState(10); // Set time left
+  const [timeLeft, setTimeLeft] = useState(15); // Set time left
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modal
   const [timerActive, setTimerActive] = useState(false);

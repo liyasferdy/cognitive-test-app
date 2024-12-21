@@ -32,7 +32,7 @@ export default function TestVLSentence() {
   const handleFinalAnswerSubmit = useCallback(() => {
     if (isSubmitting) return;
     setIsSubmitting(true);
-    router.push("/test-sentence/instruction"); //GANTI ROUTES
+    router.push("/test-gfi/instruction"); //GANTI ROUTES
     setIsSubmitting(false);
   }, [isSubmitting, router]);
 
@@ -88,7 +88,7 @@ export default function TestVLSentence() {
       }));
 
       const response = await axios.post(
-        "http://localhost:8000/submit/testRQ", //WAJIB GANTI, HANYA UNTUK CEK DB SEMENTARA
+        "https://cognitive-dev-734522323885.asia-southeast2.run.app/submit/testVLSA", //WAJIB GANTI, HANYA UNTUK CEK DB SEMENTARA
         { answers: transformedAnswers },
         {
           headers: {
@@ -97,7 +97,7 @@ export default function TestVLSentence() {
         }
       );
       if (response.status === 200) {
-        router.push("/home"); //GANTI ROUTES
+        router.push("/test-gfi/instruction"); //GANTI ROUTES
       } else {
         alert("Failed to finalize answers. Please try again.");
       }

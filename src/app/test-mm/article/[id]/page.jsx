@@ -14,10 +14,23 @@ import AuthWrapper from "../../../authWrapper";
 
 const ArticlePage = () => {
   const router = useRouter();
-  const [timeLeftArticle, setTimeLeftArticle] = useState(300);
+  const [timeLeftArticle, setTimeLeftArticle] = useState(180);
   const [article, setArticleData] = useState({
     content: ["Loading..."],
   });
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect screen size for mobile responsiveness
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Set mobile view for screen width <= 768px
+    };
+
+    handleResize(); // Set initial value
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const pathArray = String(window.location.pathname).split("/");
@@ -67,15 +80,29 @@ const ArticlePage = () => {
   return (
     <AuthWrapper>
       <div className="pt-20 flex flex-col justify-start items-center min-h-screen">
-        <Card className="max-w-[50rem] h-fit px-20 py-10">
+        <Card
+          className={`${
+            isMobile ? "w-full px-4 py-6" : "max-w-[50rem] px-20 py-10"
+          } h-fit`}
+        >
           <CardBody>
-            <h1 className="text-slate-400 text-lg text-center">
+            <h1
+              className={`${
+                isMobile
+                  ? "text-slate-400 text-md text-center"
+                  : "text-slate-400 text-lg text-center"
+              }`}
+            >
               {article.title}
             </h1>
             {article.content.map((paragraph, index) => (
               <p
                 key={index}
-                className="text-justify mt-5 indent-8 leading-loose"
+                className={`${
+                  isMobile
+                    ? "text-justify mt-5 leading-relaxed indent-8 "
+                    : "text-justify mt-7 indent-8 leading-loose"
+                }`}
               >
                 {paragraph}
               </p>
@@ -94,43 +121,69 @@ const ArticlePage = () => {
           </Button>
         </div>
 
-        <div className="space-y-7">
-          <div className="absolute top-20 left-20 w-[270px] ml-20">
-            <Card>
-              <FaTasks className="text-5xl absolute top-4 left-2" />
-              <CardBody>
-                <div className="flex text-left items-start justify-center ">
-                  <h2 className=" text-xl font-semibold text-left mr-20">
-                    Test
-                  </h2>
-                </div>
-                <div className="flex items-center justify-start">
-                  <p className="text-lg text-left mt-1 ml-16">
-                    Meaningful Memory
-                  </p>
-                </div>
-              </CardBody>
+        {/* Sidebar for Mobile */}
+        {isMobile && (
+          <div className="w-full flex flex-row gap-2 p-2 fixed top-0 left-0 z-10 shadow-md bg-gray-100 mb-4">
+            {/* Test Card */}
+            <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
+              <FaTasks className="text-2xl mr-2" />
+              <div>
+                <h2 className="text-sm font-semibold">Test</h2>
+                <p className="text-xs">Meaningful Memory</p>
+              </div>
             </Card>
-          </div>
 
-          <div className="absolute top-40 left-20 w-[270px] ml-20">
-            <Card>
-              <IoMdTime className="text-6xl absolute top-3 left-2" />
-              <CardBody>
-                <div className="flex text-left items-start justify-center ">
-                  <h2 className=" text-xl font-semibold text-left ml-4">
-                    Waktu Tersisa
-                  </h2>
-                </div>
-                <div className="flex items-center justify-start">
-                  <p className="text-xl text-left mt-1 ml-16">
-                    {formatTime(timeLeftArticle)}
-                  </p>
-                </div>
-              </CardBody>
+            {/* Time Card */}
+            <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
+              <IoMdTime className="text-2xl mr-2" />
+              <div>
+                <h2 className="text-sm font-semibold">Waktu Tersisa</h2>
+                <p className="text-xs">{formatTime(timeLeftArticle)}</p>
+              </div>
             </Card>
           </div>
-        </div>
+        )}
+
+        {/* Sidebar for Dekstop */}
+        {!isMobile && (
+          <div className="space-y-7">
+            <div className="absolute top-20 left-20 w-[270px] ml-20">
+              <Card>
+                <FaTasks className="text-5xl absolute top-4 left-2" />
+                <CardBody>
+                  <div className="flex text-left items-start justify-center ">
+                    <h2 className=" text-xl font-semibold text-left mr-20">
+                      Test
+                    </h2>
+                  </div>
+                  <div className="flex items-center justify-start">
+                    <p className="text-lg text-left mt-1 ml-16">
+                      Meaningful Memory
+                    </p>
+                  </div>
+                </CardBody>
+              </Card>
+            </div>
+
+            <div className="absolute top-40 left-20 w-[270px] ml-20">
+              <Card>
+                <IoMdTime className="text-6xl absolute top-3 left-2" />
+                <CardBody>
+                  <div className="flex text-left items-start justify-center ">
+                    <h2 className=" text-xl font-semibold text-left ml-4">
+                      Waktu Tersisa
+                    </h2>
+                  </div>
+                  <div className="flex items-center justify-start">
+                    <p className="text-xl text-left mt-1 ml-16">
+                      {formatTime(timeLeftArticle)}
+                    </p>
+                  </div>
+                </CardBody>
+              </Card>
+            </div>
+          </div>
+        )}
       </div>
     </AuthWrapper>
   );

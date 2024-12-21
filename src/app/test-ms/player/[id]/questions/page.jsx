@@ -23,7 +23,7 @@ import axios from "axios"; // Import axios
 export default function QuestionsMS() {
   const router = useRouter();
   const { id } = useParams();
-  const [timeLeft, setTimeLeft] = useState(10); // Contoh: 10 detik untuk pengujian
+  const [timeLeft, setTimeLeft] = useState(15); // Contoh: 10 detik untuk pengujian
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modals
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,9 +43,6 @@ export default function QuestionsMS() {
     );
     if (audio) {
       setCurrentAudio(audio);
-    } else {
-      // Jika audio dengan id ini tidak ditemukan, langsung balik ke /home
-      router.push("/home");
     }
   }, [id, router]);
 

@@ -88,7 +88,7 @@ export default function TestRQ() {
       }));
 
       const response = await axios.post(
-        "http://localhost:8000/submit/testRQ", //WAJIB GANTI
+        "https://cognitive-dev-734522323885.asia-southeast2.run.app/submit/testRQ", //WAJIB GANTI
         { answers: transformedAnswers },
         {
           headers: {
@@ -97,7 +97,7 @@ export default function TestRQ() {
         }
       );
       if (response.status === 200) {
-        router.push("/test-vl-S/instruction");
+        router.push("/test-a3/instruction");
       } else {
         alert("Failed to finalize answers. Please try again.");
       }

@@ -52,7 +52,20 @@ const columns = [
 export default function TestMA() {
   const router = useRouter(); // Initialize the router
   const [selectedColor, setSelectedColor] = React.useState("default");
-  const [timeLeft, setTimeLeft] = useState(10); // atur waktu dalam second
+  const [timeLeft, setTimeLeft] = useState(420); // atur waktu dalam second
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect screen size for mobile responsiveness
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Set mobile view for screen width <= 768px
+    };
+
+    handleResize(); // Set initial value
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Timer countdown logic
   useEffect(() => {
@@ -80,52 +93,120 @@ export default function TestMA() {
 
   return (
     <AuthWrapper>
-      <div className="pt-40 flex justify-center mt-20 items-center p-5 absoulte -space-x-20">
-        <Card className="max-w-[60rem] px-30 py-15 relative bottom-40 min-h-[800px] w-full">
-          <h2 className="text-center mt-10 text-xl">
-            Perhatikan tabel berikut
-          </h2>
-          <CardBody>
-            <Table
-              color={selectedColor}
-              selectionMode="single"
-              aria-label="Example static collection table"
-              className="text-sm  mx-auto overflow-x-auto top-5"
-            >
-              <TableHeader columns={columns}>
-                {(column) => (
-                  <TableColumn
-                    key={column.key}
-                    className="px-2 py-1 text-center text-lg"
-                  >
-                    {column.label}
-                  </TableColumn>
-                )}
-              </TableHeader>
-              <TableBody items={rows}>
-                {(item) => (
-                  <TableRow key={item.key}>
-                    {(columnKey) => (
-                      <TableCell className="px-2 py-3 text-center text-lg">
-                        {getKeyValue(item, columnKey)}
-                      </TableCell>
-                    )}
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </CardBody>
-        </Card>
+      <div className="pt-20 flex flex-col items-center p-4 bg-gray-50 min-h-screen relative">
+        {/* Desktop View */}
+        {!isMobile && (
+          <Card className="max-w-[60rem] px-10 py-10 relative min-h-[800px] w-full shadow-md">
+            <h2 className="text-center mt-5 text-xl font-semibold">
+              Perhatikan tabel berikut
+            </h2>
+            <CardBody>
+              <Table
+                color={selectedColor}
+                selectionMode="single"
+                aria-label="Example static collection table"
+                className="text-sm mx-auto overflow-x-auto mt-5"
+              >
+                <TableHeader columns={columns}>
+                  {(column) => (
+                    <TableColumn
+                      key={column.key}
+                      className="px-2 py-1 text-center text-lg font-semibold bg-gray-100"
+                    >
+                      {column.label}
+                    </TableColumn>
+                  )}
+                </TableHeader>
+                <TableBody items={rows}>
+                  {(item) => (
+                    <TableRow key={item.key}>
+                      {(columnKey) => (
+                        <TableCell className="px-2 py-3 text-center text-lg">
+                          {getKeyValue(item, columnKey)}
+                        </TableCell>
+                      )}
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </CardBody>
+          </Card>
+        )}
 
-        <div className="space-y-7">
-          <div className="absolute top-20 left-20 w-[270px] ml-20">
-            <Card>
+        {/* Mobile View */}
+        {isMobile && (
+          <div className="flex flex-col justify-start items-center p-4 w-full">
+            <Card className="w-full px-4 py-6 bg-white shadow-md">
+              <h2 className="text-center text-md font-semibold mb-4">
+                Perhatikan tabel berikut
+              </h2>
+              <CardBody>
+                <div className="overflow-x-auto">
+                  <Table
+                    color={selectedColor}
+                    selectionMode="single"
+                    aria-label="Example static collection table"
+                    className="text-xs w-full"
+                  >
+                    <TableHeader columns={columns}>
+                      {(column) => (
+                        <TableColumn
+                          key={column.key}
+                          className="px-2 py-2 text-center text-xs font-semibold bg-gray-100"
+                        >
+                          {column.label}
+                        </TableColumn>
+                      )}
+                    </TableHeader>
+                    <TableBody items={rows}>
+                      {(item) => (
+                        <TableRow key={item.key}>
+                          {(columnKey) => (
+                            <TableCell className="px-2 py-2 text-center text-xs">
+                              {getKeyValue(item, columnKey)}
+                            </TableCell>
+                          )}
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </div>
+              </CardBody>
+            </Card>
+          </div>
+        )}
+
+        {/* Sidebar for Mobile */}
+        {isMobile && (
+          <div className="w-full flex flex-row gap-2 p-2 fixed top-0 left-0 z-10 shadow-md bg-white">
+            {/* Test Card */}
+            <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
+              <FaTasks className="text-2xl mr-2" />
+              <div>
+                <h2 className="text-sm font-semibold">Test</h2>
+                <p className="text-xs">Meaningful Memory</p>
+              </div>
+            </Card>
+
+            {/* Time Card */}
+            <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
+              <IoMdTime className="text-2xl mr-2" />
+              <div>
+                <h2 className="text-sm font-semibold">Waktu Tersisa</h2>
+                <p className="text-xs">{formatTime(timeLeft)}</p>
+              </div>
+            </Card>
+          </div>
+        )}
+
+        {/* Sidebar for Desktop */}
+        {!isMobile && (
+          <div className="absolute top-20 left-20 space-y-7">
+            <Card className="w-[270px]">
               <FaTasks className="text-5xl absolute top-4 left-2" />
               <CardBody>
-                <div className="flex text-left items-start justify-center ">
-                  <h2 className=" text-xl font-semibold text-left mr-20">
-                    Test
-                  </h2>
+                <div className="flex text-left items-start justify-center">
+                  <h2 className="text-xl font-semibold text-left">Test</h2>
                 </div>
                 <div className="flex items-center justify-start">
                   <p className="text-lg text-left mt-1 ml-16">
@@ -134,14 +215,12 @@ export default function TestMA() {
                 </div>
               </CardBody>
             </Card>
-          </div>
 
-          <div className="absolute top-40 left-20 w-[270px] ml-20">
-            <Card>
+            <Card className="w-[270px]">
               <IoMdTime className="text-6xl absolute top-3 left-2" />
               <CardBody>
-                <div className="flex text-left items-start justify-center ">
-                  <h2 className=" text-xl font-semibold text-left ml-4">
+                <div className="flex text-left items-start justify-center">
+                  <h2 className="text-xl font-semibold text-left">
                     Waktu Tersisa
                   </h2>
                 </div>
@@ -153,7 +232,7 @@ export default function TestMA() {
               </CardBody>
             </Card>
           </div>
-        </div>
+        )}
       </div>
     </AuthWrapper>
   );

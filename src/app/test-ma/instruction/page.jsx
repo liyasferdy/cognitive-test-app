@@ -9,7 +9,7 @@ export default function InstructionMA() {
   const router = useRouter();
 
   const handleNavigation = () => {
-    router.push("/test-ma/trial/table");
+    router.push("/test-ma/table");
   };
 
   return (

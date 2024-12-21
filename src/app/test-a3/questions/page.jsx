@@ -32,7 +32,7 @@ export default function TestRG() {
   const handleFinalAnswerSubmit = useCallback(() => {
     if (isSubmitting) return;
     setIsSubmitting(true);
-    router.push("/home");
+    router.push("/test-rc/instruction");
     setIsSubmitting(false);
   }, [isSubmitting, router]);
 
@@ -88,7 +88,7 @@ export default function TestRG() {
       }));
 
       const response = await axios.post(
-        "http://localhost:8000/submit/testRQ", //WAJIB GANTI
+        "https://cognitive-dev-734522323885.asia-southeast2.run.app/submit/testA3", //WAJIB GANTI
         { answers: transformedAnswers },
         {
           headers: {
@@ -97,7 +97,7 @@ export default function TestRG() {
         }
       );
       if (response.status === 200) {
-        router.push("/home");
+        router.push("/test-rc/instruction");
       } else {
         alert("Failed to finalize answers. Please try again.");
       }

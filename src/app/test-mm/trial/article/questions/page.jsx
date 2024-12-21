@@ -38,6 +38,19 @@ export default function TrialQuestionsMM() {
     4: null,
     5: null,
   });
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect screen size for mobile responsiveness
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Set mobile view for screen width <= 768px
+    };
+
+    handleResize(); // Set initial value
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Timer countdown logic
   useEffect(() => {
@@ -409,9 +422,14 @@ export default function TrialQuestionsMM() {
         )}
 
         {/* Questions */}
-        <div className="space-y-5">
+        <div className="space-y-5 w-full max-w-4xl px-4 sm:px-0">
           {questions.map((question) => (
-            <Card key={question.number} className="w-[50rem] h-fit px-12 py-6">
+            <Card
+              key={question.number}
+              className={`${
+                isMobile ? "w-full px-4 py-4" : "w-[50rem] px-12 py-6"
+              } h-fit`}
+            >
               <CardBody>
                 <RadioGroup
                   className="space-y-2"
@@ -446,48 +464,75 @@ export default function TrialQuestionsMM() {
         </div>
 
         {/* Sidebar */}
-        {/* Test Information */}
-        <div className="space-y-7">
-          <div className="absolute top-20 left-20 w-[270px] ml-20">
-            <Card>
-              <FaTasks className="text-5xl absolute top-4 left-2" />
-              <CardBody>
-                <div className="flex text-left items-start justify-center ">
-                  <h2 className="text-xl font-semibold text-left mr-20">
-                    Test
-                  </h2>
-                </div>
-                <div className="flex items-center justify-start">
-                  <p className="text-lg text-left mt-1 ml-16">
-                    Meaningful Memory
-                  </p>
-                </div>
-              </CardBody>
-            </Card>
-          </div>
 
-          {/* Time Information */}
-          <div className="absolute top-40 left-20 w-[270px] ml-20">
-            <Card>
-              <IoMdTime className="text-6xl absolute top-3 left-2" />
-              <CardBody>
-                <div className="flex text-left items-start justify-center ">
-                  <h2 className="text-xl font-semibold text-left ml-4">
-                    Waktu Tersisa
-                  </h2>
-                </div>
-                <div className="flex items-center justify-start">
-                  <p className="text-xl text-left mt-1 ml-16">
-                    {formatTime(timeLeft)}
-                  </p>
-                </div>
-              </CardBody>
+        {/* Sidebar for Mobile */}
+        {isMobile && (
+          <div className="w-full flex flex-row gap-2 p-2 fixed top-0 left-0 z-10 shadow-sm mb-4">
+            {/* Test Card */}
+            <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
+              <FaTasks className="text-2xl mr-2" />
+              <div>
+                <h2 className="text-sm font-semibold">Test</h2>
+                <p className="text-xs">Meaningful Memory</p>
+              </div>
+            </Card>
+
+            {/* Time Card */}
+            <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
+              <IoMdTime className="text-2xl mr-2" />
+              <div>
+                <h2 className="text-sm font-semibold">Waktu Tersisa</h2>
+                <p className="text-xs">{formatTime(timeLeft)}</p>
+              </div>
             </Card>
           </div>
-        </div>
+        )}
+
+        {/* Test Information */}
+        {/* Sidebar for Mobile */}
+        {!isMobile && (
+          <div className="space-y-7">
+            <div className="absolute top-20 left-20 w-[270px] ml-20">
+              <Card>
+                <FaTasks className="text-5xl absolute top-4 left-2" />
+                <CardBody>
+                  <div className="flex text-left items-start justify-center ">
+                    <h2 className="text-xl font-semibold text-left mr-20">
+                      Test
+                    </h2>
+                  </div>
+                  <div className="flex items-center justify-start">
+                    <p className="text-lg text-left mt-1 ml-16">
+                      Meaningful Memory
+                    </p>
+                  </div>
+                </CardBody>
+              </Card>
+            </div>
+
+            {/* Time Information */}
+            <div className="absolute top-40 left-20 w-[270px] ml-20">
+              <Card>
+                <IoMdTime className="text-6xl absolute top-3 left-2" />
+                <CardBody>
+                  <div className="flex text-left items-start justify-center ">
+                    <h2 className="text-xl font-semibold text-left ml-4">
+                      Waktu Tersisa
+                    </h2>
+                  </div>
+                  <div className="flex items-center justify-start">
+                    <p className="text-xl text-left mt-1 ml-16">
+                      {formatTime(timeLeft)}
+                    </p>
+                  </div>
+                </CardBody>
+              </Card>
+            </div>
+          </div>
+        )}
 
         {/* Question List */}
-        <div className="absolute top-[300px] left-20 w-50 ml-20">
+        {/* <div className="absolute top-[300px] left-20 w-50 ml-20">
           <Card>
             <CardBody>
               <h2 className="text-center text-xl font-semibold mb-2">
@@ -511,7 +556,7 @@ export default function TrialQuestionsMM() {
               </div>
             </CardBody>
           </Card>
-        </div>
+        </div> */}
       </div>
     </AuthWrapper>
   );
