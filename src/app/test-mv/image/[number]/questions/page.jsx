@@ -18,7 +18,7 @@ export default function QuestionMV() {
   const router = useRouter();
   const params = useParams();
   const imageNumber = parseInt(params.number, 10);
-  const [timeLeft, setTimeLeft] = useState(5);
+  const [timeLeft, setTimeLeft] = useState(60);
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -98,7 +98,7 @@ export default function QuestionMV() {
         {
           answers: [
             {
-              questionNumber: imageNumber,
+              questionNumber: imageNumber + 1,
               selectedAnswer: answerToSubmit,
             },
           ],

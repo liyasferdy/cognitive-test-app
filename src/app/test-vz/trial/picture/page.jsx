@@ -21,8 +21,21 @@ export default function TrialVZ() {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modal
-  const [timeLeft, setTimeLeft] = useState(10);
+  const [timeLeft, setTimeLeft] = useState(20);
   const [timerActive, setTimerActive] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect screen size for mobile responsiveness
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Set mobile view for screen width <= 768px
+    };
+
+    handleResize(); // Set initial value
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Timer countdown logic
   useEffect(() => {
@@ -75,11 +88,7 @@ export default function TrialVZ() {
       <div className="pt-20 flex flex-col justify-between items-center min-h-screen">
         {/* First Modal */}
         {isModalOpen && (
-          <Modal
-            isOpen={true}
-            onClose={handleModalAction}
-            placement="top-center"
-          >
+          <Modal isOpen={true} onClose={handleModalAction} placement="center">
             <ModalContent>
               {() => (
                 <>
@@ -117,7 +126,7 @@ export default function TrialVZ() {
           <Modal
             isOpen={true}
             onClose={() => setIsEndModalOpen(false)}
-            placement="top-center"
+            placement="center"
           >
             <ModalContent>
               {() => (
@@ -144,66 +153,114 @@ export default function TrialVZ() {
             </ModalContent>
           </Modal>
         )}
-        <div className="mb-5 items-center text-center">
-          <Card className="border-solid border-2 border-amber-400 bg-amber-100 text-amber-600 text-center items-center text-md flex flex-col w-[800px]">
-            <CardBody>
-              <div className="text-center">
-                <h1>
-                  Perhatikan gambar dibawah ini untuk menjawab soal berikutnya
-                </h1>
+        <div className={` ${isMobile ? "mt-[-10px]" : "mt-[10px]"}`}>
+          <div className="mb-5 flex flex-col items-center justify-center text-center">
+            <Card
+              className={`border-solid border-2 border-amber-400 bg-amber-100 text-amber-600 text-center items-center text-md flex flex-col ${
+                isMobile ? "w-full max-w-[90%] px-4 py-4" : "w-[800px]"
+              }`}
+            >
+              <CardBody>
+                <div className="text-center">
+                  <h1 className={`${isMobile ? "text-sm" : "text-lg"}`}>
+                    Perhatikan gambar dibawah ini untuk menjawab soal berikutnya
+                  </h1>
+                </div>
+              </CardBody>
+            </Card>
+          </div>
+
+          <div
+            className={`flex justify-center ${
+              isMobile ? "mt-[-10px]" : "mt-[10px]"
+            }`}
+          >
+            <Card
+              className={`${
+                isMobile
+                  ? "w-full max-w-[90%] px-4 py-6"
+                  : "w-[50rem] px-20 py-10"
+              } h-fit`}
+            >
+              <CardBody className="flex justify-center items-center">
+                <Image
+                  width={isMobile ? 300 : 500} // Responsif untuk ukuran gambar
+                  height={isMobile ? 300 : 500} // Responsif untuk ukuran gambar
+                  alt="Contoh Soal"
+                  src="/assets/soal-VZ/Contoh Gv-Vz/Contoh.png"
+                  className="object-contain"
+                />
+              </CardBody>
+            </Card>
+          </div>
+        </div>
+
+        {isMobile && (
+          <div className="w-full flex flex-row gap-2 p-2 fixed top-0 left-0 z-10 shadow-md bg-gray-100">
+            {/* Test Card */}
+            <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
+              <FaTasks className="text-2xl mr-2" />
+              <div>
+                <h2 className="text-sm font-semibold">Test</h2>
+                <p className="text-xs">Memory Visual</p>
               </div>
-            </CardBody>
-          </Card>
-        </div>
+            </Card>
 
-        <Card className="w-[50rem] h-fit px-20 py-10">
-          <CardBody className="flex justify-center items-center">
-            <Image
-              width={500}
-              height={500} // Always specify height
-              alt="Contoh Soal"
-              src="/assets/soal-VZ/Contoh Gv-Vz/Contoh.png"
-              className="object-contain"
-            />
-          </CardBody>
-        </Card>
-
-        <div className="space-y-7 flex-grow">
-          <div className="absolute top-20 left-20 w-[270px] ml-20">
-            <Card>
-              <FaTasks className="text-5xl absolute top-4 left-2" />
-              <CardBody>
-                <div className="flex text-left items-start justify-center ">
-                  <h2 className=" text-xl font-semibold text-left mr-20">
-                    Test
-                  </h2>
-                </div>
-                <div className="flex items-center justify-start">
-                  <p className="text-lg text-left mt-1 ml-16">Memory Visual</p>
-                </div>
-              </CardBody>
+            {/* Time Card */}
+            <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
+              <IoMdTime className="text-2xl mr-2" />
+              <div>
+                <h2 className="text-sm font-semibold">Waktu Tersisa</h2>
+                <p className="text-xs">{formatTime(timeLeft)}</p>
+              </div>
             </Card>
           </div>
-          <div className="absolute top-40 left-20 w-[270px] ml-20">
-            <Card>
-              <IoMdTime className="text-6xl absolute top-3 left-2" />
-              <CardBody>
-                <div className="flex text-left items-start justify-center ">
-                  <h2 className=" text-xl font-semibold text-left ml-4">
-                    Waktu Tersisa
-                  </h2>
-                </div>
-                <div className="flex items-center justify-start">
-                  <p className="text-xl text-left mt-1 ml-16">
-                    {formatTime(timeLeft)}
-                  </p>
-                </div>
-              </CardBody>
-            </Card>
-          </div>
-        </div>
+        )}
 
-        <div className="flex justify-center items-center absolute bottom-20 w-full">
+        {!isMobile && (
+          <div className="space-y-7 flex-grow">
+            <div className="absolute top-20 left-20 w-[270px] ml-20">
+              <Card>
+                <FaTasks className="text-5xl absolute top-4 left-2" />
+                <CardBody>
+                  <div className="flex text-left items-start justify-center ">
+                    <h2 className=" text-xl font-semibold text-left mr-20">
+                      Test
+                    </h2>
+                  </div>
+                  <div className="flex items-center justify-start">
+                    <p className="text-lg text-left mt-1 ml-16">
+                      Memory Visual
+                    </p>
+                  </div>
+                </CardBody>
+              </Card>
+            </div>
+            <div className="absolute top-40 left-20 w-[270px] ml-20">
+              <Card>
+                <IoMdTime className="text-6xl absolute top-3 left-2" />
+                <CardBody>
+                  <div className="flex text-left items-start justify-center ">
+                    <h2 className=" text-xl font-semibold text-left ml-4">
+                      Waktu Tersisa
+                    </h2>
+                  </div>
+                  <div className="flex items-center justify-start">
+                    <p className="text-xl text-left mt-1 ml-16">
+                      {formatTime(timeLeft)}
+                    </p>
+                  </div>
+                </CardBody>
+              </Card>
+            </div>
+          </div>
+        )}
+
+        <div
+          className={`flex justify-center items-center absolute bottom-20 w-full${
+            isMobile ? "mt-[-10px] bottom-10" : "mt-[10px] "
+          }`}
+        >
           <Button
             color="primary"
             // className="bg-cyan-500 text-white hover:bg-cyan-700 hover:text-slate-100"

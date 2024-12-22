@@ -2,15 +2,14 @@
 
 import { Button } from "@nextui-org/button";
 import { Card, CardBody } from "@nextui-org/card";
-import Link from "next/link";
 import AuthWrapper from "../../authWrapper";
 import { useRouter } from "next/navigation";
 
-export default function InstructionMW() {
+export default function InstructionMS() {
   const router = useRouter();
 
   const handleNavigation = () => {
-    router.push("/test-mw/trial/player/");
+    router.push("/test-mw/trial/player");
   };
 
   return (

@@ -48,11 +48,11 @@ export const imageData = [
     number: 5,
     image: "/assets/soal-GFI/Soal 5.png",
     options: [
-      { value: "a", image: "/assets/soal-GFI/5 -A.png" },
-      { value: "b", image: "/assets/soal-GFI/5 -B.png" },
-      { value: "c", image: "/assets/soal-GFI/5 . c.png" },
-      { value: "d", image: "/assets/soal-GFI/5 . d.png" },
-      { value: "e", image: "/assets/soal-GFI/5 . e.png" },
+      { value: "a", image: "/assets/soal-GFI/5. a.png" },
+      { value: "b", image: "/assets/soal-GFI/5. b.png" },
+      { value: "c", image: "/assets/soal-GFI/5. c.png" },
+      { value: "d", image: "/assets/soal-GFI/5. d.png" },
+      { value: "e", image: "/assets/soal-GFI/5. e.png" },
     ],
   },
   {
@@ -191,11 +191,11 @@ export const imageData = [
     number: 18,
     image: "/assets/soal-GFI/Soal 18.png",
     options: [
-      { value: "a", image: "/assets/soal-GFI/18-A.png" },
-      { value: "b", image: "/assets/soal-GFI/18-B.png" },
-      { value: "c", image: "/assets/soal-GFI/18-C.png" },
-      { value: "d", image: "/assets/soal-GFI/18-D.png" },
-      { value: "e", image: "/assets/soal-GFI/18-E.png" },
+      { value: "a", image: "/assets/soal-GFI/18. a.png" },
+      { value: "b", image: "/assets/soal-GFI/18. b.png" },
+      { value: "c", image: "/assets/soal-GFI/18. c.png" },
+      { value: "d", image: "/assets/soal-GFI/18. d.png" },
+      { value: "e", image: "/assets/soal-GFI/18. e.png" },
     ],
   },
   {

@@ -14,13 +14,13 @@ import { Radio } from "@nextui-org/radio";
 import { Button } from "@nextui-org/button";
 import AuthWrapper from "../../../../authWrapper";
 
-export default function QuestionGFI() {
+export default function QuestionMV() {
   const router = useRouter();
   const params = useParams();
   const imageNumber = parseInt(params.number, 10);
   const [timeLeft, setTimeLeft] = useState(30);
   const [selectedAnswer, setSelectedAnswer] = useState("");
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -50,11 +50,12 @@ export default function QuestionGFI() {
 
     if (timeLeft === 0) {
       // Waktu habis, lanjut ke pertanyaan berikutnya atau akhiri
-      if (imageNumber < imageData.length - 1) {
-        router.push(`/test-gfi/image/${imageNumber + 1}`);
+      if (imageNumber <= 21) {
+        // Jika masih di antara 1-3
+        router.push(`/test-mv/imageMedium/${imageNumber + 1}`);
       } else {
-        // Jika ini pertanyaan terakhir, buka modal atau langsung akhiri
-        setShowModal(true);
+        // Jika ini pertanyaan terakhir, lanjut ke imageMedium
+        router.push(`/test-mv/image/${imageNumber + 1}`);
       }
       return;
     }
@@ -94,7 +95,7 @@ export default function QuestionGFI() {
       const answerToSubmit = selectedAnswer || "9"; // Default to "9" if no answer
 
       const response = await axios.post(
-        "https://cognitive-dev-734522323885.asia-southeast2.run.app/submit/testGFI",
+        "https://cognitive-dev-734522323885.asia-southeast2.run.app/submit/testMV",
         {
           answers: [
             {
@@ -111,17 +112,20 @@ export default function QuestionGFI() {
       );
 
       if (response.status === 200) {
-        if (imageNumber < imageData.length - 1 && !isFinalSubmission) {
-          // Pertanyaan berikutnya
-          router.push(`/test-gfi/image/${imageNumber + 1}`);
-        } else if (isFinalSubmission) {
-          // Jika final, tampilkan modal konfirmasi submit final
-          setShowModal(true);
-        } else {
-          // Jika ini pertanyaan terakhir dan user menekan Submit
-          // Langsung tampilkan modal konfirmasi akhir test
-          setShowModal(true);
+        if (imageNumber <= 21 && !isFinalSubmission) {
+          // Pertanyaan berikutnya (1-3)
+          router.push(`/test-mv/imageMedium/${imageNumber + 1}`);
+        } else if (imageNumber === 21 && !isFinalSubmission) {
+          // Jika mencapai pertanyaan terakhir (3), lanjut ke imageMedium
+          router.push(`/test-mv/image/${imageNumber + 1}`);
         }
+        // else if (isFinalSubmission) {
+        //   // Jika final, tampilkan modal konfirmasi submit final
+        //   setShowModal(false);
+        // } else {
+        //   // Jika ini pertanyaan terakhir dan user menekan Submit
+        //   setShowModal(false);
+        // }
       } else {
         alert("There was an issue submitting your answers. Please try again.");
       }
@@ -295,10 +299,13 @@ export default function QuestionGFI() {
                 size="lg"
                 className="w-full max-w-[200px]"
                 onClick={() => {
-                  if (imageNumber < imageData.length - 1) {
-                    submitAnswers(false); // Kirim jawaban saat ini
-                    // router.push(`/test-gfi/image/${imageNumber + 1}`); // Navigasi ke pertanyaan berikutnya
+                  if (imageNumber <= 21) {
+                    // Jika masih di antara 1-3
+                    router.push(`/test-mv/imageMedium/${imageNumber + 1}`);
+                    submitAnswers(true); // Final submit
                   } else {
+                    // Jika ini pertanyaan terakhir, lanjut ke imageMedium
+                    router.push(`/test-mv/image/${imageNumber + 1}`);
                     submitAnswers(true); // Final submit
                   }
                 }}
@@ -310,8 +317,8 @@ export default function QuestionGFI() {
           </div>
         )}
 
-        {/* Modals */}
-        {showModal && (
+        {/* Modals for last questions*/}
+        {/* {showModal && (
           <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white p-6 rounded-md shadow-lg w-96">
               <h2 className="text-center text-xl mb-4 font-semibold">
@@ -324,7 +331,7 @@ export default function QuestionGFI() {
               <div className="flex justify-center">
                 <Button
                   color="primary"
-                  onClick={() => router.push("/test-vz/instruction")}
+                  onClick={() => router.push("/test-ms/instruction")}
                   size="lg"
                   className="w-full text-white"
                   disabled={isSubmitting}
@@ -335,7 +342,7 @@ export default function QuestionGFI() {
               <div className="flex justify-center mt-4">
                 <Button
                   color="danger"
-                  onClick={() => setShowModal(false)}
+                  // onClick={() => setShowModal(false)}
                   size="lg"
                   variant="bordered"
                   className="w-full text-red-600"
@@ -346,7 +353,7 @@ export default function QuestionGFI() {
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </AuthWrapper>
   );

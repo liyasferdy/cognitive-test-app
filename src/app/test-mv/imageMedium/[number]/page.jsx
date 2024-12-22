@@ -10,7 +10,7 @@ import { Image } from "@nextui-org/image";
 import { imageData } from "../../image"; // Sesuaikan path sesuai dengan struktur proyek Anda
 import AuthWrapper from "../../../authWrapper";
 
-export default function TestVZ() {
+export default function TestMV() {
   const router = useRouter();
   const params = useParams();
   const imageNumber = parseInt(params.number, 10); // Convert to 0-based index
@@ -42,7 +42,7 @@ export default function TestVZ() {
 
     if (timeLeft === 0) {
       // Jika waktu habis, pindah ke halaman pertanyaan untuk image selanjutnya
-      router.push(`/test-vz/image/${imageNumber}/questions`);
+      router.push(`/test-mv/imageMedium/${imageNumber}/questions`);
       return;
     }
 
@@ -62,10 +62,10 @@ export default function TestVZ() {
     ).padStart(2, "0")}`;
   };
 
-  // Fungsi untuk ke halaman pertanyaan selanjutnya (opsional, jika diperlukan)
-  const handleNextQuestion = () => {
-    router.push(`/test-vz/image/${parseInt(params.number, 10)}/questions`);
-  };
+  // // Fungsi untuk ke halaman pertanyaan selanjutnya (opsional, jika diperlukan)
+  // const handleNextQuestion = () => {
+  //   router.push(`/test-mv/imageEasy/${parseInt(params.number, 10)}/questions`);
+  // };
 
   return (
     <AuthWrapper>

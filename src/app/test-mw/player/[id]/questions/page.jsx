@@ -17,7 +17,7 @@ import {
 } from "@nextui-org/modal";
 import AuthWrapper from "../../../../authWrapper";
 import { CiWarning } from "react-icons/ci";
-import { audioData } from "../../../audio-MW"; // Import your audio data
+import { audioData } from "../../../audio"; // Import your audio data
 import axios from "axios"; // Import axios
 
 export default function QuestionsMW() {
@@ -32,9 +32,21 @@ export default function QuestionsMW() {
   const [showModal, setShowModal] = useState(false);
   // New state to track submitted answers
   const [submittedAnswers, setSubmittedAnswers] = useState([]);
-
   const nextId = parseInt(id, 10) + 1; // Increment the ID by 1
   const isLastQuestion = parseInt(id, 10) === audioData.length; // Cek apakah ini soal terakhir
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect screen size for mobile responsiveness
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Set mobile view for screen width <= 768px
+    };
+
+    handleResize(); // Set initial value
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Find the current audio data based on the ID
   useEffect(() => {
@@ -150,46 +162,10 @@ export default function QuestionsMW() {
     // Submit the last question's answer first
     await submitAnswer();
 
-    // If it's the last question, proceed with final submission
+    // If it's the last question, proceed to next test case
     if (isLastQuestion) {
-      await handleFinalAnswerSubmit();
-    }
-  };
-
-  // Modified final submission function
-  const handleFinalAnswerSubmit = async () => {
-    if (isSubmitting) return;
-    setIsSubmitting(true);
-
-    try {
-      const token =
-        typeof window !== "undefined"
-          ? localStorage.getItem("access_token")
-          : "";
-
-      const response = await axios.post(
-        "https://cognitive-dev-734522323885.asia-southeast2.run.app/answers/savetoDB",
-        {
-          answers: submittedAnswers, // Send all previously submitted answers
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        router.push("/test-ma/instruction");
-      } else {
-        alert("Gagal menyimpan jawaban. Silakan coba lagi.");
-      }
-    } catch (error) {
-      console.error("Error finalizing answers:", error);
-      alert("Terjadi kesalahan saat menyimpan jawaban. Silakan coba lagi.");
-    } finally {
-      setIsSubmitting(false);
+      router.push("/test-ma/instruction");
+      return;
     }
   };
 
@@ -251,9 +227,20 @@ export default function QuestionsMW() {
               <div className="flex justify-center">
                 <Button
                   color="primary"
-                  onClick={handleFinalAnswerSubmit}
                   size="lg"
-                  className="w-full text-white"
+                  onPress={() => {
+                    if (isLastQuestion) {
+                      router.push("/test-ma/instruction");
+                      return;
+                    }
+
+                    if (timeLeft > 0) {
+                      setIsEndModalOpen(true); // Show the end modal if time is not expired
+                    } else {
+                      router.push(`/test-mw/player/${nextId}`);
+                    }
+                  }}
+                  className="mt-4"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Submitting..." : "Submit"}
@@ -275,29 +262,45 @@ export default function QuestionsMW() {
           </div>
         )}
 
-        {/* Warning Message */}
-        <div className="mb-5 items-center text-center">
-          <Card className="border-solid border-2 border-red-400 bg-red-100 text-red-600 text-center items-center text-md flex flex-col w-[600px]">
+        {/* Warning Card */}
+        <div
+          className={`mb-5 items-center text-center ${
+            isMobile ? "w-full" : "w-[600px]"
+          }`}
+        >
+          <Card className="border-solid border-2 border-red-400 bg-red-100 text-red-600 text-center items-center text-md flex flex-col">
             <CardBody>
               <div className="flex items-center justify-center space-x-2">
                 <CiWarning className="text-xl" />
-                <h1 className="text-md">
-                  Perhatikan format jawaban dan ditulis dalam huruf besar
+                <h1 className={`${isMobile ? "text-sm" : "text-md"}`}>
+                  Jawab sesuai audio yang telah didengar
                 </h1>
-                <h1 className="text-md font-semibold">(Contoh: XXXX)</h1>
               </div>
             </CardBody>
           </Card>
         </div>
 
         {/* Questions */}
-        <div className="space-y-5 mt-10">
-          <Card className="w-[50rem] h-fit px-12 py-6">
+        <div
+          className={`space-y-5 mt-10 ${
+            isMobile ? "w-[300px]" : "w-[50rem] px-12 py-6"
+          }`}
+        >
+          <Card className={`${isMobile ? "w-full px-6" : "px-12 py-6"}`}>
             <CardBody>
-              <h2 className="text-center text-neutral-600 mb-4 text-md">
-                Jawab dikolom berikut
+              <h2
+                className={`text-center text-neutral-600 mb-4 ${
+                  isMobile ? "text-sm" : "text-md"
+                }`}
+              >
+                Jawab di kolom berikut
               </h2>
-              <div className="flex w-full flex-wrap md:flex-nowrap gap-4 bg-white p-6 rounded-lg ">
+              {/* Input field */}
+              <div
+                className={`flex w-full flex-wrap gap-4 bg-white p-6 rounded-lg ${
+                  isMobile ? "flex-col" : "md:flex-nowrap"
+                }`}
+              >
                 <Input
                   type="text"
                   placeholder="Input jawaban disini"
@@ -312,39 +315,62 @@ export default function QuestionsMW() {
 
         {/* Sidebar */}
         <div className="space-y-7">
-          <div className="absolute top-20 left-20 w-[270px] ml-20">
-            <Card>
-              <FaTasks className="text-5xl absolute top-4 left-2" />
-              <CardBody>
-                <div className="flex text-left items-start justify-center ">
-                  <h2 className="text-xl font-semibold text-left mr-20">
-                    Test
-                  </h2>
+          {/* Sidebar */}
+          {isMobile && (
+            <div className="w-full flex flex-row gap-2 p-2 fixed top-0 left-0 z-50 shadow-md bg-gray-100">
+              {/* Test Card */}
+              <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
+                <FaTasks className="text-2xl mr-2" />
+                <div>
+                  <h2 className="text-sm font-semibold">Test</h2>
+                  <p className="text-xs">Memory Visual</p>
                 </div>
-                <div className="flex items-center justify-start">
-                  <p className="text-lg text-left mt-1 ml-16">MW</p>
-                </div>
-              </CardBody>
-            </Card>
-          </div>
+              </Card>
 
-          <div className="absolute top-40 left-20 w-[270px] ml-20">
-            <Card>
-              <IoMdTime className="text-6xl absolute top-3 left-2" />
-              <CardBody>
-                <div className="flex text-left items-start justify-center ">
-                  <h2 className="text-xl font-semibold text-left ml-4">
-                    Waktu Tersisa
-                  </h2>
+              {/* Time Card */}
+              <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
+                <IoMdTime className="text-2xl mr-2" />
+                <div>
+                  <h2 className="text-sm font-semibold">Waktu Tersisa</h2>
+                  <p className="text-xs">{formatTime(timeLeft)}</p>
                 </div>
-                <div className="flex items-center justify-start">
-                  <p className="text-xl text-left mt-1 ml-16">
-                    {formatTime(timeLeft)}
-                  </p>
-                </div>
-              </CardBody>
-            </Card>
-          </div>
+              </Card>
+            </div>
+          )}
+
+          {!isMobile && (
+            <div className="absolute top-20 left-20 space-y-7">
+              <Card className="w-[270px] shadow-md">
+                <FaTasks className="text-5xl absolute top-4 left-2" />
+                <CardBody>
+                  <div className="flex text-left items-start justify-center">
+                    <h2 className="text-xl font-semibold text-left">Test</h2>
+                  </div>
+                  <div className="flex items-center justify-start">
+                    <p className="text-lg text-left mt-1 ml-16">
+                      Memory Visual
+                    </p>
+                  </div>
+                </CardBody>
+              </Card>
+
+              <Card className="w-[270px] shadow-md">
+                <IoMdTime className="text-6xl absolute top-3 left-2" />
+                <CardBody>
+                  <div className="flex text-left items-start justify-center">
+                    <h2 className="text-xl font-semibold text-left">
+                      Waktu Tersisa
+                    </h2>
+                  </div>
+                  <div className="flex items-center justify-start">
+                    <p className="text-xl text-left mt-1 ml-16">
+                      {formatTime(timeLeft)}
+                    </p>
+                  </div>
+                </CardBody>
+              </Card>
+            </div>
+          )}
           <div className="flex justify-center items-center">
             <Button
               color="primary"
@@ -354,7 +380,7 @@ export default function QuestionsMW() {
               disabled={isSubmitting}
             >
               {isSubmitting
-                ? "Mengirim..."
+                ? "Submitting..."
                 : isLastQuestion
                 ? "Lanjutkan"
                 : "Next"}

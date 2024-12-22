@@ -24,9 +24,22 @@ export default function QuestionTrialMS() {
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End test modal
   const [isResultModalOpen, setIsResultModalOpen] = useState(false); // Result modal
   const [answer, setAnswer] = useState(""); // User answer input
-  const [correctAnswer] = useState("2UE1"); // Correct answer for comparison
+  const [correctAnswer] = useState("1EU2"); // Correct answer for comparison
   const [isAnswerCorrect, setIsAnswerCorrect] = useState(false); // Track answer correctness
   const [isTimeoutModalOpen, setIsTimeoutModalOpen] = useState(false); // Time out modal
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect screen size for mobile responsiveness
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Set mobile view for screen width <= 768px
+    };
+
+    handleResize(); // Set initial value
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Timer countdown logic
   useEffect(() => {
@@ -90,7 +103,7 @@ export default function QuestionTrialMS() {
               setIsTimeoutModalOpen(false);
               handleContinue();
             }}
-            placement="top-center"
+            placement="center"
           >
             <ModalContent>
               <>
@@ -119,7 +132,7 @@ export default function QuestionTrialMS() {
           <Modal
             isOpen={true}
             onClose={() => setIsEndModalOpen(false)}
-            placement="top-center"
+            placement="center"
           >
             <ModalContent>
               <>
@@ -150,7 +163,7 @@ export default function QuestionTrialMS() {
           <Modal
             isOpen={true}
             onClose={() => setIsResultModalOpen(false)}
-            placement="top-center"
+            placement="center"
           >
             <ModalContent>
               <>
@@ -177,29 +190,44 @@ export default function QuestionTrialMS() {
         )}
 
         {/* Warning Card */}
-        <div className="mb-5 items-center text-center">
-          <Card className="border-solid border-2 border-red-400 bg-red-100 text-red-600 text-center items-center text-md flex flex-col w-[600px]">
+        <div
+          className={`mb-5 items-center text-center ${
+            isMobile ? "w-full" : "w-[600px]"
+          }`}
+        >
+          <Card className="border-solid border-2 border-red-400 bg-red-100 text-red-600 text-center items-center text-md flex flex-col">
             <CardBody>
               <div className="flex items-center justify-center space-x-2">
                 <CiWarning className="text-xl" />
-                <h1 className="text-md">
-                  Perhatikan format jawaban dan ditulis dalam huruf besar
+                <h1 className={`${isMobile ? "text-sm" : "text-md"}`}>
+                  Jawab sesuai audio yang telah didengar
                 </h1>
-                <h1 className="text-md font-semibold">(Contoh: XXXX)</h1>
               </div>
             </CardBody>
           </Card>
         </div>
 
         {/* Questions */}
-        <div className="space-y-5 mt-10">
-          <Card className="w-[50rem] h-fit px-12 py-6">
+        <div
+          className={`space-y-5 mt-10 ${
+            isMobile ? "w-[350px]" : "w-[50rem] px-12 py-6"
+          }`}
+        >
+          <Card className={`${isMobile ? "w-full px-6" : "px-12 py-6"}`}>
             <CardBody>
-              <h2 className="text-center text-neutral-600 mb-4 text-md">
-                Jawab dikolom berikut
+              <h2
+                className={`text-center text-neutral-600 mb-4 ${
+                  isMobile ? "text-sm" : "text-md"
+                }`}
+              >
+                Jawab di kolom berikut
               </h2>
-              {/* Input field for answer */}
-              <div className="flex w-full flex-wrap md:flex-nowrap gap-4 bg-white p-6 rounded-lg ">
+              {/* Input field */}
+              <div
+                className={`flex w-full flex-wrap gap-4 bg-white p-6 rounded-lg ${
+                  isMobile ? "flex-col" : "md:flex-nowrap"
+                }`}
+              >
                 <Input
                   type="text"
                   placeholder="Input jawaban disini"
@@ -214,43 +242,65 @@ export default function QuestionTrialMS() {
 
         {/* Sidebar */}
         <div className="space-y-7">
-          <div className="absolute top-20 left-20 w-[270px] ml-20">
-            <Card>
-              <FaTasks className="text-5xl absolute top-4 left-2" />
-              <CardBody>
-                <div className="flex text-left items-start justify-center">
-                  <h2 className="text-xl font-semibold text-left mr-20">
-                    Test
-                  </h2>
+          {isMobile && (
+            <div className="w-full flex flex-row gap-2 p-2 fixed top-0 left-0 z-50 shadow-md bg-gray-100">
+              {/* Test Card */}
+              <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
+                <FaTasks className="text-2xl mr-2" />
+                <div>
+                  <h2 className="text-sm font-semibold">Test</h2>
+                  <p className="text-xs">Memory Visual</p>
                 </div>
-                <div className="flex items-center justify-start">
-                  <p className="text-lg text-left mt-1 ml-16">MS</p>
-                </div>
-              </CardBody>
-            </Card>
-          </div>
+              </Card>
 
-          <div className="absolute top-40 left-20 w-[270px] ml-20">
-            <Card>
-              <IoMdTime className="text-6xl absolute top-3 left-2" />
-              <CardBody>
-                <div className="flex text-left items-start justify-center ">
-                  <h2 className="text-xl font-semibold text-left ml-4">
-                    Waktu Tersisa
-                  </h2>
+              {/* Time Card */}
+              <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
+                <IoMdTime className="text-2xl mr-2" />
+                <div>
+                  <h2 className="text-sm font-semibold">Waktu Tersisa</h2>
+                  <p className="text-xs">{formatTime(timeLeft)}</p>
                 </div>
-                <div className="flex items-center justify-start">
-                  <p className="text-xl text-left mt-1 ml-16">
-                    {formatTime(timeLeft)}
-                  </p>
-                </div>
-              </CardBody>
-            </Card>
-          </div>
+              </Card>
+            </div>
+          )}
+
+          {!isMobile && (
+            <div className="absolute top-20 left-20 space-y-7">
+              <Card className="w-[270px] shadow-md">
+                <FaTasks className="text-5xl absolute top-4 left-2" />
+                <CardBody>
+                  <div className="flex text-left items-start justify-center">
+                    <h2 className="text-xl font-semibold text-left">Test</h2>
+                  </div>
+                  <div className="flex items-center justify-start">
+                    <p className="text-lg text-left mt-1 ml-16">
+                      Memory Visual
+                    </p>
+                  </div>
+                </CardBody>
+              </Card>
+
+              <Card className="w-[270px] shadow-md">
+                <IoMdTime className="text-6xl absolute top-3 left-2" />
+                <CardBody>
+                  <div className="flex text-left items-start justify-center">
+                    <h2 className="text-xl font-semibold text-left">
+                      Waktu Tersisa
+                    </h2>
+                  </div>
+                  <div className="flex items-center justify-start">
+                    <p className="text-xl text-left mt-1 ml-16">
+                      {formatTime(timeLeft)}
+                    </p>
+                  </div>
+                </CardBody>
+              </Card>
+            </div>
+          )}
 
           <div className="flex justify-center items-center">
             <Button color="primary" size="lg" onPress={handleSubmitAndFinish}>
-              Submit dan Akhiri Test
+              Submit
             </Button>
           </div>
         </div>

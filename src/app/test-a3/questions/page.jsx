@@ -11,9 +11,9 @@ import { questionsData } from "../questions-A3"; // Pastikan path ini benar
 import AuthWrapper from "../../authWrapper";
 import axios from "axios";
 
-export default function TestRG() {
+export default function TestA3() {
   const router = useRouter();
-  const [timeLeft, setTimeLeft] = useState(300);
+  const [timeLeft, setTimeLeft] = useState(1800);
   const [questions, setQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState(
     Array.from({ length: 30 }, (_, index) => ({
@@ -22,6 +22,19 @@ export default function TestRG() {
   );
   const [showModal, setShowModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect screen size for mobile responsiveness
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Set mobile view for screen width <= 768px
+    };
+
+    handleResize(); // Set initial value
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Ambil pertanyaan saat komponen mount
   useEffect(() => {
@@ -118,9 +131,9 @@ export default function TestRG() {
     <AuthWrapper>
       <div className="pt-20 flex flex-col justify-start items-center min-h-screen bg-gray-100 p-4">
         {/* Questions */}
-        <div className="space-y-5">
+        <div className="space-y-5 w-full max-w-4xl">
           {questions.map((question) => (
-            <Card key={question.number} className="w-[50rem] h-fit px-12 py-6">
+            <Card key={question.number} className="w-full px-4 py-6">
               <CardBody>
                 <RadioGroup
                   value={selectedAnswers[question.number]}
@@ -190,41 +203,66 @@ export default function TestRG() {
         )}
 
         {/* Sidebar */}
-        <div className="space-y-7">
-          <div className="absolute top-20 left-20 w-[270px] ml-20">
-            <Card>
-              <FaTasks className="text-5xl absolute top-4 left-2" />
-              <CardBody>
-                <div className="flex text-left items-start justify-center ">
-                  <h2 className="text-xl font-semibold text-left mr-20">
-                    Test
-                  </h2>
-                </div>
-                <div className="flex items-center justify-start">
-                  <p className="text-lg text-left mt-1 ml-16">Mental Ability</p>
-                </div>
-              </CardBody>
-            </Card>
-          </div>
+        {!isMobile && (
+          <div className="space-y-7">
+            <div className="absolute top-20 left-20 w-[270px] ml-20">
+              <Card>
+                <FaTasks className="text-5xl absolute top-4 left-2" />
+                <CardBody>
+                  <div className="flex text-left items-start justify-center ">
+                    <h2 className="text-xl font-semibold text-left mr-20">
+                      Test
+                    </h2>
+                  </div>
+                  <div className="flex items-center justify-start">
+                    <p className="text-lg text-left mt-1 ml-16">A3</p>
+                  </div>
+                </CardBody>
+              </Card>
+            </div>
 
-          <div className="absolute top-40 left-20 w-[270px] ml-20">
-            <Card>
-              <IoMdTime className="text-6xl absolute top-3 left-2" />
-              <CardBody>
-                <div className="flex text-left items-start justify-center ">
-                  <h2 className="text-xl font-semibold text-left ml-4">
-                    Waktu Tersisa
-                  </h2>
-                </div>
-                <div className="flex items-center justify-start">
-                  <p className="text-xl text-left mt-1 ml-16">
-                    {formatTime(timeLeft)}
-                  </p>
-                </div>
-              </CardBody>
+            <div className="absolute top-40 left-20 w-[270px] ml-20">
+              <Card>
+                <IoMdTime className="text-6xl absolute top-3 left-2" />
+                <CardBody>
+                  <div className="flex text-left items-start justify-center ">
+                    <h2 className="text-xl font-semibold text-left ml-4">
+                      Waktu Tersisa
+                    </h2>
+                  </div>
+                  <div className="flex items-center justify-start">
+                    <p className="text-xl text-left mt-1 ml-16">
+                      {formatTime(timeLeft)}
+                    </p>
+                  </div>
+                </CardBody>
+              </Card>
+            </div>
+          </div>
+        )}
+
+        {/* Sidebar for Mobile */}
+        {isMobile && (
+          <div className="w-full flex flex-row gap-2 p-2 fixed top-0 left-0 z-10 shadow-md bg-gray-100 mb-4">
+            {/* Test Card */}
+            <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
+              <FaTasks className="text-2xl mr-2" />
+              <div>
+                <h2 className="text-sm font-semibold">Test</h2>
+                <p className="text-xs">A3</p>
+              </div>
+            </Card>
+
+            {/* Time Card */}
+            <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
+              <IoMdTime className="text-2xl mr-2" />
+              <div>
+                <h2 className="text-sm font-semibold">Waktu Tersisa</h2>
+                <p className="text-xs">{formatTime(timeLeft)}</p>
+              </div>
             </Card>
           </div>
-        </div>
+        )}
       </div>
     </AuthWrapper>
   );

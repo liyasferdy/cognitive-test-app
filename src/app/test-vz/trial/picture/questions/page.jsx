@@ -34,6 +34,19 @@ export default function QuestionTrialVZ() {
   const [selectedAnswers, setSelectedAnswers] = useState({
     1: null,
   });
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect screen size for mobile responsiveness
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Set mobile view for screen width <= 768px
+    };
+
+    handleResize(); // Set initial value
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Timer countdown logic
   useEffect(() => {
@@ -70,14 +83,14 @@ export default function QuestionTrialVZ() {
     if (timeLeft > 0) {
       setIsEndModalOpen(true); // Show the end modal if time is not expired
     } else {
-      router.push("/test-vz/image/1"); // If time is up, navigate directly
+      router.push("/test-vz/image/0"); // If time is up, navigate directly
     }
   };
 
   // Handle 'Continue' action on the end modal
   const handleContinue = () => {
     setIsEndModalOpen(false);
-    router.push("/test-vz/image/1"); // Proceed to next page
+    router.push("/test-vz/image/0"); // Proceed to next page
   };
 
   // Handle radio selection
@@ -174,25 +187,21 @@ export default function QuestionTrialVZ() {
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Link href="/test-vz/trial/picture">
-                  <Button
-                    color="warning"
-                    className="text-amber-50"
-                    // onPress={() => setIsCorrectModalOpen(false)}
-                  >
-                    <AiOutlineReload className="text-xl" />
-                    Ulangi latihan
-                  </Button>
-                </Link>
-                <Link href="/test-vz/image/1">
-                  <Button
-                    color="primary"
-                    className="text-emerald-50"
-                    // onPress={() => setIsCorrectModalOpen(false)}
-                  >
-                    Mulai Test
-                  </Button>
-                </Link>
+                <Button
+                  color="warning"
+                  className="text-amber-50"
+                  onPress={() => router.push("/test-vz/trial/picture")}
+                >
+                  <AiOutlineReload className="text-xl" />
+                  Ulangi latihan
+                </Button>
+                <Button
+                  color="primary"
+                  className="text-emerald-50"
+                  onPress={() => handleContinue()}
+                >
+                  Mulai Test
+                </Button>
               </ModalFooter>
             </ModalContent>
           </Modal>
@@ -325,10 +334,24 @@ export default function QuestionTrialVZ() {
         {/* Main content */}
         <div className="w-full flex justify-center items-center">
           {/* Main content */}
-          <div className="flex flex-col justify-center items-center absolute -mt-10 top-[400px] -right-40 transform -translate-x-1/2 -translate-y-1/2">
-            <Card className="w-[1000px]">
+          <div
+            className={`flex flex-col justify-center items-center ${
+              isMobile
+                ? "w-full px-4 top-[90px]"
+                : "w-[1000px] -mt-10 top-[400px] -right-40 transform -translate-x-1/2 -translate-y-1/2"
+            } absolute`}
+          >
+            <Card
+              className={`w-full ${
+                isMobile ? "max-w-[90%] px-4 py-6" : "w-[1000px]"
+              }`}
+            >
               <CardBody className="flex flex-col justify-center items-center p-6">
-                <h2 className="text-xl font-semibold text-center mb-10">
+                <h2
+                  className={`${
+                    isMobile ? "text-lg mb-6" : "text-xl mb-10"
+                  } font-semibold text-center`}
+                >
                   Pilih salah satu yang sesuai dengan gambar sebelumnya
                 </h2>
 
@@ -336,8 +359,12 @@ export default function QuestionTrialVZ() {
                 {questions.map((question) => (
                   <RadioGroup
                     key={question.number}
-                    orientation="horizontal"
-                    className="flex flex-row justify-center items-center space-x-4"
+                    orientation={isMobile ? "vertical" : "horizontal"}
+                    className={`${
+                      isMobile
+                        ? "flex flex-col space-y-4 items-center"
+                        : "flex flex-row justify-center items-center space-x-4"
+                    }`}
                   >
                     {question.options.map((option) => (
                       <Radio
@@ -348,11 +375,15 @@ export default function QuestionTrialVZ() {
                         }
                         className="flex justify-center items-center"
                       >
-                        <Card className="h-fit px-10 py-5 flex justify-center items-center">
+                        <Card
+                          className={`h-fit ${
+                            isMobile ? "px-6 py-4" : "px-10 py-5"
+                          } flex justify-center items-center`}
+                        >
                           <CardBody className="flex justify-center items-center">
                             <Image
-                              width={150}
-                              height={150}
+                              width={isMobile ? 80 : 150}
+                              height={isMobile ? 80 : 150}
                               alt="Contoh Soal"
                               src={option.image}
                               className="object-contain"
@@ -365,57 +396,84 @@ export default function QuestionTrialVZ() {
                 ))}
               </CardBody>
             </Card>
-          </div>
-
-          {/* Side Panel */}
-          <div className="space-y-7">
-            <div className="absolute top-20 left-20 w-[270px] ml-20">
-              <Card>
-                <FaTasks className="text-5xl absolute top-4 left-2" />
-                <CardBody>
-                  <div className="flex text-left items-start justify-center">
-                    <h2 className="text-xl font-semibold text-left mr-20">
-                      Test
-                    </h2>
-                  </div>
-                  <div className="flex items-center justify-start">
-                    <p className="text-lg text-left mt-1 ml-16">
-                      Memory Visual
-                    </p>
-                  </div>
-                </CardBody>
-              </Card>
-            </div>
-
-            <div className="absolute top-40 left-20 w-[270px] ml-20">
-              <Card>
-                <IoMdTime className="text-6xl absolute top-3 left-2" />
-                <CardBody>
-                  <div className="flex text-left items-start justify-center">
-                    <h2 className="text-xl font-semibold text-left ml-4">
-                      Waktu Tersisa
-                    </h2>
-                  </div>
-                  <div className="flex items-center justify-start">
-                    <p className="text-xl text-left mt-1 ml-16">
-                      {formatTime(timeLeft)}
-                    </p>
-                  </div>
-                </CardBody>
-              </Card>
-            </div>
-
-            <div className="flex justify-start absolute items-center bottom-60">
+            {/* Tombol Lanjutkan */}
+            <div
+              className={`w-full flex justify-center ${
+                isMobile ? "mt-10 mb-5" : "fixed -bottom-20 left-0"
+              }`}
+            >
               <Button
                 color="primary"
-                // className="border-solid border-2 border-red-500 bg-red-100 text-red-600"
                 size="lg"
+                className="w-full max-w-[200px] mx-auto"
                 onPress={handleButtonClick}
               >
                 Lanjutkan ke Test
               </Button>
             </div>
           </div>
+
+          {/* Side Panel */}
+          {isMobile && (
+            <div className="w-full flex flex-row gap-2 p-2 fixed top-0 left-0 z-10 shadow-md bg-gray-100">
+              {/* Test Card */}
+              <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
+                <FaTasks className="text-2xl mr-2" />
+                <div>
+                  <h2 className="text-sm font-semibold">Test</h2>
+                  <p className="text-xs">Memory Visual</p>
+                </div>
+              </Card>
+
+              {/* Time Card */}
+              <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
+                <IoMdTime className="text-2xl mr-2" />
+                <div>
+                  <h2 className="text-sm font-semibold">Waktu Tersisa</h2>
+                  <p className="text-xs">{formatTime(timeLeft)}</p>
+                </div>
+              </Card>
+            </div>
+          )}
+
+          {!isMobile && (
+            <div className="space-y-7 flex-grow">
+              <div className="absolute top-20 left-20 w-[270px] ml-20">
+                <Card>
+                  <FaTasks className="text-5xl absolute top-4 left-2" />
+                  <CardBody>
+                    <div className="flex text-left items-start justify-center ">
+                      <h2 className=" text-xl font-semibold text-left mr-20">
+                        Test
+                      </h2>
+                    </div>
+                    <div className="flex items-center justify-start">
+                      <p className="text-lg text-left mt-1 ml-16">
+                        Memory Visual
+                      </p>
+                    </div>
+                  </CardBody>
+                </Card>
+              </div>
+              <div className="absolute top-40 left-20 w-[270px] ml-20">
+                <Card>
+                  <IoMdTime className="text-6xl absolute top-3 left-2" />
+                  <CardBody>
+                    <div className="flex text-left items-start justify-center ">
+                      <h2 className=" text-xl font-semibold text-left ml-4">
+                        Waktu Tersisa
+                      </h2>
+                    </div>
+                    <div className="flex items-center justify-start">
+                      <p className="text-xl text-left mt-1 ml-16">
+                        {formatTime(timeLeft)}
+                      </p>
+                    </div>
+                  </CardBody>
+                </Card>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </AuthWrapper>

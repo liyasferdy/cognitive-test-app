@@ -17,7 +17,7 @@ import {
 import { CiWarning } from "react-icons/ci";
 import { Button } from "@nextui-org/button";
 import AuthWrapper from "../../../authWrapper";
-import { audioData } from "../../audio-MW"; // Import audio data
+import { audioData } from "../../audio"; // Import audio data
 
 export default function TestMW() {
   const router = useRouter();
@@ -32,6 +32,19 @@ export default function TestMW() {
   const [hasFinished, setHasFinished] = useState(false); // Track if audio has finished
   const [currentAudio, setCurrentAudio] = useState(null); // State to hold current audio data
   const nextId = parseInt(id, 10) + 1; // Increment the ID by 1
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect screen size for mobile responsiveness
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Set mobile view for screen width <= 768px
+    };
+
+    handleResize(); // Set initial value
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Find the current audio data based on the ID
   useEffect(() => {
@@ -42,6 +55,7 @@ export default function TestMW() {
       setCurrentAudio(audio); // Set the audio data if found
     } else {
       setCurrentAudio(null); // Set currentAudio to null if not found
+      router.push("/test-mw/instruction"); // Redirect to /instruction if audio is not found
     }
   }, [id, router]); // Run when the 'id' changes
 
@@ -123,7 +137,7 @@ export default function TestMW() {
           <Modal
             isOpen={true}
             onClose={() => setIsEndModalOpen(false)}
-            placement="top-center"
+            placement="center"
           >
             <ModalContent>
               <>
@@ -149,26 +163,34 @@ export default function TestMW() {
           </Modal>
         )}
 
-        {/* Instructions Card */}
+        {/* Warning Card */}
         <div className="mb-5 items-center text-center">
-          <Card className="border-solid border-2 border-amber-400 bg-amber-100 text-amber-600 text-center items-center text-md flex flex-col w-[600px]">
+          <Card
+            className={`border-solid border-2 border-amber-400 bg-amber-100 text-amber-600 text-center items-center text-md flex flex-col ${
+              isMobile ? "w-[350px]" : "w-[600px]"
+            }`}
+          >
             <CardBody>
-              <div className="text-center">
-                <h1>
-                  Dengarkan audio dibawah ini untuk menjawab soal berikutnya
+              <div className="text-center items-center justify-center">
+                <h1 className={`${isMobile ? "text-sm" : "text-lg"}`}>
+                  Dengarkan audio di bawah ini untuk menjawab soal berikutnya
                 </h1>
               </div>
             </CardBody>
           </Card>
         </div>
 
-        {/* Warning Card */}
+        {/* Info Card */}
         <div className="mb-5 items-center text-center">
-          <Card className="border-solid border-2 border-red-400 bg-red-100 text-red-600 text-center items-center text-md flex flex-col w-[600px]">
+          <Card
+            className={`border-solid border-2 border-red-400 bg-red-100 text-red-600 text-center items-center text-md flex flex-col ${
+              isMobile ? "w-[350px]" : "w-[600px]"
+            }`}
+          >
             <CardBody>
               <div className="flex items-center justify-center space-x-2">
                 <CiWarning className="text-xl" />
-                <h1 className="text-md">
+                <h1 className={`${isMobile ? "text-sm" : "text-md"}`}>
                   Audio hanya diputar sekali dan tidak dapat diulang
                 </h1>
               </div>
@@ -242,38 +264,62 @@ export default function TestMW() {
 
         {/* Sidebar */}
         <div className="space-y-7">
-          <div className="absolute top-20 left-20 w-[270px] ml-20">
-            <Card>
-              <FaTasks className="text-5xl absolute top-4 left-2" />
-              <CardBody>
-                <div className="flex text-left items-start justify-center ">
-                  <h2 className="text-xl font-semibold text-left mr-20">
-                    Test
-                  </h2>
+          {/* Sidebar */}
+          {isMobile && (
+            <div className="w-full flex flex-row gap-2 p-2 fixed top-0 left-0 z-50 shadow-md bg-gray-100">
+              {/* Test Card */}
+              <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
+                <FaTasks className="text-2xl mr-2" />
+                <div>
+                  <h2 className="text-sm font-semibold">Test</h2>
+                  <p className="text-xs">Memory Visual</p>
                 </div>
-                <div className="flex items-center justify-start">
-                  <p className="text-lg text-left mt-1 ml-16">MS</p>
+              </Card>
+
+              {/* Time Card */}
+              <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
+                <IoMdTime className="text-2xl mr-2" />
+                <div>
+                  <h2 className="text-sm font-semibold">Waktu Tersisa</h2>
+                  <p className="text-xs">{formatTime(timeLeft)}</p>
                 </div>
-              </CardBody>
-            </Card>
-          </div>
-          <div className="absolute top-40 left-20 w-[270px] ml-20">
-            <Card>
-              <IoMdTime className="text-6xl absolute top-3 left-2" />
-              <CardBody>
-                <div className="flex text-left items-start justify-center ">
-                  <h2 className="text-xl font-semibold text-left ml-4">
-                    Waktu Tersisa
-                  </h2>
-                </div>
-                <div className="flex items-center justify-start">
-                  <p className="text-xl text-left mt-1 ml-16">
-                    {formatTime(timeLeft)}
-                  </p>
-                </div>
-              </CardBody>
-            </Card>
-          </div>
+              </Card>
+            </div>
+          )}
+
+          {!isMobile && (
+            <div className="absolute top-20 left-20 space-y-7">
+              <Card className="w-[270px] shadow-md">
+                <FaTasks className="text-5xl absolute top-4 left-2" />
+                <CardBody>
+                  <div className="flex text-left items-start justify-center">
+                    <h2 className="text-xl font-semibold text-left">Test</h2>
+                  </div>
+                  <div className="flex items-center justify-start">
+                    <p className="text-lg text-left mt-1 ml-16">
+                      Memory Visual
+                    </p>
+                  </div>
+                </CardBody>
+              </Card>
+
+              <Card className="w-[270px] shadow-md">
+                <IoMdTime className="text-6xl absolute top-3 left-2" />
+                <CardBody>
+                  <div className="flex text-left items-start justify-center">
+                    <h2 className="text-xl font-semibold text-left">
+                      Waktu Tersisa
+                    </h2>
+                  </div>
+                  <div className="flex items-center justify-start">
+                    <p className="text-xl text-left mt-1 ml-16">
+                      {formatTime(timeLeft)}
+                    </p>
+                  </div>
+                </CardBody>
+              </Card>
+            </div>
+          )}
         </div>
       </div>
     </AuthWrapper>

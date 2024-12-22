@@ -5,7 +5,7 @@ import { Card, CardBody } from "@nextui-org/card";
 import AuthWrapper from "../../authWrapper";
 import { useRouter } from "next/navigation";
 
-export default function InstructionRG() {
+export default function InstructionMM() {
   const router = useRouter();
 
   const handleNavigation = () => {

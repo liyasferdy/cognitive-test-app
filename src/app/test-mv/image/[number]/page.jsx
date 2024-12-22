@@ -14,7 +14,7 @@ export default function TestMV() {
   const router = useRouter();
   const params = useParams();
   const imageNumber = parseInt(params.number, 10); // Convert to 0-based index
-  const [timeLeft, setTimeLeft] = useState(5); // Sesuaikan waktu sesuai kebutuhan
+  const [timeLeft, setTimeLeft] = useState(60); // Sesuaikan waktu sesuai kebutuhan
   const [isMobile, setIsMobile] = useState(false);
 
   // Detect screen size for mobile responsiveness

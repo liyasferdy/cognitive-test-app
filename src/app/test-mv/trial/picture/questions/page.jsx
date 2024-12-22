@@ -83,14 +83,14 @@ export default function QuestionTrialMV() {
     if (timeLeft > 0) {
       setIsEndModalOpen(true); // Show the end modal if time is not expired
     } else {
-      router.push("/test-mv/image/1"); // If time is up, navigate directly
+      router.push("/test-mv/imageEasy/0"); // If time is up, navigate directly
     }
   };
 
   // Handle 'Continue' action on the end modal
   const handleContinue = () => {
     setIsEndModalOpen(false);
-    router.push("/test-mv/image/1"); // Proceed to next page
+    router.push("/test-mv/imageEasy/0"); // Proceed to next page
   };
 
   // Handle radio selection

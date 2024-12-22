@@ -5,7 +5,7 @@ import { Card, CardBody } from "@nextui-org/card";
 import AuthWrapper from "../../authWrapper";
 import { useRouter } from "next/navigation";
 
-export default function InstructionVLSA() {
+export default function InstructionVLS() {
   const router = useRouter();
 
   const handleNavigation = () => {
