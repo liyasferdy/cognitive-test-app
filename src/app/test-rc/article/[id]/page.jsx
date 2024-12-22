@@ -44,7 +44,7 @@ const ArticlePageRC = () => {
 
     if (activeArticle) {
       setArticleData(activeArticle);
-      setTimeLeft(4000); // Reset timer when article changes
+      setTimeLeft(420); // Reset timer when article changes
       setSelectedAnswers({}); // Reset answers when article changes
 
       // Check if this is the final article
