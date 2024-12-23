@@ -125,46 +125,46 @@ const ArticlePageRC = () => {
     }
   };
 
-  // Fungsi untuk mengakhiri test (menyimpan semua jawaban di memory ke DB)
-  const handleFinalAnswerSubmit = async () => {
-    if (isSubmitting) return;
-    setIsSubmitting(true);
+  // // Fungsi untuk mengakhiri test (menyimpan semua jawaban di memory ke DB)
+  // const handleFinalAnswerSubmit = async () => {
+  //   if (isSubmitting) return;
+  //   setIsSubmitting(true);
 
-    try {
-      const response = await axios.post(
-        "https://cognitive-dev-734522323885.asia-southeast2.run.app/answers/savetoDB",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${
-              typeof window !== "undefined"
-                ? localStorage.getItem("access_token")
-                : ""
-            }`,
-          },
-        }
-      );
+  //   try {
+  //     const response = await axios.post(
+  //       "https://cognitive-dev-734522323885.asia-southeast2.run.app/answers/savetoDB",
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${
+  //             typeof window !== "undefined"
+  //               ? localStorage.getItem("access_token")
+  //               : ""
+  //           }`,
+  //         },
+  //       }
+  //     );
 
-      if (response.status === 200) {
-        router.push("/");
-      } else {
-        alert("Failed to finalize answers. Please try again.");
-      }
-    } catch (error) {
-      console.log("Error finalizing answers:", error);
-      alert("An error occurred while finalizing answers. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  //     if (response.status === 200) {
+  //       router.push("/test-ms/instruction");
+  //     } else {
+  //       alert("Failed to finalize answers. Please try again.");
+  //     }
+  //   } catch (error) {
+  //     console.log("Error finalizing answers:", error);
+  //     alert("An error occurred while finalizing answers. Please try again.");
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
 
   const handleFinalSubmit = async () => {
     if (isSubmitting) return;
-    setIsSubmitting(true);
+    // setIsSubmitting(true);
 
     // Submit final answers and navigate
     await submitAnswers(true);
-    router.push("/");
+    router.push("/submit");
 
     setIsSubmitting(false);
   };
@@ -184,7 +184,6 @@ const ArticlePageRC = () => {
 
   const closeModal = () => {
     setShowModal(false);
-    router.push("/");
   };
 
   if (!article) {
@@ -272,7 +271,7 @@ const ArticlePageRC = () => {
                 className={`${
                   isMobile ? "w-full max-w-[200px]" : "mt-4 text-white"
                 }`}
-                onClick={handleFinalAnswerSubmit} // Panggil handleFinalAnswerSubmit langsung
+                onClick={handleFinalSubmit}
                 isLoading={isSubmitting}
               >
                 Submit
@@ -305,30 +304,7 @@ const ArticlePageRC = () => {
               <div className="flex justify-center">
                 <Button
                   color="primary"
-                  onClick={async () => {
-                    try {
-                      // Panggil endpoint logout
-                      const token = localStorage.getItem("access_token");
-                      await axios.post(
-                        "https://cognitive-dev-734522323885.asia-southeast2.run.app/logout",
-                        {},
-                        {
-                          headers: {
-                            Authorization: `Bearer ${token}`,
-                          },
-                        }
-                      );
-
-                      // Hapus token dari localStorage setelah logout berhasil
-                      localStorage.removeItem("access_token");
-
-                      // Arahkan ke halaman login atau halaman lain setelah logout
-                      closeModal();
-                    } catch (error) {
-                      console.error("Error during logout:", error);
-                      alert("Gagal logout. Silakan coba lagi.");
-                    }
-                  }}
+                  onClick={() => router.push("/submit")}
                   size="lg"
                   className="w-full text-white"
                 >
