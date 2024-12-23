@@ -272,7 +272,7 @@ export default function TestMS() {
                 <FaTasks className="text-2xl mr-2" />
                 <div>
                   <h2 className="text-sm font-semibold">Test</h2>
-                  <p className="text-xs">Memory Visual</p>
+                  <p className="text-xs">MS</p>
                 </div>
               </Card>
 
@@ -296,9 +296,7 @@ export default function TestMS() {
                     <h2 className="text-xl font-semibold text-left">Test</h2>
                   </div>
                   <div className="flex items-center justify-start">
-                    <p className="text-lg text-left mt-1 ml-16">
-                      Memory Visual
-                    </p>
+                    <p className="text-lg text-left mt-1 ml-16">MS</p>
                   </div>
                 </CardBody>
               </Card>

@@ -86,7 +86,7 @@ export default function TestMV() {
                   <FaTasks className="text-2xl mr-2" />
                   <div>
                     <h2 className="text-sm font-semibold">Test</h2>
-                    <p className="text-xs">Meaningful Memory</p>
+                    <p className="text-xs">Memory Visual</p>
                   </div>
                 </Card>
 

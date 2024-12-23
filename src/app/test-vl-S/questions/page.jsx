@@ -45,7 +45,7 @@ export default function TestVLS() {
   const handleFinalAnswerSubmit = useCallback(() => {
     if (isSubmitting) return;
     setIsSubmitting(true);
-    router.push("/test-vl-SA/instruction");
+    router.push("/test-rg/instruction");
     setIsSubmitting(false);
   }, [isSubmitting, router]);
 
@@ -110,7 +110,7 @@ export default function TestVLS() {
         }
       );
       if (response.status === 200) {
-        router.push("/test-vl-SA/instruction");
+        router.push("/test-rg/instruction");
       } else {
         alert("Failed to finalize answers. Please try again.");
       }
