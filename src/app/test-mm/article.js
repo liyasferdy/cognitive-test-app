@@ -110,7 +110,7 @@ export const articleData = [
   },
   {
     id: 3,
-    title: "Wacana 2.2",
+    title: "Wacana 3",
     content: [
       "Rina, Doni, dan Arif memutuskan untuk mendaki sebuah gunung yang terkenal dengan cerita-cerita mistisnya. Mereka mendengar dari penduduk setempat bahwa beberapa pendaki pernah melihat sosok misterius di jalur pendakian. Meskipun begitu, mereka tetap nekat mendaki karena tidak percaya pada hal-hal supranatural dan ingin merasakan petualangan yang menantang. Udara malam semakin dingin, dan suasana semakin mencekam saat mereka mendekati puncak.",
       "Saat malam tiba, kabut tebal menyelimuti gunung, membuat jarak pandang sangat terbatas. Tiba-tiba, Rina mendengar suara langkah kaki yang aneh di belakang mereka, meskipun tidak ada orang lain yang tampak. Ketika dia menoleh, bayangan hitam melintas di antara pepohonan. Arif berusaha menenangkan Rina dengan berkata bahwa itu mungkin hanya imajinasinya, tetapi rasa takut mulai menjalar di antara mereka.",
@@ -171,7 +171,7 @@ export const articleData = [
   },
   {
     id: 4,
-    title: "Wacana 3",
+    title: "Wacana 4",
     content: [
       "Dina adalah seorang siswa berprestasi yang sangat ingin melanjutkan pendidikan ke luar negeri melalui program beasiswa. Sejak duduk di bangku SMA, ia sudah bermimpi untuk belajar di universitas terkenal di Eropa. Namun, kondisi finansial keluarganya yang terbatas menjadi tantangan besar bagi Dina. Meski begitu, ia tidak pernah menyerah dan terus mencari informasi tentang berbagai peluang beasiswa yang tersedia.",
       "Setiap hari, Dina meluangkan waktu untuk mempelajari persyaratan beasiswa, mulai dari menulis esai hingga mempersiapkan dokumen akademik. Ia juga mengikuti kursus bahasa Inggris demi mendapatkan sertifikat TOEFL yang menjadi salah satu syarat utama. Selain itu, Dina terlibat dalam berbagai kegiatan organisasi sekolah untuk memperkuat keterampilan kepemimpinannya, karena banyak program beasiswa yang menilai kemampuan ini.",
@@ -236,7 +236,7 @@ export const articleData = [
   },
   {
     id: 5,
-    title: "Wacana 3.2",
+    title: "Wacana 5",
     content: [
       "Ekosistem laut memainkan peran penting dalam menjaga keseimbangan lingkungan global. Lautan tidak hanya menyerap karbon dioksida, tetapi juga memproduksi lebih dari setengah oksigen yang dihirup oleh manusia. Selain itu, ekosistem laut menjadi rumah bagi jutaan spesies yang bergantung pada laut sebagai sumber makanan dan habitat. Namun, perubahan iklim dan polusi laut, seperti sampah plastik, kini mengancam keberlanjutan ekosistem ini.",
       "Salah satu fungsi penting ekosistem laut adalah sebagai penyedia sumber daya makanan bagi manusia. Industri perikanan global sangat bergantung pada kelestarian ekosistem laut untuk memenuhi kebutuhan protein bagi miliaran orang. Namun, penangkapan ikan yang berlebihan dan metode penangkapan yang tidak berkelanjutan menyebabkan penurunan populasi ikan secara drastis. Untuk menjaga keseimbangan ini, praktik perikanan yang bertanggung jawab dan perlindungan terhadap spesies yang terancam punah harus diutamakan.",
@@ -343,7 +343,7 @@ export const articleData = [
   },
   {
     id: 6,
-    title: "Wacana 4.2",
+    title: "Wacana 6",
     content: [
       "Pekerjaan seorang arsitek mencakup perancangan dan pengawasan pembangunan bangunan dan struktur lainnya. Arsitek bertanggung jawab untuk memastikan bahwa bangunan yang dirancang tidak hanya estetis, tetapi juga fungsional dan aman bagi penghuninya. Selain itu, arsitek harus mempertimbangkan berbagai aspek seperti anggaran, lokasi, dan regulasi bangunan yang berlaku.",
       "Arsitek juga harus memiliki kemampuan untuk bekerja sama dengan berbagai pihak, termasuk klien, insinyur, dan kontraktor. Dalam proses pembangunan, mereka sering kali melakukan kunjungan ke lokasi untuk memastikan bahwa konstruksi berjalan sesuai dengan rencana desain. Kemampuan komunikasi yang baik sangat diperlukan untuk memastikan setiap pihak memahami visi proyek yang sedang dikerjakan.",
@@ -423,7 +423,7 @@ export const articleData = [
   },
   {
     id: 7,
-    title: "Wacana 5",
+    title: "Wacana 7",
     content: [
       "Usaha Mikro, Kecil, dan Menengah (UMKM) memiliki peran penting dalam perekonomian Indonesia sebagai tulang punggung sektor usaha. UMKM menyumbang sebagian besar lapangan kerja dan mendukung pertumbuhan ekonomi dengan cara yang signifikan. Mereka berkontribusi dalam berbagai sektor, termasuk perdagangan, industri kreatif, dan jasa. Meskipun memiliki potensi besar, UMKM sering menghadapi tantangan yang menghambat pertumbuhannya.",
       "Salah satu tantangan utama yang dihadapi UMKM adalah keterbatasan akses terhadap pembiayaan. Banyak UMKM yang kesulitan mendapatkan modal karena kurangnya jaminan dan riwayat kredit yang memadai. Akibatnya, mereka sering kali terpaksa beroperasi dengan modal yang terbatas, yang membatasi kemampuan mereka untuk berkembang dan bersaing di pasar yang lebih luas. Solusi seperti pembiayaan mikro dan dukungan pemerintah dapat membantu mengatasi masalah ini.",
@@ -490,7 +490,7 @@ export const articleData = [
   },
   {
     id: 8,
-    title: "Wacana 6",
+    title: "Wacana 8",
     content: [
       "Prosedur perusahaan pailit merupakan langkah-langkah hukum yang diambil ketika sebuah perusahaan tidak mampu memenuhi kewajiban finansialnya. Proses ini dimulai dengan pengajuan permohonan pailit ke pengadilan oleh debitur atau kreditur. Pengadilan akan menilai kondisi keuangan perusahaan dan memutuskan apakah perusahaan tersebut benar-benar tidak mampu membayar hutangnya. Jika permohonan disetujui, pengadilan akan menunjuk seorang kurator untuk mengelola aset perusahaan dan memastikan proses pailit berjalan sesuai dengan hukum yang berlaku.",
       "Setelah perusahaan dinyatakan pailit, tahap berikutnya adalah inventarisasi aset. Kurator akan melakukan penilaian terhadap semua aset perusahaan, termasuk properti, inventaris, dan piutang. Penilaian ini bertujuan untuk menentukan nilai total aset yang dapat digunakan untuk membayar utang perusahaan. Proses ini juga melibatkan identifikasi dan penilaian klaim dari kreditur untuk memastikan semua utang terdaftar dengan benar.",

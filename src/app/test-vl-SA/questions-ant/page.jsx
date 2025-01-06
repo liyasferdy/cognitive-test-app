@@ -7,13 +7,13 @@ import { Card, CardBody } from "@nextui-org/card";
 import { RadioGroup, Radio } from "@nextui-org/radio";
 import { IoMdTime } from "react-icons/io";
 import { FaTasks } from "react-icons/fa";
-import { questionsData } from "../questions-RG"; // Pastikan path ini benar
+import { questionsData } from "../questions_VL-SA"; // Pastikan path ini benar
 import AuthWrapper from "../../authWrapper";
 import axios from "axios";
 
-export default function TestRG() {
+export default function TestVLSA() {
   const router = useRouter();
-  const [timeLeft, setTimeLeft] = useState();
+  const [timeLeft, setTimeLeft] = useState(15 * 60);
   const [questions, setQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState(
     Array.from({ length: 30 }, (_, index) => ({
@@ -45,7 +45,7 @@ export default function TestRG() {
   const handleFinalAnswerSubmit = useCallback(() => {
     if (isSubmitting) return;
     setIsSubmitting(true);
-    router.push("/test-a3/instruction");
+    router.push("/test-gfi/instruction");
     setIsSubmitting(false);
   }, [isSubmitting, router]);
 
@@ -80,6 +80,12 @@ export default function TestRG() {
 
   const submitAnswers = async (isFinalSubmission = false) => {
     if (isSubmitting) return;
+
+    if (!isFinalSubmission && timeLeft > 0) {
+      setShowModal(true); // Tampilkan modal jika waktu belum habis
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -101,7 +107,7 @@ export default function TestRG() {
       }));
 
       const response = await axios.post(
-        "https://cognitive-dev-734522323885.asia-southeast2.run.app/submit/testRG", //WAJIB GANTI
+        "https://cognitive-dev-734522323885.asia-southeast2.run.app/submit/testVLSA", //WAJIB GANTI
         { answers: transformedAnswers },
         {
           headers: {
@@ -109,8 +115,9 @@ export default function TestRG() {
           },
         }
       );
+
       if (response.status === 200) {
-        router.push("/test-rq/instruction");
+        router.push("/test-gfi/instruction");
       } else {
         alert("Failed to finalize answers. Please try again.");
       }
@@ -124,7 +131,7 @@ export default function TestRG() {
 
   const closeModal = () => {
     setShowModal(false);
-    handleFinalAnswerSubmit();
+    submitAnswers(true); // Lakukan pengiriman jawaban akhir
   };
 
   return (
@@ -132,41 +139,42 @@ export default function TestRG() {
       <div className="pt-20 flex flex-col justify-start items-center min-h-screen bg-gray-100 p-4">
         {/* Questions */}
         <div className="space-y-5 w-full max-w-4xl">
-          {questions.map((question) => (
-            <Card key={question.number} className="w-full px-4 py-6">
-              <CardBody>
-                <RadioGroup
-                  value={selectedAnswers[question.number]}
-                  onValueChange={(value) =>
-                    handleAnswerSelect(question.number, value)
-                  }
-                  label={`Soal ${question.number}: ${question.text}`}
-                  labelPlacement="outside"
-                >
-                  {question.options.map((option, index) => (
-                    <Radio key={index} value={option.value}>
-                      {option.text}
-                    </Radio>
-                  ))}
-                </RadioGroup>
-              </CardBody>
-            </Card>
-          ))}
+          {questions
+            .filter((question) => question.number >= 22) // Filter questions mulai dari nomor 22
+            .map((question) => (
+              <Card key={question.number} className="w-full px-4 py-6">
+                <CardBody>
+                  <RadioGroup
+                    value={selectedAnswers[question.number]}
+                    onValueChange={(value) =>
+                      handleAnswerSelect(question.number, value)
+                    }
+                    label={`Soal ${question.number}: ${question.text}`}
+                    labelPlacement="outside"
+                  >
+                    {question.options.map((option, index) => (
+                      <Radio key={index} value={option.value}>
+                        {option.text}
+                      </Radio>
+                    ))}
+                  </RadioGroup>
+                </CardBody>
+              </Card>
+            ))}
         </div>
+
         {/* Finish Test Button */}
         <div className="flex justify-center items-center mt-10 mb-20">
           <Button
             color="primary"
             size="lg"
             className="mt-4"
-            // onClick={() => submitAnswers(true)}
-            onClick={() => setShowModal(true)}
+            onClick={() => submitAnswers(false)}
           >
             Submit
           </Button>
         </div>
 
-        {/* Modal for finishing the test
         {showModal && (
           <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white p-6 rounded-md shadow-lg w-96">
@@ -200,7 +208,7 @@ export default function TestRG() {
               </div>
             </div>
           </div>
-        )} */}
+        )}
 
         {/* Sidebar */}
         {!isMobile && (
@@ -215,7 +223,9 @@ export default function TestRG() {
                     </h2>
                   </div>
                   <div className="flex items-center justify-start">
-                    <p className="text-lg text-left mt-1 ml-16">RG</p>
+                    <p className="text-lg text-left mt-1 ml-16">
+                      Sinonim-Antonim
+                    </p>
                   </div>
                 </CardBody>
               </Card>
@@ -240,6 +250,7 @@ export default function TestRG() {
             </div>
           </div>
         )}
+
         {/* Sidebar for Mobile */}
         {isMobile && (
           <div className="w-full flex flex-row gap-2 p-2 fixed top-0 left-0 z-10 shadow-md bg-gray-100 mb-4">
@@ -248,7 +259,7 @@ export default function TestRG() {
               <FaTasks className="text-2xl mr-2" />
               <div>
                 <h2 className="text-sm font-semibold">Test</h2>
-                <p className="text-xs">RG</p>
+                <p className="text-xs">Sinonim-Antonim</p>
               </div>
             </Card>
 
@@ -260,44 +271,6 @@ export default function TestRG() {
                 <p className="text-xs">{formatTime(timeLeft)}</p>
               </div>
             </Card>
-          </div>
-        )}
-        {/* Modal Konfirmasi */}
-        {showModal && (
-          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white p-6 rounded-md shadow-lg w-96">
-              <h2 className="text-center text-xl mb-4 font-semibold">
-                Submit Jawaban
-              </h2>
-              <p className="text-center mb-6">
-                Kamu masih punya waktu tersisa. Apakah kamu yakin ingin
-                mengakhiri tes ini?
-              </p>
-              <div className="flex justify-center">
-                <Button
-                  color="primary"
-                  onClick={() => {
-                    setShowModal(false);
-                    submitAnswers(true);
-                  }}
-                  size="lg"
-                  className="w-full"
-                >
-                  Ya, Submit
-                </Button>
-              </div>
-              <div className="flex justify-center mt-4">
-                <Button
-                  color="danger"
-                  onClick={() => setShowModal(false)}
-                  size="lg"
-                  variant="bordered"
-                  className="w-full"
-                >
-                  Batal
-                </Button>
-              </div>
-            </div>
           </div>
         )}
       </div>

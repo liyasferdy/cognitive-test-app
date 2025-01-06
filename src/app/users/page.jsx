@@ -290,14 +290,15 @@ export default function UsersScreening() {
                     </CardBody>
                   </Card>
 
-                  <Input
+                  {/* <Input
                     label="Suku"
                     placeholder="Masukkan suku anda"
                     type="text"
                     name="suku"
                     value={formData.suku}
                     onChange={handleInputChange}
-                  />
+                  /> */}
+
                   <div className="flex justify-center">
                     <Button
                       type="submit"

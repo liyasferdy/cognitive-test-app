@@ -7,7 +7,7 @@ import { FaTasks } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
 import { Image } from "@nextui-org/image";
 // import { Button } from "@nextui-org/button";
-import { imageData } from "../../../image"; // Pastikan path sesuai
+import { imageData } from "../.."; // Pastikan path sesuai
 import axios from "axios"; // Import axios
 import { RadioGroup } from "@nextui-org/radio";
 import { Radio } from "@nextui-org/radio";

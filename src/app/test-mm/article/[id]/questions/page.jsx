@@ -13,7 +13,7 @@ import axios from "axios";
 
 export default function TestMM() {
   const router = useRouter();
-  const [timeLeft, setTimeLeft] = useState(30); // 5 minutes countdown in seconds
+  const [timeLeft, setTimeLeft] = useState(30); // times countdown in seconds
   const [article, setArticle] = useState(null);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -208,7 +208,18 @@ export default function TestMM() {
                   size="lg"
                   className="w-full text-white"
                 >
-                  Akhiri
+                  Submit
+                </Button>
+              </div>
+              <div className="flex justify-center mt-4">
+                <Button
+                  color="danger"
+                  onClick={() => setShowModal(false)}
+                  size="lg"
+                  variant="bordered"
+                  className="w-full text-red-600"
+                >
+                  Batal
                 </Button>
               </div>
             </div>

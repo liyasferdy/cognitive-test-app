@@ -21,7 +21,7 @@ import { RxCross2 } from "react-icons/rx";
 import { AiOutlineReload } from "react-icons/ai";
 import AuthWrapper from "../../../../authWrapper";
 
-export default function QuestionTrialGFI() {
+export default function QuestionTrialVZ() {
   const router = useRouter();
   const [timeLeft, setTimeLeft] = useState(10); // times left to answer
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modals
@@ -83,14 +83,14 @@ export default function QuestionTrialGFI() {
     if (timeLeft > 0) {
       setIsEndModalOpen(true); // Show the end modal if time is not expired
     } else {
-      router.push("/test-gfi/image/0"); // If time is up, navigate directly
+      router.push("/test-vz/image/0"); // If time is up, navigate directly
     }
   };
 
   // Handle 'Continue' action on the end modal
   const handleContinue = () => {
     setIsEndModalOpen(false);
-    router.push("/test-gfi/image/0"); // Proceed to next page
+    router.push("/test-vz/image/0"); // Proceed to next page
   };
 
   // Handle radio selection
@@ -142,26 +142,26 @@ export default function QuestionTrialGFI() {
       options: [
         {
           value: "a",
-          image: "/assets/soal-GFI/Contoh Gf-I/a.png",
+          image: "/assets/soal-VZ/Contoh Gv-Vz/a.png",
         },
         {
           value: "b",
-          image: "/assets/soal-GFI/Contoh Gf-I/b.png",
+          image: "/assets/soal-VZ/Contoh Gv-Vz/b.png",
         },
         {
           value: "c",
-          image: "/assets/soal-GFI/Contoh Gf-I/c.png",
+          image: "/assets/soal-VZ/Contoh Gv-Vz/c.png",
         },
         {
           value: "d",
-          image: "/assets/soal-GFI/Contoh Gf-I/d.png",
+          image: "/assets/soal-VZ/Contoh Gv-Vz/d.png",
         },
         {
           value: "e",
-          image: "/assets/soal-GFI/Contoh Gf-I/e.png",
+          image: "/assets/soal-VZ/Contoh Gv-Vz/e.png",
         },
       ],
-      correctAnswer: "e",
+      correctAnswer: "c",
     },
     // Add more questions as needed
   ];
@@ -190,7 +190,7 @@ export default function QuestionTrialGFI() {
                 <Button
                   color="warning"
                   className="text-amber-50"
-                  onPress={() => router.push("/test-gfi/trial/picture")}
+                  onPress={() => router.push("/test-vz/trial/picture")}
                 >
                   <AiOutlineReload className="text-xl" />
                   Ulangi latihan
@@ -307,7 +307,7 @@ export default function QuestionTrialGFI() {
                     <h3 className="text-lg font-semibold">Konfirmasi</h3>
                   </ModalHeader>
                   <ModalBody>
-                    <p>Apakah Anda yakin ingin mengakhiri test ini?</p>
+                    <p>Apakah Anda yakin ingin mealanjutkan?</p>
                   </ModalBody>
                   <ModalFooter>
                     <Button
@@ -322,7 +322,7 @@ export default function QuestionTrialGFI() {
                       size="md"
                       onPress={handleFinishTest}
                     >
-                      Lanjutkan ke Test
+                      Lanjutkan
                     </Button>
                   </ModalFooter>
                 </>

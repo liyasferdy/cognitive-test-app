@@ -7,7 +7,7 @@ import { FaTasks } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
 import { Image } from "@nextui-org/image";
 // import { Button } from "@nextui-org/button";
-import { imageData } from "../../image"; // Sesuaikan path sesuai dengan struktur proyek Anda
+import { imageData } from ".."; // Sesuaikan path sesuai dengan struktur proyek Anda
 import AuthWrapper from "../../../authWrapper";
 
 export default function TestGFI() {

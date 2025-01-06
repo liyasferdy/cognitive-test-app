@@ -140,7 +140,7 @@ export default function QuestionTrialMS() {
                   <h3 className="text-lg font-semibold">Konfirmasi</h3>
                 </ModalHeader>
                 <ModalBody>
-                  <p>Apakah Anda yakin ingin mengakhiri test ini?</p>
+                  <p>Apakah Anda yakin ingin mealanjutkan?</p>
                 </ModalBody>
                 <ModalFooter>
                   <Button
@@ -150,7 +150,7 @@ export default function QuestionTrialMS() {
                     Batal
                   </Button>
                   <Button color="primary" onPress={handleSubmitAndFinish}>
-                    Akhiri Test
+                    Lanjutkan
                   </Button>
                 </ModalFooter>
               </>

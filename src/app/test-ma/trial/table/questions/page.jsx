@@ -140,7 +140,7 @@ export default function TrialQuestionsMA() {
                     <h3 className="text-lg font-semibold">Konfirmasi</h3>
                   </ModalHeader>
                   <ModalBody>
-                    <p>Apakah Anda yakin ingin mengakhiri test ini?</p>
+                    <p>Apakah Anda yakin ingin mealanjutkan?</p>
                   </ModalBody>
                   <ModalFooter>
                     <Button
@@ -155,7 +155,7 @@ export default function TrialQuestionsMA() {
                       size="lg"
                       onPress={handleContinue}
                     >
-                      Akhiri Test
+                      Lanjutkan
                     </Button>
                   </ModalFooter>
                 </>
@@ -262,7 +262,7 @@ export default function TrialQuestionsMA() {
             size="lg"
             onPress={handleButtonClick}
           >
-            Akhiri Test
+            Lanjutkan
           </Button>
         </div>
       </div>

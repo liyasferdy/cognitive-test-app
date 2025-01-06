@@ -109,11 +109,6 @@ export default function TrialTestMA() {
                         </div>
                       </CardBody>
                     </Card>
-                    <p className="text-justify">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Nullam pulvinar risus non risus hendrerit venenatis.
-                      Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                    </p>
                   </ModalBody>
                   <ModalFooter>
                     <Button color="primary" onPress={handleModalAction}>

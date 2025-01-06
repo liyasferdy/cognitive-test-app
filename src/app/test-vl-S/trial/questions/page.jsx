@@ -342,7 +342,7 @@ export default function TrialQuestionsVLS() {
                     <h3 className="text-lg font-semibold">Konfirmasi</h3>
                   </ModalHeader>
                   <ModalBody>
-                    <p>Apakah Anda yakin ingin mengakhiri test ini?</p>
+                    <p>Apakah Anda yakin ingin mealanjutkan?</p>
                   </ModalBody>
                   <ModalFooter>
                     <Button color="error" onPress={handleCancel}>
@@ -354,7 +354,7 @@ export default function TrialQuestionsVLS() {
                       size="md"
                       onPress={handleFinishTest}
                     >
-                      Akhiri Test
+                      Lanjutkan
                     </Button>
                   </ModalFooter>
                 </>

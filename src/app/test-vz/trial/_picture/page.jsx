@@ -17,7 +17,7 @@ import {
 import { CiWarning } from "react-icons/ci";
 import AuthWrapper from "../../../authWrapper";
 
-export default function TrialGFI() {
+export default function TrialVZ() {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modal
@@ -47,7 +47,7 @@ export default function TrialGFI() {
       return () => clearInterval(interval);
     } else if (timeLeft === 0) {
       // Redirect to the questions page when time runs out
-      router.push("/test-gfi/trial/picture/questions");
+      router.push("/test-vz/trial/picture/questions");
       setTimerActive(true);
     }
   }, [timeLeft, timerActive]);
@@ -72,14 +72,14 @@ export default function TrialGFI() {
     if (timeLeft > 0) {
       setIsEndModalOpen(true); // Show the end modal if time is not expired
     } else {
-      router.push("/test-gfi/trial/picture/questions"); // If time is up, navigate directly
+      router.push("/test-vz/trial/picture/questions"); // If time is up, navigate directly
     }
   };
 
   // Handle 'Continue' action on the end modal
   const handleContinue = () => {
     setIsEndModalOpen(false);
-    router.push("/test-gfi/trial/picture/questions"); // Proceed to next page
+    router.push("/test-vz/trial/picture/questions"); // Proceed to next page
   };
 
   // Soal
@@ -104,11 +104,6 @@ export default function TrialGFI() {
                         </div>
                       </CardBody>
                     </Card>
-                    <p className="text-justify">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Nullam pulvinar risus non risus hendrerit venenatis.
-                      Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                    </p>
                   </ModalBody>
                   <ModalFooter>
                     <Button color="primary" onPress={handleModalAction}>
@@ -187,7 +182,7 @@ export default function TrialGFI() {
                   width={isMobile ? 300 : 500} // Responsif untuk ukuran gambar
                   height={isMobile ? 300 : 500} // Responsif untuk ukuran gambar
                   alt="Contoh Soal"
-                  src="/assets/soal-GFI/Contoh Gf-I/Contoh .png"
+                  src="/assets/soal-VZ/Contoh Gv-Vz/Contoh.png"
                   className="object-contain"
                 />
               </CardBody>

@@ -83,14 +83,14 @@ export default function QuestionTrialMV() {
     if (timeLeft > 0) {
       setIsEndModalOpen(true); // Show the end modal if time is not expired
     } else {
-      router.push("/test-mv/imageEasy/0"); // If time is up, navigate directly
+      router.push("/test-mv/image/1"); // If time is up, navigate directly
     }
   };
 
   // Handle 'Continue' action on the end modal
   const handleContinue = () => {
     setIsEndModalOpen(false);
-    router.push("/test-mv/imageEasy/0"); // Proceed to next page
+    router.push("/test-mv/image/1"); // Proceed to next page
   };
 
   // Handle radio selection
@@ -190,7 +190,7 @@ export default function QuestionTrialMV() {
                 <Button
                   color="warning"
                   className="text-amber-50"
-                  onPress={() => router.push("/test-mv/trial/picture")}
+                  onPress={() => router.push("/test-mv/image/1")}
                 >
                   <AiOutlineReload className="text-xl" />
                   Ulangi latihan
@@ -282,7 +282,7 @@ export default function QuestionTrialMV() {
                 <p>Mohon perhatikan waktu tersisa saat mengerjakan soal</p>
               </ModalBody>
               <ModalFooter>
-                <Link href="/test-mm/trial/article/questions">
+                <Link href="/test-mv/instruction">
                   <Button color="warning" className="text-amber-50">
                     <AiOutlineReload className="text-xl" />
                     Ulangi
@@ -307,7 +307,7 @@ export default function QuestionTrialMV() {
                     <h3 className="text-lg font-semibold">Konfirmasi</h3>
                   </ModalHeader>
                   <ModalBody>
-                    <p>Apakah Anda yakin ingin mengakhiri test ini?</p>
+                    <p>Apakah Anda yakin ingin mealanjutkan?</p>
                   </ModalBody>
                   <ModalFooter>
                     <Button
@@ -322,7 +322,7 @@ export default function QuestionTrialMV() {
                       size="md"
                       onPress={handleFinishTest}
                     >
-                      Lanjutkan ke Test
+                      Lanjutkan
                     </Button>
                   </ModalFooter>
                 </>

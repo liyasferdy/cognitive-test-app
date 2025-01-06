@@ -2,35 +2,35 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Card, CardBody } from "@nextui-org/card";
-import { FaTasks } from "react-icons/fa";
-import { IoMdTime } from "react-icons/io";
-import { Image } from "@nextui-org/image";
-import { Radio, RadioGroup } from "@nextui-org/radio";
 import { Button } from "@nextui-org/button";
-import Link from "next/link";
+import { Card, CardBody } from "@nextui-org/card";
+import { RadioGroup, Radio } from "@nextui-org/radio";
+import { IoMdTime } from "react-icons/io";
+import { FaTasks } from "react-icons/fa";
 import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
+  useDisclosure,
 } from "@nextui-org/modal";
 import { FaCheck } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
 import { AiOutlineReload } from "react-icons/ai";
-import AuthWrapper from "../../../../authWrapper";
+import AuthWrapper from "../../../authWrapper";
 
-export default function QuestionTrialVZ() {
-  const router = useRouter();
-  const [timeLeft, setTimeLeft] = useState(10); // times left to answer
-  const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modals
+export default function TrialQuestionsVLS() {
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
+  const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modals
   const [isCorrectModalOpen, setIsCorrectModalOpen] = useState(false); // Correct answer modal
   const [isIncorrectModalOpen, setIsIncorrectModalOpen] = useState(false); // Incorrect answer modal
   const [isMissingAnswerModalOpen, setIsMissingAnswerModalOpen] =
     useState(false); // Missing answer modal
   const [isTimeUpModalOpen, setIsTimeUpModalOpen] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(30); // set time left
+  const [timerId, setTimerId] = useState(null); // Track interval ID
+  const router = useRouter(); // Inisialisasi useRouter
   const [selectedAnswers, setSelectedAnswers] = useState({
     1: null,
   });
@@ -51,8 +51,11 @@ export default function QuestionTrialVZ() {
   // Timer countdown logic
   useEffect(() => {
     if (timeLeft === 0) {
-      // Redirect to the questions page when time runs out
-      // router.push("/");
+      setIsTimeUpModalOpen(true); // Show time-up modal
+      if (timerId) {
+        clearInterval(timerId); // Clear timer if time reaches 0
+        setTimerId(null);
+      }
       return;
     }
 
@@ -60,8 +63,10 @@ export default function QuestionTrialVZ() {
       setTimeLeft((prevTime) => prevTime - 1);
     }, 1000); // Update every second
 
-    return () => clearInterval(interval); // Cleanup the interval on component unmount
-  }, [timeLeft, router]);
+    setTimerId(interval); // Store interval ID
+
+    return () => clearInterval(interval); // Cleanup on component unmount
+  }, [timeLeft]);
 
   // Format time to mm:ss
   const formatTime = (seconds) => {
@@ -72,25 +77,39 @@ export default function QuestionTrialVZ() {
     ).padStart(2, "0")}`;
   };
 
+  // Handle the 'Submit' button click
+  const handleButtonClick = () => {
+    // Stop the timer
+    if (timerId) {
+      clearInterval(timerId); // Clear the interval to stop the timer
+      setTimerId(null); // Reset the timerId state
+    }
+
+    if (timeLeft > 0) {
+      setIsEndModalOpen(true); // Show the end modal if time is not expired
+    } else {
+      router.push("/test-vz/trial/questions/"); // If time is up, navigate directly
+    }
+  };
+
+  const handleNavigation = () => {
+    router.push("/test-vz/questions");
+  };
+
+  const handleReset = () => {
+    router.push("/test-vz/instruction");
+  };
+
   // Close initial modal and start timer
   const handleModalAction = () => {
     setIsModalOpen(false);
     setTimerActive(true);
   };
 
-  // Handle the 'Selesai dan lanjutkan' button click
-  const handleButtonClick = () => {
-    if (timeLeft > 0) {
-      setIsEndModalOpen(true); // Show the end modal if time is not expired
-    } else {
-      router.push("/test-vz/image/0"); // If time is up, navigate directly
-    }
-  };
-
   // Handle 'Continue' action on the end modal
   const handleContinue = () => {
     setIsEndModalOpen(false);
-    router.push("/test-vz/image/0"); // Proceed to next page
+    router.push("/"); // Proceed to next page
   };
 
   // Handle radio selection
@@ -135,6 +154,25 @@ export default function QuestionTrialVZ() {
     }
   };
 
+  // Handle the 'Batal' button click
+  const handleCancel = () => {
+    setIsEndModalOpen(false); // Close modal
+    if (!timerId) {
+      const interval = setInterval(() => {
+        setTimeLeft((prevTime) => {
+          if (prevTime <= 1) {
+            clearInterval(interval);
+            setTimerId(null);
+            return 0;
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
+
+      setTimerId(interval); // Restart timer
+    }
+  };
+
   // Define questions
   const questions = [
     {
@@ -168,13 +206,13 @@ export default function QuestionTrialVZ() {
 
   return (
     <AuthWrapper>
-      <div className="flex justify-center items-center min-h-screen px-4">
+      <div className="pt-20 flex flex-col justify-start items-center min-h-screen bg-gray-100 p-4">
         {/* Correct Answer Modal */}
         {isCorrectModalOpen && (
           <Modal
             isOpen={true}
             onClose={() => setIsCorrectModalOpen(false)}
-            placement="top-center"
+            placement="center"
           >
             <ModalContent>
               <ModalHeader className="flex flex-col gap-1 justify-center items-center">
@@ -183,22 +221,23 @@ export default function QuestionTrialVZ() {
               <ModalBody>
                 <div className="flex items-center gap-2">
                   <FaCheck className="text-green-500 text-xl" />
-                  <p>Jawaban Anda benar!</p>
+                  <p>Semua jawaban Anda benar!</p>
                 </div>
               </ModalBody>
               <ModalFooter>
                 <Button
                   color="warning"
                   className="text-amber-50"
-                  onPress={() => router.push("/test-vz/trial/picture")}
+                  onClick={handleReset}
+                  // onPress={() => setIsCorrectModalOpen(false)}
                 >
                   <AiOutlineReload className="text-xl" />
                   Ulangi latihan
                 </Button>
                 <Button
-                  color="primary"
+                  color="success"
                   className="text-emerald-50"
-                  onPress={() => handleContinue()}
+                  onClick={handleNavigation}
                 >
                   Mulai Test
                 </Button>
@@ -212,7 +251,7 @@ export default function QuestionTrialVZ() {
           <Modal
             isOpen={true}
             onClose={() => setIsIncorrectModalOpen(false)}
-            placement="top-center"
+            placement="center"
           >
             <ModalContent>
               <ModalHeader className="flex flex-col gap-1 justify-center items-center">
@@ -222,13 +261,16 @@ export default function QuestionTrialVZ() {
                 <div className="flex items-center gap-2">
                   <RxCross2 className="text-red-500 text-xl" />
                   <p className="text-md">
-                    Jawaban anda masih salah. Silakan coba lagi!
+                    Jawaban anda masih salah. Silahkan coba lagi
                   </p>
                 </div>
               </ModalBody>
               <ModalFooter>
                 <Button
-                  onPress={() => setIsIncorrectModalOpen(false)}
+                  onPress={() => {
+                    setIsIncorrectModalOpen(false);
+                    handleReset();
+                  }}
                   color="warning"
                   className="text-amber-50"
                 >
@@ -245,7 +287,7 @@ export default function QuestionTrialVZ() {
           <Modal
             isOpen={true}
             onClose={() => setIsMissingAnswerModalOpen(false)}
-            placement="top-center"
+            placement="center"
           >
             <ModalContent>
               <ModalHeader className="flex flex-col gap-1 justify-center items-center">
@@ -271,8 +313,11 @@ export default function QuestionTrialVZ() {
         {isTimeUpModalOpen && (
           <Modal
             isOpen={true}
-            onClose={() => setIsTimeUpModalOpen(false)}
-            placement="top-center"
+            onClose={() => {
+              setIsTimeUpModalOpen(false);
+              handleReset(); // Pastikan handleReset dipanggil
+            }}
+            placement="center"
           >
             <ModalContent>
               <ModalHeader className="flex flex-col gap-1 justify-center items-center">
@@ -282,12 +327,17 @@ export default function QuestionTrialVZ() {
                 <p>Mohon perhatikan waktu tersisa saat mengerjakan soal</p>
               </ModalBody>
               <ModalFooter>
-                <Link href="/test-mm/trial/article/questions">
-                  <Button color="warning" className="text-amber-50">
-                    <AiOutlineReload className="text-xl" />
-                    Ulangi
-                  </Button>
-                </Link>{" "}
+                <Button
+                  color="warning"
+                  className="text-amber-50"
+                  onClick={() => {
+                    handleReset(); // Jalankan handleReset langsung
+                    setIsTimeUpModalOpen(false);
+                  }}
+                >
+                  <AiOutlineReload className="text-xl" />
+                  Ulangi
+                </Button>
               </ModalFooter>
             </ModalContent>
           </Modal>
@@ -298,7 +348,7 @@ export default function QuestionTrialVZ() {
           <Modal
             isOpen={true}
             onClose={() => setIsEndModalOpen(false)}
-            placement="top-center"
+            placement="center"
           >
             <ModalContent>
               {() => (
@@ -307,13 +357,10 @@ export default function QuestionTrialVZ() {
                     <h3 className="text-lg font-semibold">Konfirmasi</h3>
                   </ModalHeader>
                   <ModalBody>
-                    <p>Apakah Anda yakin ingin mengakhiri test ini?</p>
+                    <p>Apakah Anda yakin ingin malanjutkan ?</p>
                   </ModalBody>
                   <ModalFooter>
-                    <Button
-                      color="error"
-                      onPress={() => setIsEndModalOpen(false)}
-                    >
+                    <Button color="error" onPress={handleCancel}>
                       Batal
                     </Button>
                     <Button
@@ -322,7 +369,7 @@ export default function QuestionTrialVZ() {
                       size="md"
                       onPress={handleFinishTest}
                     >
-                      Lanjutkan ke Test
+                      Lanjutkan
                     </Button>
                   </ModalFooter>
                 </>
@@ -331,150 +378,145 @@ export default function QuestionTrialVZ() {
           </Modal>
         )}
 
-        {/* Main content */}
-        <div className="w-full flex justify-center items-center">
-          {/* Main content */}
-          <div
-            className={`flex flex-col justify-center items-center ${
-              isMobile
-                ? "w-full px-4 top-[90px]"
-                : "w-[1000px] -mt-10 top-[400px] -right-40 transform -translate-x-1/2 -translate-y-1/2"
-            } absolute`}
-          >
+        {/* Questions */}
+        <div className="w-full max-w-4xl space-y-10">
+          <div className="flex justify-center">
             <Card
-              className={`w-full ${
-                isMobile ? "max-w-[90%] px-4 py-6" : "w-[1000px]"
+              className={`border-solid border-2 border-amber-400 bg-amber-100 text-amber-600 text-center items-center text-md flex flex-col ${
+                isMobile ? "w-[350px]" : "w-[600px]"
               }`}
             >
-              <CardBody className="flex flex-col justify-center items-center p-6">
-                <h2
-                  className={`${
-                    isMobile ? "text-lg mb-6" : "text-xl mb-10"
-                  } font-semibold text-center`}
-                >
-                  Pilih salah satu yang sesuai dengan gambar sebelumnya
-                </h2>
-
-                {/* Render questions */}
-                {questions.map((question) => (
-                  <RadioGroup
-                    key={question.number}
-                    orientation={isMobile ? "vertical" : "horizontal"}
-                    className={`${
-                      isMobile
-                        ? "flex flex-col space-y-4 items-center"
-                        : "flex flex-row justify-center items-center space-x-4"
-                    }`}
-                  >
-                    {question.options.map((option) => (
-                      <Radio
-                        key={option.value}
-                        value={option.value}
-                        onChange={() =>
-                          handleAnswerSelect(question.number, option.value)
-                        }
-                        className="flex justify-center items-center"
-                      >
-                        <Card
-                          className={`h-fit ${
-                            isMobile ? "px-6 py-4" : "px-10 py-5"
-                          } flex justify-center items-center`}
-                        >
-                          <CardBody className="flex justify-center items-center">
-                            <Image
-                              width={isMobile ? 80 : 150}
-                              height={isMobile ? 80 : 150}
-                              alt="Contoh Soal"
-                              src={option.image}
-                              className="object-contain"
-                            />
-                          </CardBody>
-                        </Card>
-                      </Radio>
-                    ))}
-                  </RadioGroup>
-                ))}
+              <CardBody>
+                <div className="text-center items-center justify-center">
+                  <h1 className={`${isMobile ? "text-sm" : "text-lg"}`}>
+                    Kerjakan contoh soal di bawah ini untuk menjawab soal
+                    berikutnya
+                  </h1>
+                </div>
               </CardBody>
             </Card>
-            {/* Tombol Lanjutkan */}
-            <div
-              className={`w-full flex justify-center ${
-                isMobile ? "mt-10 mb-5" : "fixed -bottom-20 left-0"
-              }`}
-            >
-              <Button
-                color="primary"
-                size="lg"
-                className="w-full max-w-[200px] mx-auto"
-                onPress={handleButtonClick}
-              >
-                Lanjutkan ke Test
-              </Button>
-            </div>
           </div>
 
-          {/* Side Panel */}
-          {isMobile && (
-            <div className="w-full flex flex-row gap-2 p-2 fixed top-0 left-0 z-10 shadow-md bg-gray-100">
-              {/* Test Card */}
-              <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
-                <FaTasks className="text-2xl mr-2" />
-                <div>
-                  <h2 className="text-sm font-semibold">Test</h2>
-                  <p className="text-xs">Memory Visual</p>
-                </div>
-              </Card>
-
-              {/* Time Card */}
-              <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
-                <IoMdTime className="text-2xl mr-2" />
-                <div>
-                  <h2 className="text-sm font-semibold">Waktu Tersisa</h2>
-                  <p className="text-xs">{formatTime(timeLeft)}</p>
-                </div>
+          {questions.map((question) => (
+            <div
+              key={question.number}
+              className="w-full flex flex-col items-center"
+            >
+              <Card className="space-y-3 p-10">
+                <CardBody className="flex justify-center items-center p-5">
+                  <img
+                    width={300}
+                    height={300}
+                    alt={`Question ${question.number}`}
+                    src="/assets/soal-VZ/Contoh Gv-Vz/Contoh.png"
+                    className="object-contain"
+                  />
+                </CardBody>
+                <RadioGroup
+                  orientation="horizontal"
+                  value={selectedAnswers[question.number] || ""}
+                  onValueChange={(value) =>
+                    handleAnswerSelect(question.number, value)
+                  }
+                  className="flex flex-row justify-center items-center space-x-4"
+                >
+                  {question.options.map((option) => (
+                    <Radio key={option.value} value={option.value}>
+                      <Card className="h-fit px-10 py-5 flex justify-center items-center">
+                        <CardBody className="flex justify-center items-center">
+                          <img
+                            width={100}
+                            height={100}
+                            alt={`Option ${option.value}`}
+                            src={option.image}
+                            className="object-contain"
+                          />
+                        </CardBody>
+                      </Card>
+                    </Radio>
+                  ))}
+                </RadioGroup>
               </Card>
             </div>
-          )}
-
-          {!isMobile && (
-            <div className="space-y-7 flex-grow">
-              <div className="absolute top-20 left-20 w-[270px] ml-20">
-                <Card>
-                  <FaTasks className="text-5xl absolute top-4 left-2" />
-                  <CardBody>
-                    <div className="flex text-left items-start justify-center ">
-                      <h2 className=" text-xl font-semibold text-left mr-20">
-                        Test
-                      </h2>
-                    </div>
-                    <div className="flex items-center justify-start">
-                      <p className="text-lg text-left mt-1 ml-16">
-                        Memory Visual
-                      </p>
-                    </div>
-                  </CardBody>
-                </Card>
-              </div>
-              <div className="absolute top-40 left-20 w-[270px] ml-20">
-                <Card>
-                  <IoMdTime className="text-6xl absolute top-3 left-2" />
-                  <CardBody>
-                    <div className="flex text-left items-start justify-center ">
-                      <h2 className=" text-xl font-semibold text-left ml-4">
-                        Waktu Tersisa
-                      </h2>
-                    </div>
-                    <div className="flex items-center justify-start">
-                      <p className="text-xl text-left mt-1 ml-16">
-                        {formatTime(timeLeft)}
-                      </p>
-                    </div>
-                  </CardBody>
-                </Card>
-              </div>
-            </div>
-          )}
+          ))}
         </div>
+
+        <div className="flex justify-center items-center mt-10 mb-20">
+          {/* Finish Test Button */}
+          <Button
+            color="primary"
+            onPress={handleButtonClick}
+            size="lg"
+            className="mt-4"
+          >
+            Submit
+          </Button>
+        </div>
+
+        {/* Sidebar */}
+
+        {/* Sidebar for Mobile */}
+        {isMobile && (
+          <div className="w-full flex flex-row gap-2 p-2 fixed top-0 left-0 z-10 shadow-sm mb-4">
+            {/* Test Card */}
+            <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
+              <FaTasks className="text-2xl mr-2" />
+              <div>
+                <h2 className="text-sm font-semibold">Test</h2>
+                <p className="text-xs">A3</p>
+              </div>
+            </Card>
+
+            {/* Time Card */}
+            <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
+              <IoMdTime className="text-2xl mr-2" />
+              <div>
+                <h2 className="text-sm font-semibold">Waktu Tersisa</h2>
+                <p className="text-xs">{formatTime(timeLeft)}</p>
+              </div>
+            </Card>
+          </div>
+        )}
+
+        {/* Sidebar for Dekstop */}
+        {!isMobile && (
+          <div className="space-y-7">
+            <div className="absolute top-20 left-20 w-[270px] ml-20">
+              <Card>
+                <FaTasks className="text-5xl absolute top-4 left-2" />
+                <CardBody>
+                  <div className="flex text-left items-start justify-center ">
+                    <h2 className="text-xl font-semibold text-left mr-20">
+                      Test
+                    </h2>
+                  </div>
+                  <div className="flex items-center justify-start">
+                    <p className="text-lg text-left mt-1 ml-16">A3</p>
+                  </div>
+                </CardBody>
+              </Card>
+            </div>
+
+            {/* Time Information */}
+            <div className="absolute top-40 left-20 w-[270px] ml-20">
+              <Card>
+                <IoMdTime className="text-6xl absolute top-3 left-2" />
+                <CardBody>
+                  <div className="flex text-left items-start justify-center ">
+                    <h2 className="text-xl font-semibold text-left ml-4">
+                      Waktu Tersisa
+                    </h2>
+                  </div>
+                  <div className="flex items-center justify-start">
+                    <p className="text-xl text-left mt-1 ml-16">
+                      {formatTime(timeLeft)}
+                    </p>
+                  </div>
+                </CardBody>
+              </Card>
+            </div>
+          </div>
+        )}
       </div>
     </AuthWrapper>
   );

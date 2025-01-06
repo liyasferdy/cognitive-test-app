@@ -94,7 +94,7 @@ export default function TrialQuestionsVLSA() {
   };
 
   const handleNavigation = () => {
-    router.push("/test-vl-SA/questions");
+    router.push("/test-vl-SA/questions-syn");
   };
 
   const handleReset = () => {
@@ -190,7 +190,7 @@ export default function TrialQuestionsVLSA() {
     },
     {
       number: 2,
-      text: "Gesit Pintar >< _____",
+      text: "Pintar >< _____",
       options: ["Lemot", "Jenius", "Cerdas", "Bodoh", "Lambat "],
       correctAnswer: "Bodoh",
     },
@@ -349,7 +349,7 @@ export default function TrialQuestionsVLSA() {
                     <h3 className="text-lg font-semibold">Konfirmasi</h3>
                   </ModalHeader>
                   <ModalBody>
-                    <p>Apakah Anda yakin ingin mengakhiri test ini?</p>
+                    <p>Apakah Anda yakin ingin mealanjutkan?</p>
                   </ModalBody>
                   <ModalFooter>
                     <Button color="error" onPress={handleCancel}>
@@ -361,7 +361,7 @@ export default function TrialQuestionsVLSA() {
                       size="md"
                       onPress={handleFinishTest}
                     >
-                      Akhiri Test
+                      Lanjutkan
                     </Button>
                   </ModalFooter>
                 </>

@@ -17,6 +17,18 @@ export default function TestMV() {
   const [timeLeft, setTimeLeft] = useState(60); // Sesuaikan waktu sesuai kebutuhan
   const [isMobile, setIsMobile] = useState(false);
 
+  // Function to determine time based on image number
+  const getTimeForImage = (number) => {
+    if (number >= 1 && number <= 10) {
+      return 60; // 1 minute
+    } else if (number >= 11 && number <= 24) {
+      return 90; // 1.5 minutes
+    } else if (number >= 25 && number <= 32) {
+      return 120; // 2 minutes
+    }
+    return 60; // Default fallback
+  };
+
   // Detect screen size for mobile responsiveness
   useEffect(() => {
     const handleResize = () => {
@@ -28,6 +40,12 @@ export default function TestMV() {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  // Set initial time based on image number
+  useEffect(() => {
+    const initialTime = getTimeForImage(imageNumber + 1); // Convert 0-based index to 1-based
+    setTimeLeft(initialTime);
+  }, [imageNumber]);
 
   // Validasi imageNumber
   const isValidImageNumber = imageNumber >= 0 && imageNumber < imageData.length;
@@ -70,18 +88,14 @@ export default function TestMV() {
   return (
     <AuthWrapper>
       <div className="flex justify-center items-center min-h-screen bg-gray-50">
-        {/* Jika imageNumber tidak valid, tampilkan pesan error */}
         {!isValidImageNumber ? (
           <div className="text-center text-lg font-semibold">
             Invalid image number
           </div>
         ) : (
           <>
-            {/* Sidebar */}
-            {/* Sidebar for Mobile */}
             {isMobile && (
               <div className="w-full flex flex-row gap-2 p-2 fixed top-0 left-0 z-10 shadow-md bg-gray-100">
-                {/* Test Card */}
                 <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
                   <FaTasks className="text-2xl mr-2" />
                   <div>
@@ -90,7 +104,6 @@ export default function TestMV() {
                   </div>
                 </Card>
 
-                {/* Time Card */}
                 <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
                   <IoMdTime className="text-2xl mr-2" />
                   <div>
@@ -101,7 +114,6 @@ export default function TestMV() {
               </div>
             )}
 
-            {/* Sidebar for Desktop */}
             {!isMobile && (
               <div className="absolute top-20 left-20 space-y-7">
                 <Card className="w-[270px] shadow-md">
@@ -136,12 +148,11 @@ export default function TestMV() {
               </div>
             )}
 
-            {/* Main Content */}
             <div className="flex justify-center mb-8 w-full px-4">
               <Card className="w-full max-w-[600px] overflow-hidden shadow-md">
                 <CardBody className="flex justify-center items-center">
                   <Image
-                    width={isMobile ? 300 : 400} // Sesuaikan ukuran gambar berdasarkan perangkat
+                    width={isMobile ? 300 : 400}
                     height={isMobile ? 300 : 400}
                     alt={`Question ${currentImageData.number}`}
                     src={currentImageData.image}

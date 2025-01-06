@@ -11,9 +11,9 @@ import { questionsData } from "../questions_VL-SA"; // Pastikan path ini benar
 import AuthWrapper from "../../authWrapper";
 import axios from "axios";
 
-export default function TestVLSA() {
+export default function TestSynonym() {
   const router = useRouter();
-  const [timeLeft, setTimeLeft] = useState(300);
+  const [timeLeft, setTimeLeft] = useState(15 * 60);
   const [questions, setQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState(
     Array.from({ length: 30 }, (_, index) => ({
@@ -45,7 +45,7 @@ export default function TestVLSA() {
   const handleFinalAnswerSubmit = useCallback(() => {
     if (isSubmitting) return;
     setIsSubmitting(true);
-    router.push("/test-gfi/instruction");
+    router.push("/test-vl-SA/questions-ant");
     setIsSubmitting(false);
   }, [isSubmitting, router]);
 
@@ -80,6 +80,12 @@ export default function TestVLSA() {
 
   const submitAnswers = async (isFinalSubmission = false) => {
     if (isSubmitting) return;
+
+    if (!isFinalSubmission && timeLeft > 0) {
+      setShowModal(true); // Tampilkan modal jika waktu belum habis
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -109,8 +115,9 @@ export default function TestVLSA() {
           },
         }
       );
+
       if (response.status === 200) {
-        router.push("/test-gfi/instruction");
+        router.push("/test-vl-SA/questions-ant");
       } else {
         alert("Failed to finalize answers. Please try again.");
       }
@@ -124,7 +131,7 @@ export default function TestVLSA() {
 
   const closeModal = () => {
     setShowModal(false);
-    handleFinalAnswerSubmit();
+    submitAnswers(true); // Lakukan pengiriman jawaban akhir
   };
 
   return (
@@ -132,26 +139,28 @@ export default function TestVLSA() {
       <div className="pt-20 flex flex-col justify-start items-center min-h-screen bg-gray-100 p-4">
         {/* Questions */}
         <div className="space-y-5 w-full max-w-4xl">
-          {questions.map((question) => (
-            <Card key={question.number} className="w-full px-4 py-6">
-              <CardBody>
-                <RadioGroup
-                  value={selectedAnswers[question.number]}
-                  onValueChange={(value) =>
-                    handleAnswerSelect(question.number, value)
-                  }
-                  label={`Soal ${question.number}: ${question.text}`}
-                  labelPlacement="outside"
-                >
-                  {question.options.map((option, index) => (
-                    <Radio key={index} value={option.value}>
-                      {option.text}
-                    </Radio>
-                  ))}
-                </RadioGroup>
-              </CardBody>
-            </Card>
-          ))}
+          {questions
+            .filter((question) => question.number <= 21) // Filter questions hingga nomor 21
+            .map((question) => (
+              <Card key={question.number} className="w-full px-4 py-6">
+                <CardBody>
+                  <RadioGroup
+                    value={selectedAnswers[question.number]}
+                    onValueChange={(value) =>
+                      handleAnswerSelect(question.number, value)
+                    }
+                    label={`Soal ${question.number}: ${question.text}`}
+                    labelPlacement="outside"
+                  >
+                    {question.options.map((option, index) => (
+                      <Radio key={index} value={option.value}>
+                        {option.text}
+                      </Radio>
+                    ))}
+                  </RadioGroup>
+                </CardBody>
+              </Card>
+            ))}
         </div>
 
         {/* Finish Test Button */}
@@ -160,13 +169,12 @@ export default function TestVLSA() {
             color="primary"
             size="lg"
             className="mt-4"
-            onClick={() => submitAnswers(true)}
+            onClick={() => submitAnswers(false)}
           >
             Submit
           </Button>
         </div>
 
-        {/* Modal for finishing the test */}
         {showModal && (
           <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white p-6 rounded-md shadow-lg w-96">

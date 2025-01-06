@@ -350,7 +350,7 @@ export default function TrialQuestionsRG() {
                     <h3 className="text-lg font-semibold">Konfirmasi</h3>
                   </ModalHeader>
                   <ModalBody>
-                    <p>Apakah Anda yakin ingin mengakhiri test ini?</p>
+                    <p>Apakah Anda yakin ingin mealanjutkan?</p>
                   </ModalBody>
                   <ModalFooter>
                     <Button color="error" onPress={handleCancel}>
@@ -362,7 +362,7 @@ export default function TrialQuestionsRG() {
                       size="md"
                       onPress={handleFinishTest}
                     >
-                      Akhiri Test
+                      Lanjutkan
                     </Button>
                   </ModalFooter>
                 </>
@@ -373,6 +373,22 @@ export default function TrialQuestionsRG() {
 
         {/* Questions */}
         <div className="space-y-5 w-full max-w-4xl px-4 sm:px-0">
+          <div className="flex justify-center bg-gray-100">
+            <Card
+              className={`border-solid border-2 border-amber-400 bg-amber-100 text-amber-600 text-center items-center text-md flex flex-col ${
+                isMobile ? "w-[350px]" : "w-[600px]"
+              }`}
+            >
+              <CardBody>
+                <div className="text-center items-center justify-center">
+                  <h1 className={`${isMobile ? "text-sm" : "text-lg"}`}>
+                    Bagian berikut merupakan soal latihan
+                  </h1>
+                </div>
+              </CardBody>
+            </Card>
+          </div>
+
           {questions.map((question) => (
             <Card
               key={question.number}

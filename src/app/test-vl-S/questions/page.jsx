@@ -13,7 +13,7 @@ import axios from "axios";
 
 export default function TestVLS() {
   const router = useRouter();
-  const [timeLeft, setTimeLeft] = useState(300);
+  const [timeLeft, setTimeLeft] = useState();
   const [questions, setQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState(
     Array.from({ length: 30 }, (_, index) => ({
@@ -160,7 +160,8 @@ export default function TestVLS() {
             color="primary"
             size="lg"
             className="mt-4"
-            onClick={() => submitAnswers(true)}
+            // onClick={() => submitAnswers(true)}
+            onClick={() => setShowModal(true)}
           >
             Submit
           </Button>
@@ -263,6 +264,45 @@ export default function TestVLS() {
                 <p className="text-xs">{formatTime(timeLeft)}</p>
               </div>
             </Card>
+          </div>
+        )}
+
+        {/* Modal Konfirmasi */}
+        {showModal && (
+          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white p-6 rounded-md shadow-lg w-96">
+              <h2 className="text-center text-xl mb-4 font-semibold">
+                Submit Jawaban
+              </h2>
+              <p className="text-center mb-6">
+                Kamu masih punya waktu tersisa. Apakah kamu yakin ingin
+                mengakhiri tes ini?
+              </p>
+              <div className="flex justify-center">
+                <Button
+                  color="primary"
+                  onClick={() => {
+                    setShowModal(false);
+                    submitAnswers(true);
+                  }}
+                  size="lg"
+                  className="w-full"
+                >
+                  Ya, Submit
+                </Button>
+              </div>
+              <div className="flex justify-center mt-4">
+                <Button
+                  color="danger"
+                  onClick={() => setShowModal(false)}
+                  size="lg"
+                  variant="bordered"
+                  className="w-full"
+                >
+                  Batal
+                </Button>
+              </div>
+            </div>
           </div>
         )}
       </div>

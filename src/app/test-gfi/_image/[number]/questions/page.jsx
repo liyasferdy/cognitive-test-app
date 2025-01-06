@@ -7,7 +7,7 @@ import { FaTasks } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
 import { Image } from "@nextui-org/image";
 // import { Button } from "@nextui-org/button";
-import { imageData } from "../../../image"; // Pastikan path sesuai
+import { imageData } from "../.."; // Pastikan path sesuai
 import axios from "axios"; // Import axios
 import { RadioGroup } from "@nextui-org/radio";
 import { Radio } from "@nextui-org/radio";
@@ -133,39 +133,6 @@ export default function QuestionGFI() {
     }
   };
 
-  // // Fungsi untuk mengakhiri test (menyimpan semua jawaban di memory ke DB)
-  // const handleFinalAnswerSubmit = async () => {
-  //   if (isSubmitting) return;
-  //   setIsSubmitting(true);
-
-  //   try {
-  //     const response = await axios.post(
-  //       "https://cognitive-dev-734522323885.asia-southeast2.run.app/answers/savetoDB",
-  //       {},
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${
-  //             typeof window !== "undefined"
-  //               ? localStorage.getItem("access_token")
-  //               : ""
-  //           }`,
-  //         },
-  //       }
-  //     );
-
-  //     if (response.status === 200) {
-  //       router.push("/test-ms/instruction");
-  //     } else {
-  //       alert("Failed to finalize answers. Please try again.");
-  //     }
-  //   } catch (error) {
-  //     console.log("Error finalizing answers:", error);
-  //     alert("An error occurred while finalizing answers. Please try again.");
-  //   } finally {
-  //     setIsSubmitting(false);
-  //   }
-  // };
-
   return (
     <AuthWrapper>
       <div className="flex justify-center items-center min-h-screen px-4 bg-gray-50">
@@ -184,7 +151,7 @@ export default function QuestionGFI() {
                   <FaTasks className="text-2xl mr-2" />
                   <div>
                     <h2 className="text-sm font-semibold">Test</h2>
-                    <p className="text-xs">Memory Visual</p>
+                    <p className="text-xs">GFI</p>
                   </div>
                 </Card>
 
@@ -208,9 +175,7 @@ export default function QuestionGFI() {
                       <h2 className="text-xl font-semibold text-left">Test</h2>
                     </div>
                     <div className="flex items-center justify-start">
-                      <p className="text-lg text-left mt-1 ml-16">
-                        Memory Visual
-                      </p>
+                      <p className="text-lg text-left mt-1 ml-16">GFI</p>
                     </div>
                   </CardBody>
                 </Card>

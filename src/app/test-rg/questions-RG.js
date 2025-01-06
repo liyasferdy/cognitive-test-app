@@ -127,7 +127,7 @@ export const questionsData = [
       },
       {
         number: 6,
-        text: "Semua meja kayu berbahan dasar kayu dari hutan di Kalimantan. Sebagian meja kayu dibuat oleh perajin kayu berasal dari Jepara.",
+        text: "Semua meja kayu berbahan dasar kayu dari hutan di Kalimantan. Sebagian meja kayu dibuat oleh perajin kayu berasal dari Jepara. Hutan di Kalimantan terkenal dengan variasi kayu yang sangat beragam.",
         options: [
           {
             value: "a",
@@ -153,7 +153,7 @@ export const questionsData = [
       },
       {
         number: 7,
-        text: "Seluruh warga RW 08 mengadakan tumpengan massal. Acara kebudayaan tersebut diselenggarakan dalam rangka memeringati Hari Batik Nasional.",
+        text: "Seluruh warga RW 08 mengadakan tumpengan massal. Acara kebudayaan tersebut diselenggarakan dalam rangka memeringati Hari Batik Nasional. Panitia yang bertugas dalam acara kebudayaan nasional adalah warga RW 08.",
         options: [
           {
             value: "a",
@@ -179,7 +179,7 @@ export const questionsData = [
       },
       {
         number: 8,
-        text: "Penyeduh kopi hitam tradisional tidak mencampur gula cair ke dalam minuman. Semua tukang kopi keliling mencampur gula cair ke dalam minuman.",
+        text: "Penyeduh kopi hitam tradisional tidak mencampur gula cair ke dalam minuman. Semua tukang kopi keliling mencampur gula cair ke dalam minuman. Tukang kopi keliling biasa dikenal dengan starling.",
         options: [
           {
             value: "a",
@@ -205,7 +205,7 @@ export const questionsData = [
       },
       {
         number: 9,
-        text: "Kawasan wisata di kota Malang dirusak oleh pihak tidak bertanggung jawab. Pihak berwenang masih menelusuri kejadian tersebut.",
+        text: "Kawasan wisata di kota Malang dirusak oleh pihak tidak bertanggung jawab. Pihak berwenang masih menelusuri kejadian tersebut. Sementara itu, taman eksotis di kota Malang tidak ikut dirusak oleh pihak tidak bertanggung jawab.",
         options: [
           {
             value: "a",
@@ -230,8 +230,34 @@ export const questionsData = [
         ],
       },
       {
+        number: 10,
+        text: "Semua biji kopi pilihan tidak dijual secara bebas. Penjual biji kopi memerlukan izin khusus dari pemerintah. Beberapa kopi yang sudah dijemur dijual secara bebas.",
+        options: [
+          {
+            value: "a",
+            text: "Biji kopi pilihan dijemur.",
+          },
+          {
+            value: "b",
+            text: "Semua yang dijual secara bebas butuh izin khusus dari pemerintah.",
+          },
+          {
+            value: "c",
+            text: "Seluruh biji kopi yang dijemur tidak dijual secara bebas.",
+          },
+          {
+            value: "d",
+            text: "Beberapa kopi yang dijemur bukan biji kopi pilihan.",
+          },
+          {
+            value: "e",
+            text: "Semua kopi yang dijemur merupakan biji kopi pilihan.",
+          },
+        ],
+      },
+      {
         number: 11,
-        text: "Seluruh makanan di kulkas mengalami pembusukan. Beberapa keju potong dalam plastik tidak membusuk.",
+        text: "Seluruh makanan di kulkas mengalami pembusukan. Beberapa keju potong dalam plastik tidak membusuk. Makanan yang dibungkus plastik cenderung mengalami pembusukan yang lebih lambat.",
         options: [
           {
             value: "a",
@@ -257,7 +283,7 @@ export const questionsData = [
       },
       {
         number: 12,
-        text: "Sepeda hasil produksi pabrik dijual dengan harga yang tinggi. Harga jual sepeda memerhitungkan biaya tenaga kerja, bahan baku, hingga logistik.",
+        text: "Sepeda hasil produksi pabrik dijual dengan harga yang tinggi. Harga jual sepeda memerhitungkan biaya tenaga kerja, bahan baku, hingga logistik.  Sepeda inovasi terbaru dari Indonesia tidak dijual dengan harga yang tinggi.",
         options: [
           {
             value: "a",
@@ -283,7 +309,7 @@ export const questionsData = [
       },
       {
         number: 13,
-        text: "Galon air mineral yang beredar tidak dapat didaur ulang secara sembarangan. Mendaur ulang plastik bekas membutuhkan biaya dan upaya yang besar.",
+        text: "Galon air mineral yang beredar tidak dapat didaur ulang secara sembarangan. Mendaur ulang plastik bekas membutuhkan biaya dan upaya yang besar. Beberapa galon yang dikumpulkan pemulung merupakan galon air mineral.",
         options: [
           {
             value: "a",
@@ -306,7 +332,7 @@ export const questionsData = [
       },
       {
         number: 14,
-        text: "Sebagian pajak penghasilan digunakan untuk membangun infrastruktur publik. Pajak penghasilan merupakan jenis pajak yang dikenakan kepada wajib pajak.",
+        text: "Sebagian pajak penghasilan digunakan untuk membangun infrastruktur publik. Pajak penghasilan merupakan jenis pajak yang dikenakan kepada wajib pajak. Seluruh warga negara yang sudah menerima penghasilan dan memiliki NPWP wajib lapor pajak tahunan.",
         options: [
           {
             value: "a",
@@ -332,7 +358,7 @@ export const questionsData = [
       },
       {
         number: 15,
-        text: "Sebagian pekerja lepas mendaftar tes CPNS. Salah satu syarat tes CPNS adalah tidak memiliki riwayat kriminalitas.",
+        text: "Sebagian pekerja lepas mendaftar tes CPNS. Salah satu syarat tes CPNS adalah tidak memiliki riwayat kriminalitas. Pekerja lepas memiliki penghasilan yang tidak menentu setiap bulannya.",
         options: [
           {
             value: "a",
@@ -355,7 +381,7 @@ export const questionsData = [
       },
       {
         number: 16,
-        text: "Pemandu wisata Gunung Bromo tidak bekerja sendirian. Gunung Bromo merupakan salah satu destinasi wisata di Indonesia.",
+        text: "Pemandu wisata Gunung Bromo tidak bekerja sendirian. Gunung Bromo merupakan salah satu destinasi wisata di Indonesia. Warga RT 03 bekerja sebagai pemandu wisata Gunung Bromo.",
         options: [
           {
             value: "a",
@@ -375,7 +401,7 @@ export const questionsData = [
       },
       {
         number: 17,
-        text: "Kertas hasil produksi pabrik A tidak dicampur dengan pengawet. Salah satu bahan baku kertas yang sering digunakan adalah kayu Akasia.",
+        text: "Kertas hasil produksi pabrik A tidak dicampur dengan pengawet. Salah satu bahan baku kertas yang sering digunakan adalah kayu Akasia. Beberapa kertas industri dicampur dengan pengawet.",
         options: [
           {
             value: "a",
@@ -401,7 +427,7 @@ export const questionsData = [
       },
       {
         number: 18,
-        text: "Boneka menyerupai manusia memiliki fungsi sebagai mainan. Boneka buatan manusia purba tidak berfungsi sebagai mainan.",
+        text: "Boneka menyerupai manusia memiliki fungsi sebagai mainan. Boneka buatan manusia purba tidak berfungsi sebagai mainan. Beberapa sejarah mencatat bahwa boneka dapat digunakan untuk mengurung roh jahat.",
         options: [
           {
             value: "a",
@@ -427,7 +453,7 @@ export const questionsData = [
       },
       {
         number: 19,
-        text: "Upacara bendera merupakan salah satu upaya untuk meningkatkan nasionalisme individu terhadap negaranya.",
+        text: "Upacara bendera merupakan salah satu upaya untuk meningkatkan nasionalisme individu terhadap negaranya, hal ini dilakukan oleh pengibar bendera. Pengibar bendera tidak diizinkan absen dari latihan selama durasi yang ditentukan. Beberapa pengibar bendera berasal dari luar negeri.",
         options: [
           {
             value: "a",
@@ -453,7 +479,7 @@ export const questionsData = [
       },
       {
         number: 20,
-        text: "Fosil merupakan jejak sisa-sisa organisme purba yang dapat membantu manusia memahami sejarah bumi.",
+        text: "Fosil merupakan jejak sisa-sisa organisme purba yang dapat membantu manusia memahami sejarah bumi. Seluruh koleksi fosil di museum merupakan harta umat manusia. Koleksi fosil di museum dirawat oleh ahli restorasi untuk menghindari penurunan kualitas.",
         options: [
           {
             value: "a",
@@ -479,7 +505,7 @@ export const questionsData = [
       },
       {
         number: 21,
-        text: "Seluruh pekerja pabrik tekstil tidak dilarang untuk membawa bekal dari rumah meskipun pihak pabrik menyediakan jatah makan.",
+        text: "Seluruh pekerja pabrik tekstil tidak dilarang untuk membawa bekal dari rumah meskipun pihak pabrik menyediakan jatah makan. Beberapa pekerja pabrik tekstil memiliki pola makan yang sehat. Makan cukup merupakan kewajiban sebagai pekerja pabrik agar tidak mudah jatuh sakit.",
         options: [
           {
             value: "a",
@@ -505,7 +531,7 @@ export const questionsData = [
       },
       {
         number: 22,
-        text: "Hutan buatan merupakan upaya pemerintah untuk menghidupkan kembali ekosistem yang rusak akibat penebangan ilegal.",
+        text: "Hutan buatan merupakan upaya pemerintah untuk menghidupkan kembali ekosistem yang rusak akibat penebangan ilegal. Tidak terdapat hewan eksotis yang tinggal di hutan buatan. Hewan eksotis dilindungi dan dikembangbiakkan di daerah khusus.",
         options: [
           {
             value: "a",
@@ -531,7 +557,7 @@ export const questionsData = [
       },
       {
         number: 23,
-        text: "Semua parfum produksi toko Z bukan barang impor. Sebagian barang impor dikenakan bea masuk.",
+        text: "Semua parfum produksi toko Z bukan barang impor. Sebagian barang impor dikenakan bea masuk. Parfum impor memiliki harga yang lebih mahal daripada produksi lokal.",
         options: [
           {
             value: "a",
@@ -557,7 +583,7 @@ export const questionsData = [
       },
       {
         number: 24,
-        text: "Tidak ada orang yang menderita sendirian. Semua yang menderita sendirian rawan mengalami depresi berat.",
+        text: "Tidak ada orang yang menderita sendirian. Semua yang menderita sendirian rawan mengalami depresi berat. Gejala depresi memiliki prevalensi yang paling tinggi dari gejala gangguan mental lainnya.",
         options: [
           {
             value: "a",
@@ -583,7 +609,7 @@ export const questionsData = [
       },
       {
         number: 25,
-        text: "Semua lampu jalan di RW 06 menggunakan panel surya sebagai sumber listrik utama.",
+        text: "Semua lampu jalan di RW 06 menggunakan panel surya sebagai sumber listrik utama. Lampu jalan di RW 06 merupakan hasil patungan warga selama dua tahun. Lampu jalan bertenaga matahari membantu mengurangi biaya listrik warga RW 06.",
         options: [
           {
             value: "a",
@@ -609,7 +635,7 @@ export const questionsData = [
       },
       {
         number: 26,
-        text: "Bekerja di tambang emas membutuhkan stamina yang baik. Seluruh petugas tambang memiliki badan yang kekar.",
+        text: "Bekerja di tambang emas membutuhkan stamina yang baik. Seluruh petugas tambang memiliki badan yang kekar. Semua yang berbadan kekar rutin melakukan kegiatan fisik.",
         options: [
           {
             value: "a",
@@ -635,7 +661,7 @@ export const questionsData = [
       },
       {
         number: 27,
-        text: "Banyak pakar berpendapat bahwa status pernikahan dapat memprediksi tingkat kebahagiaan seseorang.",
+        text: "Banyak pakar berpendapat bahwa status pernikahan dapat memprediksi tingkat kebahagiaan seseorang. Tidak terdapat perbedaan tingkat kebahagiaan yang signifikan terkait status pernikahan. Tingkat kebahagiaan ditentukan oleh kualitas hidup yang dimiliki individu.",
         options: [
           {
             value: "a",

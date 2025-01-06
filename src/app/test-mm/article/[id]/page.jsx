@@ -1,24 +1,33 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardBody } from "@nextui-org/card";
 import { FaTasks } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
 import { articleData } from "../../article";
-import Link from "next/link";
 import { Button } from "@nextui-org/button";
-// import {Button} from "@nextui-org/button";
-// import Link from "next/link";
 import AuthWrapper from "../../../authWrapper";
 
 const ArticlePage = () => {
   const router = useRouter();
-  const [timeLeftArticle, setTimeLeftArticle] = useState(180);
+  const [timeLeftArticle, setTimeLeftArticle] = useState(180); // Default time
   const [article, setArticleData] = useState({
     content: ["Loading..."],
   });
   const [isMobile, setIsMobile] = useState(false);
+
+  // Konfigurasi waktu per artikel
+  const timeConfig = {
+    1: 90,
+    2: 90,
+    3: 120,
+    4: 120,
+    5: 150,
+    6: 150,
+    7: 180,
+    8: 180,
+  };
 
   // Detect screen size for mobile responsiveness
   useEffect(() => {
@@ -43,27 +52,30 @@ const ArticlePage = () => {
       setArticleData({
         title: activeArticle.title,
         content: activeArticle.content,
-        id: activeArticle.id, // Corrected: use activeArticle.id, not articleData.id
+        id: activeArticle.id,
       });
+
+      // Set the time based on the article ID
+      if (timeConfig[id]) {
+        setTimeLeftArticle(timeConfig[id]);
+      }
     }
   }, []);
 
   // Timer countdown logic
   useEffect(() => {
     if (timeLeftArticle === 0 && article.id !== undefined) {
-      // Only redirect if article.id is defined
       router.push(`/test-mm/article/${article.id}/questions`);
       return;
     }
 
     const interval = setInterval(() => {
-      setTimeLeftArticle((prevTime) => prevTime - 1);
+      setTimeLeftArticle((prevTime) => Math.max(prevTime - 1, 0));
     }, 1000);
 
     return () => clearInterval(interval);
   }, [timeLeftArticle, router, article.id]);
 
-  // Rest of the code remains the same
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -115,7 +127,7 @@ const ArticlePage = () => {
             color="primary"
             size="lg"
             className="mt-4"
-            onClick={handleNextQuestions} // Add the click handler here
+            onClick={handleNextQuestions}
           >
             Lanjutkan
           </Button>
@@ -124,7 +136,6 @@ const ArticlePage = () => {
         {/* Sidebar for Mobile */}
         {isMobile && (
           <div className="w-full flex flex-row gap-2 p-2 fixed top-0 left-0 z-10 shadow-md bg-gray-100 mb-4">
-            {/* Test Card */}
             <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
               <FaTasks className="text-2xl mr-2" />
               <div>
@@ -133,7 +144,6 @@ const ArticlePage = () => {
               </div>
             </Card>
 
-            {/* Time Card */}
             <Card className="flex flex-row items-center p-2 w-1/2 shadow-sm">
               <IoMdTime className="text-2xl mr-2" />
               <div>
@@ -144,7 +154,6 @@ const ArticlePage = () => {
           </div>
         )}
 
-        {/* Sidebar for Dekstop */}
         {!isMobile && (
           <div className="space-y-7">
             <div className="absolute top-20 left-20 w-[270px] ml-20">

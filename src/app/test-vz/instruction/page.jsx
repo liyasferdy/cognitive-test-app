@@ -9,7 +9,7 @@ export default function InstructionVZ() {
   const router = useRouter();
 
   const handleNavigation = () => {
-    router.push("/test-vz/trial/picture");
+    router.push("/test-vz/trial/question");
   };
   return (
     <AuthWrapper>

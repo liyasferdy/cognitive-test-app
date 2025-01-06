@@ -20,7 +20,7 @@ import { RxCross2 } from "react-icons/rx";
 import { AiOutlineReload } from "react-icons/ai";
 import AuthWrapper from "../../../authWrapper";
 
-export default function TrialQuestionsRG() {
+export default function TrialQuestionsVLS() {
   const [isModalOpen, setIsModalOpen] = useState(true); // Warning modal
   const [isEndModalOpen, setIsEndModalOpen] = useState(false); // End modals
   const [isCorrectModalOpen, setIsCorrectModalOpen] = useState(false); // Correct answer modal
@@ -28,12 +28,11 @@ export default function TrialQuestionsRG() {
   const [isMissingAnswerModalOpen, setIsMissingAnswerModalOpen] =
     useState(false); // Missing answer modal
   const [isTimeUpModalOpen, setIsTimeUpModalOpen] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(300); // set time left
+  const [timeLeft, setTimeLeft] = useState(30); // set time left
   const [timerId, setTimerId] = useState(null); // Track interval ID
   const router = useRouter(); // Inisialisasi useRouter
   const [selectedAnswers, setSelectedAnswers] = useState({
     1: null,
-    2: null,
   });
   const [isMobile, setIsMobile] = useState(false);
 
@@ -89,16 +88,16 @@ export default function TrialQuestionsRG() {
     if (timeLeft > 0) {
       setIsEndModalOpen(true); // Show the end modal if time is not expired
     } else {
-      router.push("/test-rg/trial/questions/"); // If time is up, navigate directly
+      router.push("/test-gfi/trial/questions/"); // If time is up, navigate directly
     }
   };
 
   const handleNavigation = () => {
-    router.push("/test-rg/questions");
+    router.push("/test-gfi/questions");
   };
 
   const handleReset = () => {
-    router.push("/test-rg/instruction");
+    router.push("/test-gfi/instruction");
   };
 
   // Close initial modal and start timer
@@ -174,33 +173,35 @@ export default function TrialQuestionsRG() {
     }
   };
 
-  // Render questions
+  // Define questions
   const questions = [
     {
       number: 1,
-      text: "Tim surveyor harus menuliskan laporan lengkap hasil temuan lapangan. Mahasiswa Universitas Karoseri yang berasal dari desa molarmowe merupakan tim surveyor.",
       options: [
-        "Semua mahasiswa Universitas Karoseri harus menuliskan laporan lengkap hasil temuan lapangan.",
-        "Beberapa mahasiswa Universitas Karoseri yang berasal dari desa molarmowe adalah tim surveyor.",
-        "Sebagian mahasiswa Universitas Karoseri yang berasal dari desa molarmowe harus menuliskan laporan lengkap hasil temuan lapangan.",
-        "Mahasiswa Universitas Karoseri yang berasal dari desa molarmowe harus menuliskan laporan lengkap hasil temuan lapangan.",
-        "Mahasiswa - mahasiswa Universitas Karoseri yang berasal dari desa molarmowe tidak harus menuliskan laporan lengkap hasil temuan lapangan.",
+        {
+          value: "a",
+          image: "/assets/soal-GFI/Contoh Gf-I/a.png",
+        },
+        {
+          value: "b",
+          image: "/assets/soal-GFI/Contoh Gf-I/b.png",
+        },
+        {
+          value: "c",
+          image: "/assets/soal-GFI/Contoh Gf-I/c.png",
+        },
+        {
+          value: "d",
+          image: "/assets/soal-GFI/Contoh Gf-I/d.png",
+        },
+        {
+          value: "e",
+          image: "/assets/soal-GFI/Contoh Gf-I/e.png",
+        },
       ],
-      correctAnswer:
-        "Mahasiswa Universitas Karoseri yang berasal dari desa molarmowe harus menuliskan laporan lengkap hasil temuan lapangan.",
+      correctAnswer: "e",
     },
-    {
-      number: 2,
-      text: "Seluruh peserta lomba panjat tebing tidak menggunakan alat pengaman yang disediakan panitia. Lomba panjat tebing merupakan acara tahunan desa molarmowe. Beberapa tim keamanan lomba panjat tebing menggunakan alat pengalaman yang disediakan panitia.",
-      options: [
-        "Beberapa tim keamanan akan mengikuti lomba panjat tebing di desa molarmowe.",
-        "Beberapa tim keamanan bukan peserta lomba panjat tebing.",
-        "Tidak ada peserta lomba panjat tebing yang berperan sebagai tim keamanan.",
-        "Sebagian peserta lomba panjat tebing tidak menggunakan alat pengaman yang disediakan panitia.",
-        "Tim keamanan lomba panjat tebing tidak akan menggunakan alat pengaman yang disediakan panitia.",
-      ],
-      correctAnswer: "Beberapa tim keamanan bukan peserta lomba panjat tebing.",
-    },
+    // Add more questions as needed
   ];
 
   return (
@@ -356,7 +357,7 @@ export default function TrialQuestionsRG() {
                     <h3 className="text-lg font-semibold">Konfirmasi</h3>
                   </ModalHeader>
                   <ModalBody>
-                    <p>Apakah Anda yakin ingin mealanjutkan?</p>
+                    <p>Apakah Anda yakin ingin malanjutkan ?</p>
                   </ModalBody>
                   <ModalFooter>
                     <Button color="error" onPress={handleCancel}>
@@ -378,35 +379,68 @@ export default function TrialQuestionsRG() {
         )}
 
         {/* Questions */}
-        <div className="space-y-5 w-full max-w-4xl px-4 sm:px-0">
-          {questions.map((question) => (
+        <div className="w-full max-w-4xl space-y-10">
+          <div className="flex justify-center">
             <Card
-              key={question.number}
-              className={`${
-                isMobile ? "w-full px-4 py-4" : "w-[50rem] px-12 py-6"
-              } h-fit`}
+              className={`border-solid border-2 border-amber-400 bg-amber-100 text-amber-600 text-center items-center text-md flex flex-col ${
+                isMobile ? "w-[350px]" : "w-[600px]"
+              }`}
             >
               <CardBody>
+                <div className="text-center items-center justify-center">
+                  <h1 className={`${isMobile ? "text-sm" : "text-lg"}`}>
+                    Kerjakan contoh soal di bawah ini untuk menjawab soal
+                    berikutnya
+                  </h1>
+                </div>
+              </CardBody>
+            </Card>
+          </div>
+
+          {questions.map((question) => (
+            <div
+              key={question.number}
+              className="w-full flex flex-col items-center"
+            >
+              <Card className="space-y-3 p-10">
+                <CardBody className="flex justify-center items-center p-5">
+                  <img
+                    width={300}
+                    height={300}
+                    alt={`Question ${question.number}`}
+                    src="/assets/soal-GFI/Contoh Gf-I/Contoh .png"
+                    className="object-contain"
+                  />
+                </CardBody>
                 <RadioGroup
-                  className="space-y-2"
-                  label={`Soal ${question.number}`}
-                  labelPlacement="outside"
-                  value={selectedAnswers[question.number]}
-                  onChange={(e) =>
-                    handleAnswerSelect(question.number, e.target.value)
+                  orientation="horizontal"
+                  value={selectedAnswers[question.number] || ""}
+                  onValueChange={(value) =>
+                    handleAnswerSelect(question.number, value)
                   }
+                  className="flex flex-row justify-center items-center space-x-4"
                 >
-                  <p className="mb-3 text-justify">{question.text}</p>
-                  {question.options.map((option, idx) => (
-                    <Radio key={idx} value={option}>
-                      {option}
+                  {question.options.map((option) => (
+                    <Radio key={option.value} value={option.value}>
+                      <Card className="h-fit px-10 py-5 flex justify-center items-center">
+                        <CardBody className="flex justify-center items-center">
+                          <img
+                            width={100}
+                            height={100}
+                            alt={`Option ${option.value}`}
+                            src={option.image}
+                            className="object-contain"
+                          />
+                        </CardBody>
+                      </Card>
                     </Radio>
                   ))}
                 </RadioGroup>
-              </CardBody>
-            </Card>
+              </Card>
+            </div>
           ))}
         </div>
+
         <div className="flex justify-center items-center mt-10 mb-20">
           {/* Finish Test Button */}
           <Button
@@ -429,7 +463,7 @@ export default function TrialQuestionsRG() {
               <FaTasks className="text-2xl mr-2" />
               <div>
                 <h2 className="text-sm font-semibold">Test</h2>
-                <p className="text-xs">RG</p>
+                <p className="text-xs">A3</p>
               </div>
             </Card>
 
@@ -457,7 +491,7 @@ export default function TrialQuestionsRG() {
                     </h2>
                   </div>
                   <div className="flex items-center justify-start">
-                    <p className="text-lg text-left mt-1 ml-16">RG</p>
+                    <p className="text-lg text-left mt-1 ml-16">A3</p>
                   </div>
                 </CardBody>
               </Card>
@@ -483,33 +517,6 @@ export default function TrialQuestionsRG() {
             </div>
           </div>
         )}
-
-        {/* Question List */}
-        {/* <div className="absolute top-[300px] left-20 w-50 ml-20">
-          <Card>
-            <CardBody>
-              <h2 className="text-center text-xl font-semibold mb-2">
-                Daftar Soal
-              </h2>
-              <div className="grid grid-cols-4 gap-4 w-full max-w-4xl justify-center items-center p-4 rounded-md">
-                {Object.keys(selectedAnswers).map((questionNum) => (
-                  <Card
-                    key={questionNum}
-                    hoverable
-                    clickable
-                    className={`px-4 py-2 transition-all ${
-                      selectedAnswers[questionNum]
-                        ? "bg-cyan-500 text-white"
-                        : "hover:bg-cyan-500 hover:text-white"
-                    }`}
-                  >
-                    <h4 className="text-center">{questionNum}</h4>
-                  </Card>
-                ))}
-              </div>
-            </CardBody>
-          </Card>
-        </div> */}
       </div>
     </AuthWrapper>
   );

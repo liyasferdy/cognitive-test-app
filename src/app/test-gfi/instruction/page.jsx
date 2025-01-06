@@ -9,7 +9,7 @@ export default function InstructionGFI() {
   const router = useRouter();
 
   const handleNavigation = () => {
-    router.push("/test-gfi/trial/picture");
+    router.push("/test-gfi/trial/question");
   };
   return (
     <AuthWrapper>

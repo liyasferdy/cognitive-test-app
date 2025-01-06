@@ -9,7 +9,7 @@ export default function InstructionRC() {
   const router = useRouter();
 
   const handleNavigation = () => {
-    router.push("/test-rc/article/1");
+    router.push("/test-rc/questions");
   };
 
   return (

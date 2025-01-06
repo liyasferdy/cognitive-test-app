@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { Card, CardBody } from "@nextui-org/card";
 import { FaTasks } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
-import { articleData } from "../../article";
+import { articleData } from "..";
 import { Button } from "@nextui-org/button";
 import AuthWrapper from "../../../authWrapper";
 import { RadioGroup, Radio } from "@nextui-org/radio";
@@ -124,39 +124,6 @@ const ArticlePageRC = () => {
       setIsSubmitting(false);
     }
   };
-
-  // // Fungsi untuk mengakhiri test (menyimpan semua jawaban di memory ke DB)
-  // const handleFinalAnswerSubmit = async () => {
-  //   if (isSubmitting) return;
-  //   setIsSubmitting(true);
-
-  //   try {
-  //     const response = await axios.post(
-  //       "https://cognitive-dev-734522323885.asia-southeast2.run.app/answers/savetoDB",
-  //       {},
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${
-  //             typeof window !== "undefined"
-  //               ? localStorage.getItem("access_token")
-  //               : ""
-  //           }`,
-  //         },
-  //       }
-  //     );
-
-  //     if (response.status === 200) {
-  //       router.push("/test-ms/instruction");
-  //     } else {
-  //       alert("Failed to finalize answers. Please try again.");
-  //     }
-  //   } catch (error) {
-  //     console.log("Error finalizing answers:", error);
-  //     alert("An error occurred while finalizing answers. Please try again.");
-  //   } finally {
-  //     setIsSubmitting(false);
-  //   }
-  // };
 
   const handleFinalSubmit = async () => {
     if (isSubmitting) return;
