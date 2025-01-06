@@ -23,6 +23,7 @@ export default function UsersScreening() {
     jenis_kelamin: "",
     domisili: "",
     pendidikan_terakhir: "",
+    suku: "",
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -99,7 +100,8 @@ export default function UsersScreening() {
       !formData.usia ||
       !formData.jenis_kelamin ||
       !formData.domisili ||
-      !formData.pendidikan_terakhir
+      !formData.pendidikan_terakhir ||
+      !formData.suku
     ) {
       alert("Harap isi semua field sebelum melanjutkan.");
       return;
@@ -117,6 +119,7 @@ export default function UsersScreening() {
       jenis_kelamin: formData.jenis_kelamin,
       domisili: formData.domisili,
       pendidikan_terakhir: formData.pendidikan_terakhir,
+      suku: formData.suku,
     };
 
     try {
@@ -287,14 +290,14 @@ export default function UsersScreening() {
                     </CardBody>
                   </Card>
 
-                  {/* <Input
+                  <Input
                     label="Suku"
                     placeholder="Masukkan suku anda"
                     type="text"
                     name="suku"
                     value={formData.suku}
                     onChange={handleInputChange}
-                  /> */}
+                  />
 
                   <div className="flex justify-center">
                     <Button
