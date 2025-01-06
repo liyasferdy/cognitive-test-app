@@ -23,7 +23,6 @@ export default function UsersScreening() {
     jenis_kelamin: "",
     domisili: "",
     pendidikan_terakhir: "",
-    suku: "",
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -100,8 +99,7 @@ export default function UsersScreening() {
       !formData.usia ||
       !formData.jenis_kelamin ||
       !formData.domisili ||
-      !formData.pendidikan_terakhir ||
-      !formData.suku
+      !formData.pendidikan_terakhir
     ) {
       alert("Harap isi semua field sebelum melanjutkan.");
       return;
@@ -119,7 +117,6 @@ export default function UsersScreening() {
       jenis_kelamin: formData.jenis_kelamin,
       domisili: formData.domisili,
       pendidikan_terakhir: formData.pendidikan_terakhir,
-      suku: formData.suku,
     };
 
     try {
