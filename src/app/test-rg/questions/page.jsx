@@ -13,7 +13,7 @@ import axios from "axios";
 
 export default function TestRG() {
   const router = useRouter();
-  const [timeLeft, setTimeLeft] = useState();
+  const [timeLeft, setTimeLeft] = useState(30 * 60);
   const [questions, setQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState(
     Array.from({ length: 30 }, (_, index) => ({

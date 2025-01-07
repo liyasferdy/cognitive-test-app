@@ -174,34 +174,34 @@ export default function TrialQuestionsRG() {
     }
   };
 
-  // Render questions
-  const questions = [
-    {
-      number: 1,
-      text: "Tim surveyor harus menuliskan laporan lengkap hasil temuan lapangan. Mahasiswa Universitas Karoseri yang berasal dari desa molarmowe merupakan tim surveyor.",
-      options: [
-        "Semua mahasiswa Universitas Karoseri harus menuliskan laporan lengkap hasil temuan lapangan.",
-        "Beberapa mahasiswa Universitas Karoseri yang berasal dari desa molarmowe adalah tim surveyor.",
-        "Sebagian mahasiswa Universitas Karoseri yang berasal dari desa molarmowe harus menuliskan laporan lengkap hasil temuan lapangan.",
-        "Mahasiswa Universitas Karoseri yang berasal dari desa molarmowe harus menuliskan laporan lengkap hasil temuan lapangan.",
-        "Mahasiswa - mahasiswa Universitas Karoseri yang berasal dari desa molarmowe tidak harus menuliskan laporan lengkap hasil temuan lapangan.",
-      ],
-      correctAnswer:
-        "Mahasiswa Universitas Karoseri yang berasal dari desa molarmowe harus menuliskan laporan lengkap hasil temuan lapangan.",
-    },
-    {
-      number: 2,
-      text: "Seluruh peserta lomba panjat tebing tidak menggunakan alat pengaman yang disediakan panitia. Lomba panjat tebing merupakan acara tahunan desa molarmowe. Beberapa tim keamanan lomba panjat tebing menggunakan alat pengalaman yang disediakan panitia.",
-      options: [
-        "Beberapa tim keamanan akan mengikuti lomba panjat tebing di desa molarmowe.",
-        "Beberapa tim keamanan bukan peserta lomba panjat tebing.",
-        "Tidak ada peserta lomba panjat tebing yang berperan sebagai tim keamanan.",
-        "Sebagian peserta lomba panjat tebing tidak menggunakan alat pengaman yang disediakan panitia.",
-        "Tim keamanan lomba panjat tebing tidak akan menggunakan alat pengaman yang disediakan panitia.",
-      ],
-      correctAnswer: "Beberapa tim keamanan bukan peserta lomba panjat tebing.",
-    },
-  ];
+  // // Render questions
+  // const questions = [
+  //   {
+  //     number: 1,
+  //     text: "Tim surveyor harus menuliskan laporan lengkap hasil temuan lapangan. Mahasiswa Universitas Karoseri yang berasal dari desa molarmowe merupakan tim surveyor.",
+  //     options: [
+  //       "Semua mahasiswa Universitas Karoseri harus menuliskan laporan lengkap hasil temuan lapangan.",
+  //       "Beberapa mahasiswa Universitas Karoseri yang berasal dari desa molarmowe adalah tim surveyor.",
+  //       "Sebagian mahasiswa Universitas Karoseri yang berasal dari desa molarmowe harus menuliskan laporan lengkap hasil temuan lapangan.",
+  //       "Mahasiswa Universitas Karoseri yang berasal dari desa molarmowe harus menuliskan laporan lengkap hasil temuan lapangan.",
+  //       "Mahasiswa - mahasiswa Universitas Karoseri yang berasal dari desa molarmowe tidak harus menuliskan laporan lengkap hasil temuan lapangan.",
+  //     ],
+  //     correctAnswer:
+  //       "Mahasiswa Universitas Karoseri yang berasal dari desa molarmowe harus menuliskan laporan lengkap hasil temuan lapangan.",
+  //   },
+  //   {
+  //     number: 2,
+  //     text: "Seluruh peserta lomba panjat tebing tidak menggunakan alat pengaman yang disediakan panitia. Lomba panjat tebing merupakan acara tahunan desa molarmowe. Beberapa tim keamanan lomba panjat tebing menggunakan alat pengalaman yang disediakan panitia.",
+  //     options: [
+  //       "Beberapa tim keamanan akan mengikuti lomba panjat tebing di desa molarmowe.",
+  //       "Beberapa tim keamanan bukan peserta lomba panjat tebing.",
+  //       "Tidak ada peserta lomba panjat tebing yang berperan sebagai tim keamanan.",
+  //       "Sebagian peserta lomba panjat tebing tidak menggunakan alat pengaman yang disediakan panitia.",
+  //       "Tim keamanan lomba panjat tebing tidak akan menggunakan alat pengaman yang disediakan panitia.",
+  //     ],
+  //     correctAnswer: "Beberapa tim keamanan bukan peserta lomba panjat tebing.",
+  //   },
+  // ];
 
   return (
     <AuthWrapper>
@@ -244,7 +244,6 @@ export default function TrialQuestionsRG() {
             </ModalContent>
           </Modal>
         )}
-
         {/* Incorrect Answer Modal */}
         {isIncorrectModalOpen && (
           <Modal
@@ -281,7 +280,7 @@ export default function TrialQuestionsRG() {
           </Modal>
         )}
 
-        {/* Missing Answer Modal */}
+        {/* Missing Answer Modal
         {isMissingAnswerModalOpen && (
           <Modal
             isOpen={true}
@@ -306,7 +305,7 @@ export default function TrialQuestionsRG() {
               </ModalFooter>
             </ModalContent>
           </Modal>
-        )}
+        )} */}
 
         {/* Time up Modal */}
         {isTimeUpModalOpen && (
@@ -366,7 +365,7 @@ export default function TrialQuestionsRG() {
                       color=""
                       className="border-solid border-2 border-red-500 bg-red-100 text-red-600"
                       size="md"
-                      onPress={handleFinishTest}
+                      onPress={handleNavigation}
                     >
                       Lanjutkan
                     </Button>
@@ -376,36 +375,102 @@ export default function TrialQuestionsRG() {
             </ModalContent>
           </Modal>
         )}
-
         {/* Questions */}
         <div className="space-y-5 w-full max-w-4xl px-4 sm:px-0">
-          {questions.map((question) => (
-            <Card
-              key={question.number}
-              className={`${
-                isMobile ? "w-full px-4 py-4" : "w-[50rem] px-12 py-6"
-              } h-fit`}
-            >
-              <CardBody>
-                <RadioGroup
-                  className="space-y-2"
-                  label={`Soal ${question.number}`}
-                  labelPlacement="outside"
-                  value={selectedAnswers[question.number]}
-                  onChange={(e) =>
-                    handleAnswerSelect(question.number, e.target.value)
-                  }
-                >
-                  <p className="mb-3 text-justify">{question.text}</p>
-                  {question.options.map((option, idx) => (
-                    <Radio key={idx} value={option}>
-                      {option}
-                    </Radio>
-                  ))}
-                </RadioGroup>
-              </CardBody>
-            </Card>
-          ))}
+          <Card
+            className={`${
+              isMobile ? "w-full px-4 py-4" : "w-[50rem] px-12 py-6"
+            } h-fit`}
+          >
+            <CardBody>
+              <RadioGroup className="space-y-2" labelPlacement="outside">
+                <p className="mb-3 text-justify">
+                  1. Tim surveyor harus menuliskan laporan lengkap hasil temuan
+                  lapangan. Mahasiswa Universitas Karoseri yang berasal dari
+                  desa molarmowe merupakan tim surveyor.
+                </p>
+                <p className="mb-3 text-justify">
+                  A. Semua mahasiswa Universitas Karoseri harus menuliskan
+                  laporan lengkap hasil temuan lapangan.
+                </p>
+                <p className="mb-3 text-justify">
+                  B. Beberapa mahasiswa Universitas Karoseri yang berasal dari
+                  desa molarmowe adalah tim surveyor.
+                </p>
+                <p className="mb-3 text-justify">
+                  C. Sebagian mahasiswa Universitas Karoseri yang berasal dari
+                  desa molarmowe harus menuliskan laporan lengkap hasil temuan
+                  lapangan.
+                </p>
+                <p className="mb-3 text-justify">
+                  D. Mahasiswa Universitas Karoseri yang berasal dari desa
+                  molarmowe harus menuliskan laporan lengkap hasil temuan
+                  lapangan.
+                </p>
+                <p className="mb-3 text-justify">
+                  E. Mahasiswa mahasiswa Universitas Karoseri yang berasal dari
+                  desa molarmowe tidak harus menuliskan laporan lengkap hasil
+                  temuan lapangan.
+                </p>
+                <p className="mb-3 text-justify">
+                  {" "}
+                  Pada contoh di atas, jawaban yang tepat adalah D. Kita
+                  mendapatkan informasi bahwa mahasiswa Universitas Karoseri
+                  yang berasal dari desa Molarmowe juga merupakan tim surveyor
+                  pada kalimat kedua. Sedangkan, tugas dari tim surveyor adalah
+                  menuliskan laporan lengkap. Sehingga dapat disimpulkan bahwa
+                  mahasiswa Universitas Karoseri harus menuliskan laporan
+                  lengkap.
+                </p>
+              </RadioGroup>
+            </CardBody>
+          </Card>
+
+          <Card
+            className={`${
+              isMobile ? "w-full px-4 py-4" : "w-[50rem] px-12 py-6"
+            } h-fit`}
+          >
+            <CardBody>
+              <RadioGroup className="space-y-2" labelPlacement="outside">
+                <p className="mb-3 text-justify">
+                  2. Seluruh peserta lomba panjat tebing tidak menggunakan alat
+                  pengaman yang disediakan panitia. Lomba panjat tebing
+                  merupakan acara tahunan desa molarmowe. Beberapa tim keamanan
+                  lomba panjat tebing menggunakan alat pengalaman yang
+                  disediakan panitia. Beberapa tim keamanan akan mengikuti lomba
+                  panjat tebing di desa
+                </p>
+                <p className="mb-3 text-justify">
+                  A. Beberapa tim keamanan akan mengikuti lomba panjat tebing di
+                  desa molarmowe.
+                </p>
+                <p className="mb-3 text-justify">
+                  B. Beberapa tim keamanan bukan peserta lomba panjat tebing.
+                </p>
+                <p className="mb-3 text-justify">
+                  C. Tidak ada peserta lomba panjat tebing yang berperan sebagai
+                  tim keamanan.
+                </p>
+                <p className="mb-3 text-justify">
+                  D. Sebagian peserta lomba panjat tebing tidak menggunakan alat
+                  pengaman yang disediakan panitia.
+                </p>
+                <p className="mb-3 text-justify">
+                  E. Tim keamanan lomba panjat tebing tidak akan menggunakan
+                  alat pengaman yang disediakan panitia.
+                </p>
+                <p className="mb-3 text-justify">
+                  {" "}
+                  Pada contoh di atas, jawaban yang tepat adalah B. Pada kalimat
+                  1 didapatkan informasi bahwa peserta lomba tidak menggunakan
+                  alat yang disediakan panitia, sedangkan di kalimat 3 dikatakan
+                  bahwa beberapa tim keamanan menggunakan alat yang disediakan
+                  oleh panitia. Jawaban B yang konsisten dari kalimat 1 dan 3.
+                </p>
+              </RadioGroup>
+            </CardBody>
+          </Card>
         </div>
         <div className="flex justify-center items-center mt-10 mb-20">
           {/* Finish Test Button */}
@@ -418,9 +483,7 @@ export default function TrialQuestionsRG() {
             Submit
           </Button>
         </div>
-
         {/* Sidebar */}
-
         {/* Sidebar for Mobile */}
         {isMobile && (
           <div className="w-full flex flex-row gap-2 p-2 fixed top-0 left-0 z-10 shadow-sm mb-4">
@@ -443,7 +506,6 @@ export default function TrialQuestionsRG() {
             </Card>
           </div>
         )}
-
         {/* Sidebar for Dekstop */}
         {!isMobile && (
           <div className="space-y-7">
@@ -483,7 +545,6 @@ export default function TrialQuestionsRG() {
             </div>
           </div>
         )}
-
         {/* Question List */}
         {/* <div className="absolute top-[300px] left-20 w-50 ml-20">
           <Card>
