@@ -82,7 +82,7 @@ export default function QuestionGFI() {
 
       const answersToSubmit = Object.entries(selectedAnswers).map(
         ([questionNumber, selectedAnswer]) => ({
-          questionNumber: parseInt(questionNumber, 10) + 1,
+          questionNumber: parseInt(questionNumber, 10),
           selectedAnswer,
         })
       );
