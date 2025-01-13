@@ -83,14 +83,14 @@ export default function QuestionTrialMV() {
     if (timeLeft > 0) {
       setIsEndModalOpen(true); // Show the end modal if time is not expired
     } else {
-      router.push("/test-mv/image/1"); // If time is up, navigate directly
+      router.push("/test-mv/image/0"); // If time is up, navigate directly
     }
   };
 
   // Handle 'Continue' action on the end modal
   const handleContinue = () => {
     setIsEndModalOpen(false);
-    router.push("/test-mv/image/1"); // Proceed to next page
+    router.push("/test-mv/image/0"); // Proceed to next page
   };
 
   // Handle radio selection
@@ -190,7 +190,7 @@ export default function QuestionTrialMV() {
                 <Button
                   color="warning"
                   className="text-amber-50"
-                  onPress={() => router.push("/test-mv/image/1")}
+                  onPress={() => router.push("/test-mv/image/0")}
                 >
                   <AiOutlineReload className="text-xl" />
                   Ulangi latihan

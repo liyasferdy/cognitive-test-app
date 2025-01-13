@@ -19,14 +19,23 @@ export default function TestMV() {
 
   // Function to determine time based on image number
   const getTimeForImage = (number) => {
-    if (number >= 1 && number <= 10) {
-      return 60; // 1 minute
-    } else if (number >= 11 && number <= 24) {
-      return 90; // 1.5 minutes
-    } else if (number >= 25 && number <= 32) {
-      return 120; // 2 minutes
+    if (number >= 2 && number <= 10) {
+      return 15;
+    } else if (number >= 11 && number <= 14) {
+      return 20;
+    } else if (number >= 15 && number <= 18) {
+      return 30;
+    } else if (number >= 19 && number <= 22) {
+      return 35;
+    } else if (number >= 23 && number <= 24) {
+      return 50;
+    } else if (number >= 25 && number <= 28) {
+      return 60;
+    } else if (number >= 29 && number <= 30) {
+      return 70;
     }
-    return 60; // Default fallback
+
+    return 10; // Default fallback
   };
 
   // Detect screen size for mobile responsiveness

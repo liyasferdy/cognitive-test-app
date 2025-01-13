@@ -244,8 +244,9 @@ export default function TrialQuestionsRG() {
             </ModalContent>
           </Modal>
         )}
+
         {/* Incorrect Answer Modal */}
-        {isIncorrectModalOpen && (
+        {/* {isIncorrectModalOpen && (
           <Modal
             isOpen={true}
             onClose={() => setIsIncorrectModalOpen(false)}
@@ -278,7 +279,7 @@ export default function TrialQuestionsRG() {
               </ModalFooter>
             </ModalContent>
           </Modal>
-        )}
+        )} */}
 
         {/* Missing Answer Modal
         {isMissingAnswerModalOpen && (
